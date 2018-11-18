@@ -1,4 +1,4 @@
-package ia.projet.imageProcessing;
+package ia.projet.process;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,4 +1,4 @@
-package ia.projet.imageProcessing;
+package ia.projet.process;
 
 /**
  * Hello world!

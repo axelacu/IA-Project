@@ -1,4 +1,4 @@
-package imageProcessing;
+package ia.projet.process.imageProcessing;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;

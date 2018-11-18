@@ -1,4 +1,4 @@
-package imageProcessing;
+package ia.projet.process.imageProcessing;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-
-
 
 public class ConvexPolygon extends Polygon {
 		
