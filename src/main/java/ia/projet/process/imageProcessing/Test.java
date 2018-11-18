@@ -56,8 +56,10 @@ public class Test extends Application{
 		
 		// génération de 10 triangles
 		List<ConvexPolygon> ls = new ArrayList<ConvexPolygon>();
-		for (int i=0;i<200;i++)
+		for (int i=0;i<200;i++) {
 			ls.add(new ConvexPolygon(3));
+			//System.out.println(i + " "+ ls.get(i));
+		}
 		
 		// formation de l'image par superposition des polygones
 		Group image = new Group();
@@ -96,7 +98,6 @@ public class Test extends Application{
 		Scene scene = new Scene(image,maxX, maxY);
 		myStage.setScene(scene);
 		myStage.show();
-		
 	}
 
 }

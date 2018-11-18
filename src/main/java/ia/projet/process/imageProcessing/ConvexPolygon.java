@@ -50,7 +50,7 @@ public class ConvexPolygon extends Polygon {
 			List<Point> points = new LinkedList<Point>();
 			List<Integer> abs = new ArrayList<>();
 			List<Integer> ord = new ArrayList<>();
-			
+
 			for (int i=0;i<n;i++){
 				abs.add(gen.nextInt(max_X));
 				ord.add(gen.nextInt(max_Y));
