@@ -43,6 +43,7 @@ public class Test extends Application{
         			int g = (argb>>8)&0xFF;
         			int r = (argb>>16)&0xFF;
         			int a = (argb>>24)&0xFF;
+        			//ajout pixel par pixel.
         			target[i][j] = Color.rgb(r,g,b);
         		}
         	}

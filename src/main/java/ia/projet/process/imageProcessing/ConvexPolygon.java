@@ -132,11 +132,6 @@ public class ConvexPolygon extends Polygon {
 				addPoint(p.getX(), p.getY());
 			
 		}
-		
-		
-	
-		
-		
 		public class Point {
 
 			int x,y;
@@ -176,7 +171,4 @@ public class ConvexPolygon extends Polygon {
 			}
 			
 		}
-		
-		
-	
 }
