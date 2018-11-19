@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReproductionImage<Gene> implements Reproduction<Gene> {
-    static int MUTATION_RATE =0;
+    static private int MUTATION_RATE =0;
 
     @Override
     public List crossover(Individual parent1, Individual parent2, int sizeGenome){
@@ -14,9 +14,8 @@ public class ReproductionImage<Gene> implements Reproduction<Gene> {
 
         for(int i = 0; i <sizeGenome; i++ ){
             Gene geneChild ;
-
             //may be add a evaluation gen.
-            if(random.nextFloat() >= 0.5){
+            if(random.nextBoolean()){
                 //add gene parent1
                 geneChild = (genomeParent1.get(i));
             }else{

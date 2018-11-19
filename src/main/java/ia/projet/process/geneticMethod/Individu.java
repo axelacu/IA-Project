@@ -8,12 +8,14 @@ import javafx.scene.image.WritableImage;
 
 public class Individu<G> implements Individual<G> {
     private List<G> genome;
-    private int numberOfGenes;
+    private int nbGene;
+	public double fitness;
 
-    public Individu(int nbGene){
+
+	public Individu(int nbGene){
         genome=new ArrayList<>();
         this.nbGene=nbGene;
-        this.fitness=this.calcul_fitnes();
+        this.fitness = 0;
     }
 
     @Override
@@ -27,6 +29,12 @@ public class Individu<G> implements Individual<G> {
 	
     }
 
+	@Override
+	public double getFitness() {
+		return 0;
+	}
+	//Exemple de fitness du prof.
+	/*
     public double getFitness(Color[][] target){
 	Group image = new Group();
 	for(ConvexPolygon p : this.genome){
@@ -51,4 +59,5 @@ public class Individu<G> implements Individual<G> {
 
 	return res;
     }
+    */
 }

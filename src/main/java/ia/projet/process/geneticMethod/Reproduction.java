@@ -15,7 +15,7 @@ public interface Reproduction<G> {
     List<G> crossover(Individual parent1, Individual parent2, int sizeGenome);
 
     /**
-     * Return gene who has mutate
+     * Return gene who should< mutate
      * @param gene gene who will mutate
      * @return a gene mutate
      */

@@ -69,7 +69,6 @@ public class ConvexPolygon extends Polygon {
 			int top= minX, bot = minX;
 			for (int i=1;i<n-1;i++){
 				int x = abs.get(i);
-				
 				if (gen.nextBoolean()){
 					xVec.add(x-top);
 					top = x;
@@ -78,9 +77,10 @@ public class ConvexPolygon extends Polygon {
 					bot = x;
 				}
 			}
+
 			xVec.add(maxX-top);
 			xVec.add(bot-maxX);
-			
+
 			int left= minY, right = minY;
 			for (int i=1;i<n-1;i++){
 				int y = ord.get(i);

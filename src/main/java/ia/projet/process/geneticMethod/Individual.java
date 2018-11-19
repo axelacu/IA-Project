@@ -7,5 +7,5 @@ import java.util.List;
 public interface Individual<G> {
     public List<G> getGenome();
     public void setGenome(List<G> genome);
-    public double getFitness(Color[][] target);
+    public double getFitness();
 }
