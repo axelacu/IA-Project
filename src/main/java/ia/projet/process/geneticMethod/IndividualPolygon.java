@@ -2,19 +2,16 @@ package ia.projet.process.geneticMethod;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.paint.Color;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
 
-public class Individu<G> implements Individual<G> {
+public class IndividualPolygon<G> implements Individual<G> {
     private List<G> genome;
-    private int nbGene;
+    private int numberOfGenes;
 	public double fitness;
 
 
-	public Individu(int nbGene){
+	public IndividualPolygon(int numberOfGenes){
         genome=new ArrayList<>();
-        this.nbGene=nbGene;
+        this.numberOfGenes = numberOfGenes;
         this.fitness = 0;
     }
 
@@ -33,7 +30,13 @@ public class Individu<G> implements Individual<G> {
 	public double getFitness() {
 		return 0;
 	}
-	//Exemple de fitness du prof.
+
+	@Override
+    public int getNumberOfGenes() {
+        return numberOfGenes;
+    }
+
+    //Exemple de fitness du prof.
 	/*
     public double getFitness(Color[][] target){
 	Group image = new Group();
