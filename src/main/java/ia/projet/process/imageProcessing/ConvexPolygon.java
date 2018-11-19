@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
 public class ConvexPolygon extends Polygon {
-		//essai shirel
+
 		static final int maxNumPoints=3;
 		static Random gen = new Random();
 		static int max_X,max_Y;

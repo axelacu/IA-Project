@@ -25,7 +25,7 @@ public class Test extends Application{
 	}
 	
 	public void start(Stage myStage){
-		String targetImage = "monaLisa-100.jpg";
+		String targetImage = "monaLisa-200.jpg";
 		Color[][] target=null;
 		int maxX=0;
     	int maxY=0;
