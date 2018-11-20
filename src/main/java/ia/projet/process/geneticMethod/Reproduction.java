@@ -3,6 +3,7 @@ package ia.projet.process.geneticMethod;
 import java.util.*;
 
 public interface Reproduction<G> {
+
     Random random = new Random();
 
     /**
@@ -14,10 +15,4 @@ public interface Reproduction<G> {
      */
     List<G> crossover(Individual parent1, Individual parent2, int sizeGenome);
 
-    /**
-     * Return gene who should< mutate
-     * @param gene gene who will mutate
-     * @return a gene mutate
-     */
-    G mutation(G gene);
 }

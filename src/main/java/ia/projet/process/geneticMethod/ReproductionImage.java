@@ -3,7 +3,7 @@ package ia.projet.process.geneticMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReproductionImage<Gene> implements Reproduction<Gene> {
+public class ReproductionImage<G extends  Gene> implements Reproduction<Gene> {
     static private int MUTATION_RATE =0;
 
     @Override
@@ -24,19 +24,12 @@ public class ReproductionImage<Gene> implements Reproduction<Gene> {
             }
             //Mutation.
             if(MUTATION_RATE < random.nextFloat()){
-                childGenome.add(geneChild);
+                childGenome.add(geneChild.mutation());
             }else{
-                childGenome.add(mutation(geneChild));
+                childGenome.add(geneChild);
             }
         }
         return childGenome;
     }
 
-    @Override
-    public Gene mutation(Gene gene) {
-        //set x en haut.
-        // set y en bas.
-
-        return gene;
-    }
 }

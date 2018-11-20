@@ -2,7 +2,7 @@ package ia.projet.process.geneticMethod;
 
 public class GenePolygon implements Gene{
     @Override
-    public Gene mutation() {
+    public GenePolygon mutation() {
         return null;
     }
 }
