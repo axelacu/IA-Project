@@ -9,5 +9,5 @@ public interface Individual<G> {
     void setGenome(List<G> genome);
     double getFitness();
     int getNumberOfGenes();
-    public Individual<G> generateIndividu();
+
 }
