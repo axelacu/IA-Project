@@ -6,12 +6,11 @@ import javafx.scene.paint.Paint;
 public class GenePolygon extends ConvexPolygon implements Gene{
     private int numberOfPoints;
     private Paint color;
-    //TODO : Add arrayPoints. ajouter
 
     public GenePolygon(int numberOfPoints){
         super(numberOfPoints);
         this.numberOfPoints = numberOfPoints;
-        color = this.getFill();
+        this.color = this.getFill();
     }
 
     public GenePolygon(GenePolygon genePolygon){}

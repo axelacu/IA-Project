@@ -36,7 +36,10 @@ public class IndividualPolygon<G> implements Individual<G>,Comparable {
         return numberOfGenes;
     }
 
-
+    @Override
+    public String toString() {
+        return "Genome size : " + numberOfGenes + ", fitness : " + fitness;
+    }
 
     @Override
     public int compareTo(Object o) {

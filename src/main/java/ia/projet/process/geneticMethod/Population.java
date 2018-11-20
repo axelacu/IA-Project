@@ -3,38 +3,67 @@ package ia.projet.process.geneticMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Population {
+public class Population{
 
-    private List<Individual> thispopulation;
-    private int nbrIndividu;
+    private List<Individual> population;
+    private int numberOfIndividuals ;
     /**
      * returns the polygon number of each individual
      */
-    private int nbrPolygone;
+    private final int NUMBER_OF_GENES_BY_INDIVIDUALS;
 
-    public Population(int nbrIndividu) {
-        thispopulation=new ArrayList<>();
-        this.nbrIndividu=nbrIndividu;
+    /**
+     * Generate a population with a numberOfIndividuals and NUMBER_OF_GENES_BY_INDIVIDUALS.
+     * @param numberOfIndividuals
+     * @param NUMBER_OF_GENES_BY_INDIVIDUALS
+     */
+    public Population(int numberOfIndividuals,int NUMBER_OF_GENES_BY_INDIVIDUALS) {
+        population=new ArrayList<>();
+        this.numberOfIndividuals=numberOfIndividuals;
+        this.initialPopulation();
+        this.NUMBER_OF_GENES_BY_INDIVIDUALS = NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
-    public Individual<Gene> generateIndividu(){
-        return new IndividualPolygon<Gene>(nbrPolygone);
+    public Individual<Gene> generateIndividual(){
+        return new IndividualPolygon(NUMBER_OF_GENES_BY_INDIVIDUALS);
     }
 
     /**
      * initializes the population with individuals
      */
-    public void initialpopulation() {
-        for(int i=0;i<nbrIndividu;i++){
-            thispopulation.add(generateIndividu());
+    private void initialPopulation() {
+        for(int i=0;i<numberOfIndividuals;i++){
+            population.add(generateIndividual());
         }
     }
 
-    public List<Individual> getThispopulation() {
-        return thispopulation;
+    // ??? SHALLOW/DEEP
+
+
+    public List<Individual> getPopulation() {
+        return population;
     }
 
-    public void setThispopulation(List<Individual> thispopulation) {
-        this.thispopulation = thispopulation;
+    public void setPopulation(List<Individual> population) {
+        this.population = population;
+    }
+
+    @Override
+    public String toString() {
+        return "Population size : " + population.size() +
+                ", Number of gene by individual : " + NUMBER_OF_GENES_BY_INDIVIDUALS;
+    }
+
+    /// FUNCTION TEST BY MAIN METHOD !
+
+    public static void main(String[] args){
+        Population population = new Population(10,50);
+        System.out.println(population);
+        //ameliration to DO
+        for(Individual i : population.getPopulation()){
+            System.out.println(i);
+        }
+
+        System.out.println(new IndividualPolygon<>(20));
     }
 }
