@@ -3,7 +3,7 @@ package ia.projet.process.geneticMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndividualPolygon<G> implements Individual<G> {
+public class IndividualPolygon<G> implements Individual<G>,Comparable {
     private List<G> genome;
     private int numberOfGenes;
 	public double fitness;
@@ -34,6 +34,11 @@ public class IndividualPolygon<G> implements Individual<G> {
 	@Override
     public int getNumberOfGenes() {
         return numberOfGenes;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 
     //Exemple de fitness du prof.

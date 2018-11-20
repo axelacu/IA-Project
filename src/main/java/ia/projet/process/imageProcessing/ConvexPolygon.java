@@ -21,7 +21,7 @@ public class ConvexPolygon extends Polygon {
 		// randomly generates a polygon
 		public ConvexPolygon(int numPoints){
 			super();
-			genRandomConvexPolygone(numPoints);
+			genRandomConvexPolygone(numPoints);//cette fonction sert a generer des points aleatoire pour le polygone
 			int r = gen.nextInt(256);
 			int g = gen.nextInt(256);
 			int b = gen.nextInt(256); 
@@ -130,7 +130,7 @@ public class ConvexPolygon extends Polygon {
 				p.translate(xshift,yshift);
 			}
 			for (Point p : points)
-				addPoint(p.getX(), p.getY());
+				addPoint(p.getX(), p.getY()); //on rajoute des points dans la liste de points su polygone
 			
 		}
 		public class Point {
