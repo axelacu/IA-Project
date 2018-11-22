@@ -14,12 +14,13 @@ public class ConvexPolygon extends Polygon {
 
 		static final int maxNumPoints=3;
 		static Random gen = new Random();
-		static int max_X,max_Y;
+		public static int max_X = 0 ,max_Y = 0;
 		NumberFormat nf = new DecimalFormat("##.00");
 		
 		
 		// randomly generates a polygon
 		public ConvexPolygon(int numPoints){
+
 			super();
 			genRandomConvexPolygone(numPoints);//cette fonction sert a generer des points aleatoire pour le polygone
 			int r = gen.nextInt(256);

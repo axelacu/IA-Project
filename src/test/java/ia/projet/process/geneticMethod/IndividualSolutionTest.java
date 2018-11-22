@@ -4,6 +4,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class IndividualPolygonTest
+public class IndividualSolutionTest
         extends TestCase{
 }

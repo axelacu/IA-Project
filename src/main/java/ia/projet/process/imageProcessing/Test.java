@@ -40,8 +40,8 @@ public class Test extends Application{
         		for (int j=0;j<maxY;j++){
         			int argb = bi.getRGB(i, j);
         			int b = (argb)&0xFF;
+					int r = (argb>>16)&0xFF;
         			int g = (argb>>8)&0xFF;
-        			int r = (argb>>16)&0xFF;
         			int a = (argb>>24)&0xFF;
         			//ajout pixel par pixel.
         			target[i][j] = Color.rgb(r,g,b);
@@ -99,5 +99,5 @@ public class Test extends Application{
 		myStage.setScene(scene);
 		myStage.show();
 	}
-
+	//TODO : faire une thread pour afficher l'image et un thread pour détécter la zone ou il y a le plus d'erreur.
 }

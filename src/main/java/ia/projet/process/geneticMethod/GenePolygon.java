@@ -7,6 +7,10 @@ public class GenePolygon extends ConvexPolygon implements Gene{
     private int numberOfPoints;
     private Paint color;
 
+    /**
+     * Generate à gene in that case the gene correspond to a polygon
+     * @param numberOfPoints number of point that compound the polygon.
+     */
     public GenePolygon(int numberOfPoints){
         super(numberOfPoints);
         this.numberOfPoints = numberOfPoints;
@@ -17,6 +21,7 @@ public class GenePolygon extends ConvexPolygon implements Gene{
 
     /**
      * Return gene who should mutate
+     * TODO : Improve the mutation.
      * @return a gene mutate
      */
     @Override

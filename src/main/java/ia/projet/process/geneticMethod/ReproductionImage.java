@@ -3,14 +3,13 @@ package ia.projet.process.geneticMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReproductionImage<G extends  Gene> implements Reproduction<Gene> {
-    static private int MUTATION_RATE =0;
+public class ReproductionImage implements Reproduction<Gene> {
+
 
     /**
      * reproduction between two solutions
      * @param parent1   parent1 choose during the selection.
      * @param parent2   parent2 choose during the selection.
-     * @param sizeGenome    size of the genome
      * @return
      */
     @Override
@@ -18,6 +17,8 @@ public class ReproductionImage<G extends  Gene> implements Reproduction<Gene> {
         List<Gene> childGenome = new ArrayList<>();
         List<Gene> genomeParent1 = parent1.getGenome();
         List<Gene> genomeParent2 = parent2.getGenome();
+        System.out.println(genomeParent1.size());
+        System.out.println(genomeParent1.size());
 
         for(int i = 0; i <sizeGenome; i++ ){
             Gene geneChild ;
@@ -30,10 +31,10 @@ public class ReproductionImage<G extends  Gene> implements Reproduction<Gene> {
                 geneChild = genomeParent2.get(i);
             }
             //Mutation.
-            if(MUTATION_RATE < random.nextFloat()){
-                childGenome.add(geneChild.mutation());
-            }else{
+            if(Population.MUTATION_RATE < random.nextFloat()){
                 childGenome.add(geneChild);
+            }else{
+                childGenome.add(geneChild.mutation());
             }
         }
         return childGenome;

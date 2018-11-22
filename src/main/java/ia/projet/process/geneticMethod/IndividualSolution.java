@@ -3,13 +3,13 @@ package ia.projet.process.geneticMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IndividualPolygon<G> implements Individual<G>,Comparable {
+public class IndividualSolution<G> implements Individual<G>,Comparable {
     private List<G> genome;
     private int numberOfGenes;
 	public double fitness;
 
 
-	public IndividualPolygon(int numberOfGenes){
+	public IndividualSolution(int numberOfGenes){
         genome=new ArrayList<>();
         this.numberOfGenes = numberOfGenes;
         this.fitness = 0;
@@ -38,7 +38,7 @@ public class IndividualPolygon<G> implements Individual<G>,Comparable {
 
     @Override
     public String toString() {
-        return "Genome size : " + numberOfGenes + ", fitness : " + fitness;
+        return "Genome size : " + genome.size() + ", fitness : " + fitness;
     }
 
     @Override

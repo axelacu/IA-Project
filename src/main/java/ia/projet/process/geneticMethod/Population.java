@@ -1,5 +1,7 @@
 package ia.projet.process.geneticMethod;
 
+import ia.projet.process.imageProcessing.ConvexPolygon;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +9,11 @@ public class Population{
 
     private List<Individual> population;
     private int numberOfIndividuals ;
+    static public double MUTATION_RATE =0.09;
     /**
      * returns the polygon number of each individual
      */
-    private final int NUMBER_OF_GENES_BY_INDIVIDUALS;
+    private int NUMBER_OF_GENES_BY_INDIVIDUALS;
 
     /**
      * Generate a population with a numberOfIndividuals and NUMBER_OF_GENES_BY_INDIVIDUALS.
@@ -20,12 +23,20 @@ public class Population{
     public Population(int numberOfIndividuals,int NUMBER_OF_GENES_BY_INDIVIDUALS) {
         population=new ArrayList<>();
         this.numberOfIndividuals=numberOfIndividuals;
-        this.initialPopulation();
         this.NUMBER_OF_GENES_BY_INDIVIDUALS = NUMBER_OF_GENES_BY_INDIVIDUALS;
+        this.initialPopulation();
+
     }
 
     public Individual<Gene> generateIndividual(){
-        return new IndividualPolygon(NUMBER_OF_GENES_BY_INDIVIDUALS);
+        Individual<Gene> individual = new IndividualSolution<>(this.NUMBER_OF_GENES_BY_INDIVIDUALS);
+        ArrayList<Gene> genome = new ArrayList<>();
+        for(int i = 0;i<NUMBER_OF_GENES_BY_INDIVIDUALS;i++){
+            GenePolygon gene = new GenePolygon(3);
+            genome.add(gene);
+        }
+        individual.setGenome(genome);
+        return individual;
     }
 
     /**
@@ -57,13 +68,35 @@ public class Population{
     /// FUNCTION TEST BY MAIN METHOD !
 
     public static void main(String[] args){
-        Population population = new Population(10,50);
+        ConvexPolygon.max_X = 100;
+        ConvexPolygon.max_Y = 149;
+        Population population = new Population(10,4);
         System.out.println(population);
         //ameliration to DO
         for(Individual i : population.getPopulation()){
             System.out.println(i);
         }
 
-        System.out.println(new IndividualPolygon<>(20));
+        System.out.println(ConvexPolygon.max_X + " " + ConvexPolygon.max_Y);
+
+        Individual<Gene> individual1 = population.getPopulation().get(0);
+        Individual<Gene> individual2 = population.getPopulation().get(1);
+
+        ReproductionImage rep = new ReproductionImage();
+        System.out.println("Parent1 : ");
+        stringGene((ArrayList<Gene>) individual1.getGenome());
+        System.out.println("Parent2 : ");
+        stringGene((ArrayList<Gene>) individual2.getGenome());
+        System.out.println("Genome Enfant : ");
+        stringGene((ArrayList<Gene>) rep.crossover(individual1,individual2, population.NUMBER_OF_GENES_BY_INDIVIDUALS));
+
+
+
+    }
+
+    public static void stringGene(ArrayList<Gene> genome){
+        for(Gene g : genome){
+            System.out.println(g);
+        }
     }
 }
