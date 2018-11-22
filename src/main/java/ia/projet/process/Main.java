@@ -20,8 +20,6 @@ public class Main extends Application {
         System.out.println(population);
         //ameliration to DO
         for(Individual i : population.getPopulation()){
-            // BAD
-
             i.setFitness(Population.fitness(target,i));
             System.out.println(i);
         }
@@ -38,7 +36,7 @@ public class Main extends Application {
         Population.stringGene((ArrayList<Gene>) individual2.getGenome());
         System.out.println("Genome Enfant : ");
         Population.stringGene((ArrayList<Gene>) rep.crossover(individual1,individual2, population.getNUMBER_OF_GENES_BY_INDIVIDUALS()));
-        Selection.selection(population);
+        //Selection.selection(population);
         Platform.exit();
 
     }

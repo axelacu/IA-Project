@@ -10,6 +10,4 @@ public interface Individual<G> {
     double getFitness();
     void setFitness(double fitness);
     int getNumberOfGenes();
-    void setFitness(double fitness);
-
 }

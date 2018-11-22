@@ -34,10 +34,6 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
         return fitness;
     }
 
-    public void setFitness(double fitness) {
-        this.fitness=fitness;
-    }
-
     @Override
     public int getNumberOfGenes() {
         return numberOfGenes;
