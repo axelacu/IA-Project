@@ -4,6 +4,7 @@ import ia.projet.process.imageProcessing.ConvexPolygon;
 import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.PixelReader;
@@ -16,6 +17,10 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +29,7 @@ public class Population{
     private List<Individual<Gene>> population;
     private int numberOfIndividuals ;
     static double MUTATION_RATE =0.09;
+    public static Color[][] target;
     //TODO: ajouter ces class
     //public final static int MAX_X ;
     //public final static int MAX_Y;
@@ -53,6 +59,7 @@ public class Population{
             genome.add(gene);
         }
         individual.setGenome(genome);
+        individual.setFitness(fitness(target, individual));
         return individual;
     }
 
@@ -86,7 +93,7 @@ public class Population{
                 ", Number of gene by individual : " + NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
-    public static double fitness(Color[][] target, Individual individual) throws IllegalStateException{
+    public double fitness(Color[][] target, Individual individual) throws IllegalStateException{
         double result;
         Group imageIndividual = new Group();
         for ( Object gene : individual.getGenome()) {
@@ -95,11 +102,11 @@ public class Population{
         //TODO : Changer les parametre de cette class et utiliser les paramettre de la classe population au lieu de polygon.
         int maxX = ConvexPolygon.max_X;
         int maxY = ConvexPolygon.max_Y;
-        WritableImage wrim = new WritableImage(maxX,maxY);
+        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
 
         // TODO : il faut reussir à faire que individual image fasse une capture de image et transformer ça en PixelReader
-        imageIndividual.snapshot(null,wrim);
-        PixelReader individualImagePixelReader = wrim.getPixelReader();
+        imageIndividual.snapshot(null,writeWritableImage);
+        PixelReader individualImagePixelReader = writeWritableImage.getPixelReader();
         double res=0;
         for (int i=0;i<maxX;i++){
             for (int j=0;j<maxY;j++){
@@ -111,9 +118,20 @@ public class Population{
             }
         }
         result = Math.sqrt(res);
+        //imageDrawer(writeWritableImage);
         return result;
     }
 
+    public void imageDrawer(WritableImage image){
+        RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
+        try {
+            ImageIO.write(renderedImage, "png", new File("test.png"));
+            System.out.println("wrote image in " + "test.png");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+    }
 
 
     public static void stringGene(ArrayList<Gene> genome){

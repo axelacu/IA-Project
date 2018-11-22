@@ -16,8 +16,10 @@ public class ReproductionImage implements Reproduction<Gene> {
         for(int i=0; i<numberReproduction;i++){
             int indexParent1=random.nextInt(populationIndex.size()+1);
             int indexParent2=random.nextInt(populationIndex.size()+1);
+            Individual<Gene> parent1 = population.getPopulation().get(indexParent1);
+            Individual<Gene> parent2 = population.getPopulation().get(indexParent2);
             Individual<Gene> child=new IndividualSolution<>(numberOfGene);
-            child.setGenome(crossover(population.getPopulation().get(indexParent1),population.getPopulation().get(indexParent2),numberOfGene));
+            child.setGenome(crossover(parent1,parent2,numberOfGene));
             childs.add(child);
         }
         population.getPopulation().addAll(childs);
@@ -38,22 +40,25 @@ public class ReproductionImage implements Reproduction<Gene> {
 
 
     public   List<Integer> selectionIndividualToReproduce(Population population){
-
+        //TODO : faire une liste trier PriorityQueue
         List<Integer> populationIndex=new ArrayList<>();
         IndividualSolution.sort(population.getPopulation());
         //Une fois arriver ici, la liste est bien triée
+        //TODO : Ajouter un variable dans population qui contient la somme de de toute les fitness. Mettre a jour après selection et après repoduction.
         double sommeFitness=0;
         for(Individual<Gene> individual:population.getPopulation()){
             sommeFitness=sommeFitness+individual.getFitness();
         }
         //ToDO Ameliorer 2*for ??
+        //TODO: Améliorer les problème de priorité en 0.9 et 0.99
         int i=0;
         for(Individual<Gene> individual:population.getPopulation()){
             double probability=individual.getFitness()/sommeFitness;
             double departure=0.1; //à modifier en fonction des fitness
             while (departure<probability){
-                populationIndex.add(0);
+                populationIndex.add(i);
                 departure=departure+0.1;
+                i++;
             }
         }
         return  populationIndex;
@@ -70,9 +75,6 @@ public class ReproductionImage implements Reproduction<Gene> {
         List<Gene> childGenome = new ArrayList<>();
         List<Gene> genomeParent1 = parent1.getGenome();
         List<Gene> genomeParent2 = parent2.getGenome();
-        System.out.println(genomeParent1.size());
-        System.out.println(genomeParent1.size());
-
         for(int i = 0; i <sizeGenome; i++ ){
             Gene geneChild ;
             //may be add a evaluation gen.

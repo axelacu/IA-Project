@@ -6,13 +6,4 @@ import java.util.function.ToDoubleBiFunction;
 
 public class Selection {
 
-
-
-
-
-
-
-
-
-
 }
