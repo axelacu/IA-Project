@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Population {
+public class Population{
 
     private List<Individual<Gene>> population;
     private int numberOfIndividuals ;
@@ -114,17 +114,7 @@ public class Population {
         return result;
     }
 
-    /// FUNCTION d'aide pour les TEST des methodes
 
-    public static void main(String[] args) throws IllegalStateException{
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
-
-    }
 
     public static void stringGene(ArrayList<Gene> genome){
         for(Gene g : genome){

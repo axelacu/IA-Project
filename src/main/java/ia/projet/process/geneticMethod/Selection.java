@@ -1,12 +1,18 @@
 package ia.projet.process.geneticMethod;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.ToDoubleBiFunction;
 
 public class Selection {
 
-    public static <Gene> Population selection(Population population){
-        IndividualSolution.sort(population.getPopulation());
-        return null;
 
-    }
+
+
+
+
+
+
+
+
 }

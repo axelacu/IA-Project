@@ -4,7 +4,7 @@ import java.util.*;
 
 public interface Reproduction<G> {
 
-    Random random = new Random();
+    Random random= new Random();
 
     /**
      * Return a List<G> that contain the genome of the Child.
@@ -13,6 +13,6 @@ public interface Reproduction<G> {
      * @param sizeGenome    size of the genome
      * @return  genome of the child.
      */
-    List<G> crossover(Individual parent1, Individual parent2, int sizeGenome);
+    public List crossover(Individual<Gene> parent1, Individual<Gene> parent2, int sizeGenome);
 
 }
