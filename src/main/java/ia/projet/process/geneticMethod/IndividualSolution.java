@@ -1,15 +1,17 @@
 package ia.projet.process.geneticMethod;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class IndividualSolution<G> implements Individual<G>,Comparable {
     private List<G> genome;
     private int numberOfGenes;
-	public double fitness;
+    public double fitness;
 
 
-	public IndividualSolution(int numberOfGenes){
+    public IndividualSolution(int numberOfGenes){
         genome=new ArrayList<>();
         this.numberOfGenes = numberOfGenes;
         this.fitness = 0;
@@ -22,16 +24,16 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
 
     @Override
     public void setGenome(List<G> genome) {
-	this.genome = new ArrayList<>(genome);
-	
+        this.genome = new ArrayList<>(genome);
+
     }
 
-	@Override
-	public double getFitness() {
-		return 0;
-	}
+    @Override
+    public double getFitness() {
+        return fitness;
+    }
 
-	@Override
+    @Override
     public int getNumberOfGenes() {
         return numberOfGenes;
     }
@@ -46,6 +48,24 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
         return 0;
     }
 
+
+    public static <G> void sort(List<IndividualSolution<G>> list){
+        Collections.sort(list,
+                new Comparator<IndividualSolution<G>>() {
+                    @Override
+                    public int compare(IndividualSolution<G> o1, IndividualSolution<G> o2) {
+                        if(o1.fitness>o2.fitness){
+                            return 1;
+                        }
+                        if(o1.fitness<o2.fitness){
+                            return -1;
+                        }
+
+                        return 0;
+                    }
+                });
+
+    }
     //Exemple de fitness du prof.
 	/*
     public double getFitness(Color[][] target){
