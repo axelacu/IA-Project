@@ -12,6 +12,7 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
 
 
     public IndividualSolution(int numberOfGenes){
+        //TODO La fitness doit etre initialiser lors de sa construction
         genome=new ArrayList<>();
         this.numberOfGenes = numberOfGenes;
         this.fitness = 0;
@@ -31,6 +32,10 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
     @Override
     public double getFitness() {
         return fitness;
+    }
+
+    public void setFitness(double fitness) {
+        this.fitness=fitness;
     }
 
     @Override
@@ -54,10 +59,10 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
                 new Comparator<Individual<G>>() {
                     @Override
                     public int compare(Individual<G> o1, Individual<G> o2) {
-                        if(o1.getFitness()>o2.getFitness()){
+                        if(o1.getFitness()<o2.getFitness()){
                             return 1;
                         }
-                        if(o1.getFitness()<o2.getFitness()){
+                        if(o1.getFitness()>o2.getFitness()){
                             return -1;
                         }
 

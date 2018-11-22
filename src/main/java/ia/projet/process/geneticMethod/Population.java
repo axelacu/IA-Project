@@ -28,6 +28,7 @@ public class Population{
 
     }
 
+
     public Individual<Gene> generateIndividual(){
         Individual<Gene> individual = new IndividualSolution<>(this.NUMBER_OF_GENES_BY_INDIVIDUALS);
         ArrayList<Gene> genome = new ArrayList<>();
@@ -76,7 +77,17 @@ public class Population{
         for(Individual i : population.getPopulation()){
             System.out.println(i);
         }
+        population.getPopulation().get(1).setFitness(1);
+        population.getPopulation().get(2).setFitness(2);
+        population.getPopulation().get(3).setFitness(1);
+        population.getPopulation().get(4).setFitness(3);
+        population.getPopulation().get(6).setFitness(4);
 
+
+
+
+
+/*
         System.out.println(ConvexPolygon.max_X + " " + ConvexPolygon.max_Y);
 
         Individual<Gene> individual1 = population.getPopulation().get(0);
@@ -89,7 +100,12 @@ public class Population{
         stringGene((ArrayList<Gene>) individual2.getGenome());
         System.out.println("Genome Enfant : ");
         stringGene((ArrayList<Gene>) rep.crossover(individual1,individual2, population.NUMBER_OF_GENES_BY_INDIVIDUALS));
-        Selection.selection(population);
+     */   Selection.selection(population);
+
+        System.out.println(population);
+        for(Individual i : population.getPopulation()){
+            System.out.println(i);
+        }
 
 
     }
@@ -99,4 +115,5 @@ public class Population{
             System.out.println(g);
         }
     }
+
 }
