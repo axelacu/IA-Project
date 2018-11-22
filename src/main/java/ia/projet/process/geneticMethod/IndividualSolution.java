@@ -49,15 +49,15 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
     }
 
 
-    public static <G> void sort(List<IndividualSolution<G>> list){
+    public static <G> void sort(List<Individual<G>> list){
         Collections.sort(list,
-                new Comparator<IndividualSolution<G>>() {
+                new Comparator<Individual<G>>() {
                     @Override
-                    public int compare(IndividualSolution<G> o1, IndividualSolution<G> o2) {
-                        if(o1.fitness>o2.fitness){
+                    public int compare(Individual<G> o1, Individual<G> o2) {
+                        if(o1.getFitness()>o2.getFitness()){
                             return 1;
                         }
-                        if(o1.fitness<o2.fitness){
+                        if(o1.getFitness()<o2.getFitness()){
                             return -1;
                         }
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Population{
 
-    private List<Individual> population;
+    private List<Individual<Gene>> population;
     private int numberOfIndividuals ;
     static public double MUTATION_RATE =0.09;
     /**
@@ -51,11 +51,11 @@ public class Population{
     // ??? SHALLOW/DEEP
 
 
-    public List<Individual> getPopulation() {
+    public List<Individual<Gene>> getPopulation() {
         return population;
     }
 
-    public void setPopulation(List<Individual> population) {
+    public void setPopulation(List<Individual<Gene>> population) {
         this.population = population;
     }
 
@@ -89,7 +89,7 @@ public class Population{
         stringGene((ArrayList<Gene>) individual2.getGenome());
         System.out.println("Genome Enfant : ");
         stringGene((ArrayList<Gene>) rep.crossover(individual1,individual2, population.NUMBER_OF_GENES_BY_INDIVIDUALS));
-
+        Selection.selection(population);
 
 
     }
