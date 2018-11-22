@@ -10,13 +10,11 @@ import java.io.IOException;
 public abstract class ImageExtractor {
     // take an path and extraite image from this path.
     public static Color[][] getTarget(String pathImage){
-        String targetImage = "monaLisa-100.jpg";
-
         Color[][] target=null;
         int maxX=0;
         int maxY=0;
         try{
-            BufferedImage bi = ImageIO.read(new File(targetImage));
+            BufferedImage bi = ImageIO.read(new File(pathImage));
             maxX = bi.getWidth();
             maxY = bi.getHeight();
             ConvexPolygon.max_X= maxX;

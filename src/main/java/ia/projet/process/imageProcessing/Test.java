@@ -10,6 +10,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -73,7 +74,8 @@ public class Test extends Application{
 		PixelReader pr = wimg.getPixelReader();
 		// On utilise le PixelReader pour lire chaque couleur
 		// ici, on calcule la somme de la distance euclidienne entre le vecteur (R,G,B)
-		// de la couleur du pixel cible et celui du pixel de l'image générée	
+		// de la couleur du pixel cible et celui du pixel de l'image générée
+
 		double res=0;
 		for (int i=0;i<maxX;i++){
 			for (int j=0;j<maxY;j++){

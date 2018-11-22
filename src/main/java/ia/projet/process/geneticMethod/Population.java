@@ -1,15 +1,33 @@
 package ia.projet.process.geneticMethod;
 
 import ia.projet.process.imageProcessing.ConvexPolygon;
+import ia.projet.process.imageProcessing.ImageExtractor;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import ia.projet.process.imageProcessing.ImageExtractor;
+import javafx.scene.Group;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Population{
+public class Population {
 
     private List<Individual<Gene>> population;
     private int numberOfIndividuals ;
-    static public double MUTATION_RATE =0.09;
+    static double MUTATION_RATE =0.09;
+    //TODO: ajouter ces class
+    //public final static int MAX_X ;
+    //public final static int MAX_Y;
+
     /**
      * returns the polygon number of each individual
      */
@@ -25,7 +43,6 @@ public class Population{
         this.numberOfIndividuals=numberOfIndividuals;
         this.NUMBER_OF_GENES_BY_INDIVIDUALS = NUMBER_OF_GENES_BY_INDIVIDUALS;
         this.initialPopulation();
-
     }
 
     public Individual<Gene> generateIndividual(){
@@ -59,38 +76,53 @@ public class Population{
         this.population = population;
     }
 
+    public int getNUMBER_OF_GENES_BY_INDIVIDUALS() {
+        return NUMBER_OF_GENES_BY_INDIVIDUALS;
+    }
+
     @Override
     public String toString() {
         return "Population size : " + population.size() +
                 ", Number of gene by individual : " + NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
-    /// FUNCTION TEST BY MAIN METHOD !
-
-    public static void main(String[] args){
-        ConvexPolygon.max_X = 100;
-        ConvexPolygon.max_Y = 149;
-        Population population = new Population(10,4);
-        System.out.println(population);
-        //ameliration to DO
-        for(Individual i : population.getPopulation()){
-            System.out.println(i);
+    public static double fitness(Color[][] target, Individual individual) throws IllegalStateException{
+        double result;
+        Group imageIndividual = new Group();
+        for ( Object gene : individual.getGenome()) {
+            imageIndividual.getChildren().add((GenePolygon) gene);
         }
+        //TODO : Changer les parametre de cette class et utiliser les paramettre de la classe population au lieu de polygon.
+        int maxX = ConvexPolygon.max_X;
+        int maxY = ConvexPolygon.max_Y;
+        WritableImage wrim = new WritableImage(maxX,maxY);
 
-        System.out.println(ConvexPolygon.max_X + " " + ConvexPolygon.max_Y);
+        // TODO : il faut reussir à faire que individual image fasse une capture de image et transformer ça en PixelReader
+        imageIndividual.snapshot(null,wrim);
+        PixelReader individualImagePixelReader = wrim.getPixelReader();
+        double res=0;
+        for (int i=0;i<maxX;i++){
+            for (int j=0;j<maxY;j++){
+                Color c = individualImagePixelReader.getColor(i, j);
+                //System.err.println(c);
+                res += Math.pow(c.getBlue()-target[i][j].getBlue(),2)
+                        +Math.pow(c.getRed()-target[i][j].getRed(),2)
+                        +Math.pow(c.getGreen()-target[i][j].getGreen(),2);
+            }
+        }
+        result = Math.sqrt(res);
+        return result;
+    }
 
-        Individual<Gene> individual1 = population.getPopulation().get(0);
-        Individual<Gene> individual2 = population.getPopulation().get(1);
+    /// FUNCTION d'aide pour les TEST des methodes
 
-        ReproductionImage rep = new ReproductionImage();
-        System.out.println("Parent1 : ");
-        stringGene((ArrayList<Gene>) individual1.getGenome());
-        System.out.println("Parent2 : ");
-        stringGene((ArrayList<Gene>) individual2.getGenome());
-        System.out.println("Genome Enfant : ");
-        stringGene((ArrayList<Gene>) rep.crossover(individual1,individual2, population.NUMBER_OF_GENES_BY_INDIVIDUALS));
-        Selection.selection(population);
+    public static void main(String[] args) throws IllegalStateException{
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
 
     }
 

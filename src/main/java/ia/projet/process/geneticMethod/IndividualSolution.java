@@ -8,7 +8,7 @@ import java.util.List;
 public class IndividualSolution<G> implements Individual<G>,Comparable {
     private List<G> genome;
     private int numberOfGenes;
-    public double fitness;
+	private double fitness;
 
 
     public IndividualSolution(int numberOfGenes){
@@ -37,6 +37,12 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
     public int getNumberOfGenes() {
         return numberOfGenes;
     }
+
+    @Override
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+
 
     @Override
     public String toString() {
