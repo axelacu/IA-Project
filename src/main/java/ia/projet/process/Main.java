@@ -19,7 +19,7 @@ public class Main extends Application {
         for(int i = 0; i <1000; i++){
             System.out.println("Generation : " + i + " Pop : " + population);
             rep.reproduction(population,population.getNumberOfGenesByIndividuals());
-            Selection.ripper(population);
+            Selection.ripper2(population);
 
             int actualIndex = i;
             Thread th = new Thread(){

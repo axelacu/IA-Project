@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class IndividualSolution<G> implements Individual<G>,Comparable {
+public class IndividualSolution<G> implements Individual<G>,Comparable<IndividualSolution<G>> {
     private List<G> genome;
     private int numberOfGenes;
 	private double fitness = 0;
@@ -52,7 +52,14 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(IndividualSolution<G> o) {
+        if(this.getFitness()>o.getFitness()){
+            return -1;
+        }
+        if(this.getFitness()<o.getFitness()){
+            return 1;
+        }
+
         return 0;
     }
 

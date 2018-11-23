@@ -10,13 +10,21 @@ import java.util.Random;
 public class ReproductionImage extends Thread implements Reproduction<Gene> {
     Random random=new Random();
 
+    /**
+     * Generalisation of reproduction
+     * @param population
+     * @param numberOfGene
+     * @return new population with child
+     */
+
     public Population reproduction(Population population,int numberOfGene){
         ArrayList<Individual<Gene>> childs = new ArrayList<>();
         int numberReproduction=random.nextInt(population.getPopulation().size());
         List<Integer> populationIndex=selectionIndividualToReproduce(population);
         for(int i=0; i<numberReproduction;i++){
-            int indexParent1=random.nextInt(populationIndex.size()+1);
-            int indexParent2=random.nextInt(populationIndex.size()+1);
+            //TODO : Ajouter le pb si la liste est vide
+            int indexParent1=random.nextInt(populationIndex.size());
+            int indexParent2=random.nextInt(populationIndex.size());
             Individual<Gene> parent1 = population.getPopulation().get(indexParent1);
             Individual<Gene> parent2 = population.getPopulation().get(indexParent2);
             Individual<Gene> child=new IndividualSolution<>(numberOfGene);
@@ -36,20 +44,16 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
     /**
      * this static method allow to sort our population according to their fitness
      * @param population
-     * @return list of integer according to their probabiliy
+     * @return list of integer according to their probability
      */
 
 
     private    List<Integer> selectionIndividualToReproduce(Population population){
         //TODO : faire une liste trier PriorityQueue
         List<Integer> populationIndex=new ArrayList<>();
-        IndividualSolution.sort(population.getPopulation());
+        //IndividualSolution.sort(population.getPopulation());
         //Une fois arriver ici, la liste est bien triée
-        //TODO : Ajouter un variable dans population qui contient la somme de de toute les fitness. Mettre a jour après selection et après repoduction.
-        double sommeFitness=0;
-        for(Individual<Gene> individual:population.getPopulation()){
-            sommeFitness=sommeFitness+individual.getFitness();
-        }
+        double sommeFitness=population.getSumFitness();
         //ToDO Ameliorer 2*for ??
         //TODO: Améliorer les problème de priorité en 0.9 et 0.99
         int i=0;
@@ -104,7 +108,7 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
         //peut être fait sur forme d'iterator et permettre de remove pour gagner du temps dans la selection
         for(int i = 0; i<size;i++){
             //Autre façon mettre random le nombre d'enfant et l'individu qui pourra être parent.
-            Individual<Gene> individual = population.get(i);
+            Individual<Gene> individual = population.getPopulation().get(i);
             double fitness = individual.getFitness();
             if(fitness<bestScore)
                     population.setBestIndividual(individual);
@@ -142,9 +146,9 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
             //search from his love.
             while(!couple){
                 int index = random.nextInt(population.size() - 1);
-                Individual<Gene> possibleParent = population.get(index);
+                Individual<Gene> possibleParent = population.getPopulation().get(index);
                 double probability =  possibleParent.getFitness()/sumFitness;
-                if((1-probability)>random.nextDouble()){
+                if((1-probability)>random.nextDouble()){ //pas nextINT??
                     parent2 = parent1;
                     couple = true;
                 }

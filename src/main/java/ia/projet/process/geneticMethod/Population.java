@@ -70,7 +70,7 @@ public class Population implements Iterable<Individual<Gene>> {
     // ??? SHALLOW/DEEP
 
 
-    public List<Individual<Gene>> getPopulation() {
+    public ArrayList<Individual<Gene>> getPopulation() {
         return population;
     }
 
@@ -175,9 +175,9 @@ public class Population implements Iterable<Individual<Gene>> {
 
     }
 
-    public Individual<Gene> get(int index){
+    /*public Individual<Gene> get(int index){
         return population.get(index);
-    }
+    }*/
 
     @Override
     public Iterator<Individual<Gene>> iterator() {
