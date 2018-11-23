@@ -10,4 +10,6 @@ public interface Individual<G> {
     double getFitness();
     void setFitness(double fitness);
     int getNumberOfGenes();
+    public void anniversary();
+    public int getTimeOfLife();
 }

@@ -1,14 +1,11 @@
 package ia.projet.process;
 
 import ia.projet.process.geneticMethod.*;
-import ia.projet.process.imageProcessing.ConvexPolygon;
 import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
 
 public class Main extends Application {
     @Override
@@ -17,20 +14,26 @@ public class Main extends Application {
         String pathImage = "monaLisa-100.jpg";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
-        Population population = new Population(10,4);
-        System.out.println(population);
-        //ameliration to DO
-        for(Individual i : population.getPopulation()){
-            i.setFitness(population.fitness(target,i));
-            System.out.println(i);
-        }
+        Population population = new Population(100,50);
         ReproductionImage rep = new ReproductionImage();
-        rep.reproduction(population,population.getNUMBER_OF_GENES_BY_INDIVIDUALS());
-        System.out.println("__________________________________________");
-        for(Individual i : population.getPopulation()){
-            i.setFitness(population.fitness(target,i));
-            System.out.println(i);
+        for(int i = 0; i <1000; i++){
+            System.out.println("Generation : " + i + " Pop : " + population);
+            rep.reproduction(population,population.getNumberOfGenesByIndividuals());
+            Selection.ripper(population);
+
+            int actualIndex = i;
+            Thread th = new Thread(){
+                @Override
+                public void run() {
+                    if(actualIndex%4 == 0) {
+                        population.drawBestIndividual();
+                    }
+                }
+            };
+            th.run();
         }
+
+        population.drawBestIndividual();
         Platform.exit();
 
     }

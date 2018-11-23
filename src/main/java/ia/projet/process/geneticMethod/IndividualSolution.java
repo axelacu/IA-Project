@@ -8,9 +8,10 @@ import java.util.List;
 public class IndividualSolution<G> implements Individual<G>,Comparable {
     private List<G> genome;
     private int numberOfGenes;
-	private double fitness;
+	private double fitness = 0;
+	private int timeOfLife = 0;
 
-
+	public IndividualSolution(){};
     public IndividualSolution(int numberOfGenes){
         //TODO La fitness doit etre initialiser lors de sa construction
         genome=new ArrayList<>();
@@ -47,7 +48,7 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
 
     @Override
     public String toString() {
-        return "Genome size : " + genome.size() + ", fitness : " + fitness;
+        return "Genome size : " + genome.size() + ", fitness : " + fitness  + ", " + timeOfLife;
     }
 
     @Override
@@ -71,8 +72,19 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
                         return 0;
                     }
                 });
-
     }
+
+    /**
+     * Add one year old to this individual
+     */
+    public void anniversary(){
+        timeOfLife+=1;
+    }
+
+    public int getTimeOfLife() {
+        return timeOfLife;
+    }
+
     //Exemple de fitness du prof.
 	/*
     public double getFitness(Color[][] target){

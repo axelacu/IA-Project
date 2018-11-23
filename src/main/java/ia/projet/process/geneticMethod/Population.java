@@ -1,35 +1,24 @@
 package ia.projet.process.geneticMethod;
 
 import ia.projet.process.imageProcessing.ConvexPolygon;
-import ia.projet.process.imageProcessing.ImageExtractor;
-import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import ia.projet.process.imageProcessing.ImageExtractor;
-import javafx.scene.Group;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Population{
-
-    private List<Individual<Gene>> population;
+public class Population implements Iterable<Individual<Gene>> {
+    private ArrayList<Individual<Gene>> population;
     private int numberOfIndividuals ;
-    static double MUTATION_RATE =0.09;
+    static double MUTATION_RATE =0.1;
     public static Color[][] target;
+    private double sumFitness = 0;
+    private Individual<Gene> bestIndividual = new IndividualSolution<>();
     //TODO: ajouter ces class
     //public final static int MAX_X ;
     //public final static int MAX_Y;
@@ -59,7 +48,12 @@ public class Population{
             genome.add(gene);
         }
         individual.setGenome(genome);
-        individual.setFitness(fitness(target, individual));
+        double fitness = fitness(target, individual);
+        if(fitness<bestIndividual.getFitness());
+            setBestIndividual(individual);
+        this.sumFitness += fitness;
+        individual.setFitness(fitness);
+
         return individual;
     }
 
@@ -67,6 +61,7 @@ public class Population{
      * initializes the population with individuals
      */
     private void initialPopulation() {
+        bestIndividual.setFitness(10000);
         for(int i=0;i<numberOfIndividuals;i++){
             population.add(generateIndividual());
         }
@@ -80,16 +75,16 @@ public class Population{
     }
 
     public void setPopulation(List<Individual<Gene>> population) {
-        this.population = population;
+        this.population = (ArrayList<Individual<Gene>>) population;
     }
 
-    public int getNUMBER_OF_GENES_BY_INDIVIDUALS() {
+    public int getNumberOfGenesByIndividuals() {
         return NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
     @Override
     public String toString() {
-        return "Population size : " + population.size() +
+        return "Population size : " + population.size() + ", Best Fitness : " + bestIndividual.getFitness() +
                 ", Number of gene by individual : " + NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
@@ -118,8 +113,16 @@ public class Population{
             }
         }
         result = Math.sqrt(res);
-        //imageDrawer(writeWritableImage);
+        imageIndividual.getChildren().removeAll(individual.getGenome());
         return result;
+    }
+
+    public Individual<Gene> getBestIndividual() {
+        return bestIndividual;
+    }
+
+    public void setBestIndividual(Individual<Gene> bestIndividual) {
+        this.bestIndividual = bestIndividual;
     }
 
     public void imageDrawer(WritableImage image){
@@ -133,10 +136,55 @@ public class Population{
 
     }
 
+    public void drawBestIndividual(){
+        if(getBestIndividual()==null){
+            return;
+        }
+        Group imageIndividual = new Group();
+        for ( Object gene : getBestIndividual().getGenome()) {
+            imageIndividual.getChildren().add((GenePolygon) gene);
+        }
+        int maxX = ConvexPolygon.max_X;
+        int maxY = ConvexPolygon.max_Y;
+        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
+        imageIndividual.snapshot(null,writeWritableImage);
+        imageDrawer(writeWritableImage);
+    }
 
     public static void stringGene(ArrayList<Gene> genome){
         for(Gene g : genome){
             System.out.println(g);
         }
+    }
+
+    public void removeIndividual(Individual<Gene> individual){
+        sumFitness -= individual.getFitness();
+        numberOfIndividuals--;
+    }
+    public double getSumFitness() {
+        return sumFitness;
+    }
+
+    public void add(Individual<Gene> newIndividual){
+        newIndividual.setFitness(fitness(target,newIndividual));
+        if(newIndividual.getFitness()<bestIndividual.getFitness())
+            setBestIndividual(newIndividual);
+        population.add(newIndividual);
+        numberOfIndividuals++;
+        sumFitness += newIndividual.getFitness();
+
+    }
+
+    public Individual<Gene> get(int index){
+        return population.get(index);
+    }
+
+    @Override
+    public Iterator<Individual<Gene>> iterator() {
+        return population.iterator();
+    }
+
+    public int size(){
+        return numberOfIndividuals;
     }
 }
