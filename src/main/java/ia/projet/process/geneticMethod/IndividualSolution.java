@@ -5,18 +5,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class IndividualSolution<G> implements Individual<G>,Comparable<IndividualSolution<G>> {
+public class IndividualSolution<G> implements Individual<G>,Comparable {
     private List<G> genome;
     private int numberOfGenes;
-	private double fitness = 0;
+	private double fitness = 10000;
 	private int timeOfLife = 0;
 
-	public IndividualSolution(){};
+
     public IndividualSolution(int numberOfGenes){
         //TODO La fitness doit etre initialiser lors de sa construction
         genome=new ArrayList<>();
         this.numberOfGenes = numberOfGenes;
-        this.fitness = 0;
+
     }
 
     @Override
@@ -27,6 +27,7 @@ public class IndividualSolution<G> implements Individual<G>,Comparable<Individua
     @Override
     public void setGenome(List<G> genome) {
         this.genome = new ArrayList<>(genome);
+        this.numberOfGenes=genome.size();
 
     }
 
@@ -52,14 +53,7 @@ public class IndividualSolution<G> implements Individual<G>,Comparable<Individua
     }
 
     @Override
-    public int compareTo(IndividualSolution<G> o) {
-        if(this.getFitness()>o.getFitness()){
-            return -1;
-        }
-        if(this.getFitness()<o.getFitness()){
-            return 1;
-        }
-
+    public int compareTo(Object o) {
         return 0;
     }
 
@@ -91,6 +85,7 @@ public class IndividualSolution<G> implements Individual<G>,Comparable<Individua
     public int getTimeOfLife() {
         return timeOfLife;
     }
+    
 
     //Exemple de fitness du prof.
 	/*

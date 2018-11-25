@@ -1,51 +1,75 @@
 package ia.projet.process.geneticMethod;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
-import java.util.function.ToDoubleBiFunction;
+import java.util.*;
 
 public class Selection {
-    static int oldest = 1;
-    Random random=new Random();
-
-
-
-    public static void ripper(Population population){
-        List<Individual<Gene>> pop = population.getPopulation();
-        Iterator popIt = population.iterator();
-        while(popIt.hasNext()){
-            Individual<Gene> individual = (Individual<Gene>) popIt.next();
-            if(individual.getTimeOfLife()>1) {
-                popIt.remove();
-                population.removeIndividual(individual);
-            }
-        }
-        System.out.println(pop.size());
-    }
+    static Random random = new Random();
+    static int numberOfIndividualByGeneration = 100;
 
     /**
-     * selection according to their fitness
+     * This methode purge the population.
      * @param population
      */
-    public static void ripper2(Population population){
-        Random random=new Random();
+    public static void reaper(Population population) {
+        double bestFitness = population.getBestIndividual().getFitness();
+        double sumFitForThisGen= population.getSumFitness();
+        //System.out.println(population + "\n\t" + population.statistics());
 
-        double bestScore = population.getBestIndividual().getFitness();
-        int size = population.size();
-        double sumFitness = population.getSumFitness();
-        //peut être fait sur forme d'iterator et permettre de remove pour gagner du temps dans la selection
-        for(int i = 0; i<size;i++) {
-            //Autre façon mettre random le nombre d'enfant et l'individu qui pourra être parent.
-            Individual<Gene> individual = population.getPopulation().get(i);
-            double fitness = individual.getFitness();
-            if (fitness < bestScore)
-                population.setBestIndividual(individual);
-            double probability = fitness / sumFitness;
-            if ((1 - probability) > Math.random()) {
-                population.removeIndividual(individual);
+        while(population.size()> (numberOfIndividualByGeneration)){
+            int index = random.nextInt(population.size());
+           Individual<Gene> individual = population.get(index);
+           //plus la fitness est grand plus il a de chance de mourir.
+           double probability = individual.getFitness()/sumFitForThisGen;
+           if(probability>random.nextDouble() && bestFitness!=individual.getFitness()){
+               if(!population.removeIndividual(individual))
+                   System.out.println("FALSE !");
+           }
+            if(population.statistics().contains("sigma : 0")){
+                System.out.println(population.statistics());
+                population.drawBestIndividual();
+                System.exit(-1);
             }
+
         }
+    }
+
+    public static void reaper2(Population population,List<Integer> list) {
+        ReproductionImage rep=new ReproductionImage();
+        list=rep.selectionIndividualToReproduce(population);
+        int suppression=population.getPopulation().size();
+        while(suppression!=population.maxIndividual){
+
+            int indexSuppression=random.nextInt(list.size());
+            if(list.get(indexSuppression)>=population.getPopulation().size()){
+                continue;
+            }
+            if(population.getPopulation().get(list.get(indexSuppression)).getFitness()==population.getBestIndividual().getFitness()){
+                continue;
+            }
+            population.removeIndividual(population.getPopulation().get(list.get(indexSuppression)));
+            List<Integer> Intermediaire =new ArrayList<>();
+            int j=0;
+            for (Integer i:list){
+                if(i==list.get(indexSuppression)){
+                    Intermediaire.add(j);
+
+                j++;
+                }
+            }
+
+            for(Integer inte:Intermediaire){
+                list.remove(inte);
+
+            }
+            suppression--;
+        }
+
+
+
+
+    }
+
+    public static void setNumberOfIndividualByGeneration(int number){
+        numberOfIndividualByGeneration =number;
     }
 }
