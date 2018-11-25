@@ -35,8 +35,14 @@ public class ReproductionImage extends Thread{
         double sumFit = population.getSumFitness();
         IndividualSolution.sort2(population.getPopulation());
 
-        for(int i = 0; i<population.size()/2; i++){
-            IndividualSolution parent1 = getIndividualToReproduction(listPop,sumFit);
+        for(int i = 0; i<population.size(); i++){
+            IndividualSolution parent1;
+            if( i == 0) {
+                parent1 = population.getBestIndividual();
+            }
+            else{
+                parent1 = listPop.get(random.nextInt(listPop.size()));
+            }
             IndividualSolution parent2 = getIndividualToReproduction(listPop,sumFit);
             int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
             IndividualSolution child=new IndividualSolution(population.getMaxNumberOfGenesByIndividuals());

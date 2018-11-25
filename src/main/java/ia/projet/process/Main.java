@@ -13,10 +13,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 100;
+        int initialPopulation = 50;
         int numberOfGeneByIndividual = 50;
         Population.setMutationRate(0.12);
-        Selection.setNumberOfIndividualByGeneration(100);
+        Selection.setNumberOfIndividualByGeneration(50);
         ///////
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
@@ -24,32 +24,44 @@ public class Main extends Application {
         String pathImage = "monaLisa-100.jpg";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
-        //Population population = new Population(initialPopulation,numberOfGeneByIndividual);
+        Population population = new Population(initialPopulation,numberOfGeneByIndividual);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
-        Population precedentPop = null;
+
+        for(int i = 0; i<1000000; i++ ){
+            System.out.println("\nGeneration : " + (i) + " " + population);
+            System.out.println("\t" + population.statistics());
+            rep.reproduction3(population);
+            Selection.reaper4(population);
+            if(i%100 == 0){
+                population.drawBestIndividual();
+            }
+        }
+        ////// PLUSIEUR POP
+        /**
+         //Population precedentPop = null;
         for(int i = 2; i <numberOfGeneByIndividual; i++){
             System.out.println("Generation : " + (i));
             //System.out.println("\t" + population.statistics());
 
             //population.severalStranger(10);
-            TheardPop theardPop = new TheardPop(initialPopulation,i,100,10);
-            if(precedentPop != null){
-                theardPop.addOldPop(precedentPop);
+            TheardPop theardPop = new TheardPop(100,i,100,10);
+            if(population != null){
+                theardPop.addOldPop(population);
                 //System.out.println(precedentPop.size());
             }
             theardPop.run();
             //System.out.println(theardPop.toString());
             //theardPop.population.drawBestIndividual();
-            precedentPop = theardPop.population;
+            population = theardPop.population;
             //System.out.println("  " + precedentPop);
             //System.out.println("\t" + precedentPop.statistics() );
-        }
-        System.out.println("  " + precedentPop);
-        System.out.println("\t" + precedentPop.statistics() );
+        } */
+        System.out.println("  " + population);
+        System.out.println("\t" + population.statistics() );
         long endTime = System.currentTimeMillis();
         System.out.println("Total elapsed time in execution of method callMethod() is :"+ (endTime-startTime));
-        precedentPop.drawBestIndividual();
+        population.drawBestIndividual();
         Platform.exit();
     }
 
