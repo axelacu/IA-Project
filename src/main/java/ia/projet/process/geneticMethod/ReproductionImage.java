@@ -33,12 +33,13 @@ public class ReproductionImage extends Thread{
     public void reproduction3(Population population){
         List<IndividualSolution> listPop = population.getPopulation();
         double sumFit = population.getSumFitness();
-        IndividualSolution.sort(population.getPopulation());
+        IndividualSolution.sort2(population.getPopulation());
+
         for(int i = 0; i<population.size()/2; i++){
             IndividualSolution parent1 = getIndividualToReproduction(listPop,sumFit);
             IndividualSolution parent2 = getIndividualToReproduction(listPop,sumFit);
             int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
-            IndividualSolution child=new IndividualSolution(random.nextInt(numberOfGene+1)+1);
+            IndividualSolution child=new IndividualSolution(population.getMaxNumberOfGenesByIndividuals());
             child.setGenome(crossover(parent1,parent2,numberOfGene));
             population.add(child);
         }
@@ -78,30 +79,29 @@ public class ReproductionImage extends Thread{
         for(int i = 0; i <sizeGenome; i++ ){
             GenePolygon geneChild ;
             //may be add a evaluation gen.
-            geneChild = new GenePolygon ((GenePolygon)(list.get(i)));
+            geneChild = new GenePolygon (list.get(i));
                         //Mutation.
 
             double ran = random.nextDouble();
             if(Population.MUTATION_RATE > ran){
-                childGenome.add(geneChild.mutation());
-            }
-            else if(Population.MUTATION_RATE> random.nextDouble()){
-                childGenome.add(((GenePolygon) geneChild).mutationTranslate());
-            }
-            else if(Population.MUTATION_RATE> random.nextDouble()) {
-                childGenome.add(((GenePolygon) geneChild).mutationRotation());
-            }
-            else if(Population.MUTATION_RATE>random.nextDouble()){
-                childGenome.add(((GenePolygon) geneChild).mutationPoint());
-            }
-            else if(Population.MUTATION_RATE>random.nextDouble()){
-                childGenome.add(((GenePolygon) geneChild).mutationOpacity());
-            }
-            else if(Population.MUTATION_RATE>random.nextDouble()){
-                childGenome.add(((GenePolygon) geneChild).mutationFill());
-            }else {
+                geneChild = geneChild.mutation();
                 childGenome.add(geneChild);
+                continue;
             }
+            if(Population.MUTATION_RATE> random.nextDouble()) {
+                geneChild = geneChild.mutationRotation();
+            }
+            if(Population.MUTATION_RATE>random.nextDouble()){
+                geneChild = geneChild.mutationPoint();
+            }
+            if(Population.MUTATION_RATE>random.nextDouble()){
+                geneChild = geneChild.mutationOpacity();
+            }
+            if(Population.MUTATION_RATE>random.nextDouble()){
+                geneChild = geneChild.mutationFill();
+            }
+            childGenome.add(geneChild);
+
         }
 
         return childGenome;

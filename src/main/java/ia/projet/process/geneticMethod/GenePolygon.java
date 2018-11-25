@@ -68,7 +68,7 @@ public class GenePolygon extends ConvexPolygon{
 
     public GenePolygon mutation() {
         Random random = new Random();
-        return new GenePolygon(3 + random.nextInt(8));
+        return new GenePolygon(3 + random.nextInt(5));
     }
 
     public GenePolygon mutationPoint(){

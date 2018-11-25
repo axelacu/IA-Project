@@ -66,7 +66,7 @@ public class Selection {
     //slow version of reaper
     public static void reaper4(Population population){
         List<IndividualSolution> list = population.getPopulation();
-        IndividualSolution.sort2(list);
+        IndividualSolution.sort(list);
         double sumFit = population.getSumFitness();
         while(population.size()>numberOfIndividualByGeneration){
             IndividualSolution individual = getIndividualSelect(list,sumFit);
