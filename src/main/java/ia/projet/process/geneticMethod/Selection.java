@@ -21,6 +21,7 @@ public class Selection {
            //plus la fitness est grand plus il a de chance de mourir.
            double probability = individual.getFitness()/sumFitForThisGen;
            if(probability>random.nextDouble() && bestFitness!=individual.getFitness()){
+
                if(!population.removeIndividual(individual))
                    System.out.println("FALSE !");
            }
@@ -65,7 +66,7 @@ public class Selection {
     }
     //slow version of reaper
     public static void reaper4(Population population){
-        List<IndividualSolution> list = population.getPopulation();
+        List<IndividualSolution> list = new ArrayList<>(population.getPopulation());
         IndividualSolution.sort(list);
         double sumFit = population.getSumFitness();
         while(population.size()>numberOfIndividualByGeneration){
@@ -76,7 +77,7 @@ public class Selection {
     //slow selection individual
     public static IndividualSolution getIndividualSelect(List<IndividualSolution> individuals, double sumFit){
         Random random = new Random();
-        double val = - random.nextDouble();
+        double val = random.nextDouble();
         double prob = 0;
         double previousProb = 0;
 
@@ -87,6 +88,14 @@ public class Selection {
                 return individuals.get(i);
             }
         }
+//        if(previousProb<1){
+//            previousProb =0;
+//            for(IndividualSolution individualSolution : individuals){
+//                prob=  (individualSolution.getFitness())/sumFit;
+//                previousProb +=prob;
+//            }
+//            System.out.println("dans if : "  +previousProb + " " + val ) ;
+//        }
         System.out.println("Dernier individu");
         return individuals.get(individuals.size()-1);
     }
