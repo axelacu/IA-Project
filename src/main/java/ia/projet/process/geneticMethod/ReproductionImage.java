@@ -59,6 +59,7 @@ public class ReproductionImage extends Thread{
                 return individuals.get(i);
             }
         }
+        System.out.println("Dernier indiv.");
         return individuals.get(individuals.size()-1);
     }
     /**

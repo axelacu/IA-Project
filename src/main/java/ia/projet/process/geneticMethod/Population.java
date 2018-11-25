@@ -223,7 +223,7 @@ public class Population implements Iterable<IndividualSolution> {
        for(IndividualSolution individual : population){
            if(individual.getFitness()<bestIndividual.getFitness())
                setBestIndividual(individual);
-           this.add(individual);
+           add(individual);
        }
     }
 
