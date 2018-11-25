@@ -17,7 +17,6 @@ public class Main extends Application {
         int numberOfGeneByIndividual = 50;
         Population.setMutationRate(0.12);
         Selection.setNumberOfIndividualByGeneration(100);
-
         ///////
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
@@ -25,33 +24,71 @@ public class Main extends Application {
         String pathImage = "monaLisa-100.jpg";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
-        Population population = new Population(initialPopulation,numberOfGeneByIndividual);
+        //Population population = new Population(initialPopulation,numberOfGeneByIndividual);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
-        for(int i = 0; i <10000000; i++){
-            System.out.println("Generation : " + i + " Pop : " + population);
-            System.out.println("\t" + population.statistics());
+        Population precedentPop = null;
+        for(int i = 2; i <numberOfGeneByIndividual; i++){
+            System.out.println("Generation : " + (i));
+            //System.out.println("\t" + population.statistics());
+
             //population.severalStranger(10);
-            if(random.nextBoolean())
-                rep.reproduction2(population);
-            else
-                rep.reproduction(population);
-            Selection.reaper(population);
-            int actualIndex = i;
-            Thread th = new Thread(){
-                @Override
-                public void run() {
-                    if(actualIndex%100 == 0) {
-                        population.drawBestIndividual();
-                    }
-                }
-            };
-            th.run();
+            TheardPop theardPop = new TheardPop(initialPopulation,i,100,10);
+            if(precedentPop != null){
+                theardPop.addOldPop(precedentPop);
+                //System.out.println(precedentPop.size());
+            }
+            theardPop.run();
+            //System.out.println(theardPop.toString());
+            //theardPop.population.drawBestIndividual();
+            precedentPop = theardPop.population;
+            //System.out.println("  " + precedentPop);
+            //System.out.println("\t" + precedentPop.statistics() );
         }
+        System.out.println("  " + precedentPop);
+        System.out.println("\t" + precedentPop.statistics() );
         long endTime = System.currentTimeMillis();
         System.out.println("Total elapsed time in execution of method callMethod() is :"+ (endTime-startTime));
-        population.drawBestIndividual();
+        precedentPop.drawBestIndividual();
         Platform.exit();
+    }
+
+    class TheardPop extends Thread{
+        int numberOfIndividualBygen;
+        int numberStrangerByGen;
+        Population population;
+
+        public TheardPop(int initialPopulation,int numberOfGeneByIndividuals,int numberOfIndividualBygen, int numberStrangerByGen){
+            this.population = new Population(initialPopulation,numberOfGeneByIndividuals);
+            this.numberOfIndividualBygen = numberOfIndividualBygen;
+            this.numberStrangerByGen =numberStrangerByGen;
+
+        }
+        @Override
+        public void run() {
+            ReproductionImage rep = new ReproductionImage();
+            for(int i = 0;i<301;i++){
+                population.severalStranger(numberStrangerByGen);
+                rep.reproduction3(population);
+                Selection.reaper4(population);
+                if(i%150 == 0){
+                    System.out.println("  " + population);
+                    System.out.println("\t" + population.statistics() );
+                    population.drawBestIndividual();
+                }
+            }
+            //System.out.println(population);
+        }
+
+        @Override
+        public String toString() {
+            String res = " Pop : " + population + "\n" +
+                    "\t" + population.statistics();
+            return res;
+        }
+        public void addOldPop(Population population){
+            this.population.addPopulation(population.getPopulation());
+        }
     }
     static void main(String[] args){launch(args); }
 }
