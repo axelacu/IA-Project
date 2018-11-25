@@ -59,16 +59,10 @@ public class Selection {
 
             for(Integer inte:Intermediaire){
                 list.remove(inte);
-
             }
             suppression--;
         }
-
-
-
-
     }
-
     public static void setNumberOfIndividualByGeneration(int number){
         numberOfIndividualByGeneration =number;
     }

@@ -40,7 +40,7 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
     @Override
     public  List<Gene> crossover(Individual<Gene> parent1, Individual<Gene> parent2, int sizeGenome){
         List<Gene> childGenome = new ArrayList<>();
-        ArrayList<Gene> list = new ArrayList<>();
+        List<Gene> list = new ArrayList<>();
         list.addAll(parent1.getGenome());
         list.addAll(parent2.getGenome());
         if(sizeGenome>(parent1.getNumberOfGenes() + parent2.getNumberOfGenes())){
@@ -51,7 +51,8 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
             Gene geneChild ;
             //may be add a evaluation gen.
             geneChild = new GenePolygon ((GenePolygon)(list.get(i)));
-            //Mutation.
+                        //Mutation.
+
             double ran = random.nextDouble();
             if(Population.MUTATION_RATE > ran){
                 childGenome.add(geneChild.mutation());
@@ -74,6 +75,7 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
                 childGenome.add(geneChild);
             }
         }
+
         return childGenome;
     }
     /**

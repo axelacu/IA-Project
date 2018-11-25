@@ -31,7 +31,6 @@ public class GenePolygon extends ConvexPolygon implements Gene{
     }
 
     public GenePolygon(GenePolygon genePolygon){
-        super(genePolygon.getPoints().size());
         this.getPoints().addAll(genePolygon.getPoints());
         this.numberOfPoints = genePolygon.getPoints().size();
         this.setFill(genePolygon.getFill());
@@ -58,9 +57,8 @@ public class GenePolygon extends ConvexPolygon implements Gene{
         GenePolygon newGen = new GenePolygon(this);
         Random random = new Random();
         List<Double> point = newGen.getPoints();
-        Rotate rotate = new Rotate(point.get(0),point.get(1),random.nextInt(361));
+        Rotate rotate = new Rotate(1+random.nextInt(361),point.get(0),point.get(1));
         newGen.getTransforms().addAll(rotate);
-
         return newGen;
     }
     public int getNumberOfPoints() {

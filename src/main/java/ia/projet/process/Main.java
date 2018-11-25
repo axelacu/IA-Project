@@ -14,13 +14,15 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //////////
         int initialPopulation = 100;
-        int numberOfGeneByIndividual = 20;
-        Population.setMutationRate(0.1);
+        int numberOfGeneByIndividual = 50;
+        Population.setMutationRate(0.12);
         Selection.setNumberOfIndividualByGeneration(100);
 
         ///////
+        System.out.println("Working Directory = " +
+                System.getProperty("user.dir"));
         Random random = new Random();
-        String pathImage = "rond.jpg";
+        String pathImage = "monaLisa-100.jpg";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
@@ -29,6 +31,7 @@ public class Main extends Application {
         for(int i = 0; i <10000000; i++){
             System.out.println("Generation : " + i + " Pop : " + population);
             System.out.println("\t" + population.statistics());
+            population.severalStranger(10);
             if(random.nextBoolean())
                 rep.reproduction(population);
             else
