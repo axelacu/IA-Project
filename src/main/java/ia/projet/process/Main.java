@@ -14,13 +14,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //////////
         int initialPopulation = 100;
-        int numberOfGeneByIndividual = 40;
+        int numberOfGeneByIndividual = 20;
         Population.setMutationRate(0.1);
         Selection.setNumberOfIndividualByGeneration(100);
 
         ///////
         Random random = new Random();
-        String pathImage = "monaLisa-100.jpg";
+        String pathImage = "rond.jpg";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
@@ -29,7 +29,10 @@ public class Main extends Application {
         for(int i = 0; i <10000000; i++){
             System.out.println("Generation : " + i + " Pop : " + population);
             System.out.println("\t" + population.statistics());
-            rep.reproduction(population);
+            if(random.nextBoolean())
+                rep.reproduction(population);
+            else
+                rep.reproduction2(population);
             Selection.reaper(population);
             int actualIndex = i;
             Thread th = new Thread(){
@@ -46,7 +49,6 @@ public class Main extends Application {
         System.out.println("Total elapsed time in execution of method callMethod() is :"+ (endTime-startTime));
         population.drawBestIndividual();
         Platform.exit();
-
     }
     static void main(String[] args){launch(args); }
 }
