@@ -33,10 +33,10 @@ public class Main extends Application {
             System.out.println("\t" + population.statistics());
             //population.severalStranger(10);
             if(random.nextBoolean())
-                rep.reproduction3(population);
+                rep.reproduction2(population);
             else
-                rep.reproduction3(population);
-            Selection.reaper4(population);
+                rep.reproduction(population);
+            Selection.reaper(population);
             int actualIndex = i;
             Thread th = new Thread(){
                 @Override

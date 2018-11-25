@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class IndividualSolution<G> implements Individual<G>,Comparable {
-    private List<G> genome;
+public class IndividualSolution  {
+    private ArrayList<GenePolygon> genome;
     private int numberOfGenes;
 	private double fitness = 10000;
 	private int timeOfLife = 0;
@@ -19,50 +19,42 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
 
     }
 
-    @Override
-    public List<G> getGenome() {
+    public List<GenePolygon> getGenome() {
         return genome;
     }
 
-    @Override
-    public void setGenome(List<G> genome) {
+    public void setGenome(List<GenePolygon> genome) {
         this.genome = new ArrayList<>(genome);
         this.numberOfGenes=genome.size();
 
     }
 
-    @Override
     public double getFitness() {
         return fitness;
     }
 
-    @Override
     public int getNumberOfGenes() {
         return numberOfGenes;
     }
 
-    @Override
     public void setFitness(double fitness) {
         this.fitness = fitness;
     }
 
-
-    @Override
     public String toString() {
         return "Genome size : " + genome.size() + ", fitness : " + fitness  + ", " + timeOfLife;
     }
 
-    @Override
     public int compareTo(Object o) {
         return 0;
     }
 
 
-    public static <G> void sort(List<Individual<G>> list){
+    public static void sort(List<IndividualSolution> list){
         Collections.sort(list,
-                new Comparator<Individual<G>>() {
+                new Comparator<IndividualSolution>() {
                     @Override
-                    public int compare(Individual<G> o1, Individual<G> o2) {
+                    public int compare(IndividualSolution o1, IndividualSolution o2) {
                         if(o1.getFitness()<o2.getFitness()){
                             return 1;
                         }
@@ -75,11 +67,10 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
                 });
     }
 
-    public static <G> void sort2(List<Individual<G>> list){
+    public static <G> void sort2(List<IndividualSolution> list){
         Collections.sort(list,
-                new Comparator<Individual<G>>() {
-                    @Override
-                    public int compare(Individual<G> o1, Individual<G> o2) {
+                new Comparator<IndividualSolution>() {
+                    public int compare(IndividualSolution o1, IndividualSolution o2) {
                         if(o1.getFitness()<o2.getFitness()){
                             return -1;
                         }

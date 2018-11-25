@@ -12,13 +12,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-public class Population implements Iterable<Individual<Gene>> {
-    private ArrayList<Individual<Gene>> population;
+public class Population implements Iterable<IndividualSolution> {
+    private ArrayList<IndividualSolution> population;
     private int numberOfIndividuals = 0;
     static double MUTATION_RATE =0.12;
     public static Color[][] target;
     private double sumFitness = 0;
-    private Individual<Gene> bestIndividual ;
+    private IndividualSolution bestIndividual ;
     public int maxIndividual;
     Random random=new Random();
     private int NEW_NUMBER_OF_GENE_BY_InDIVIDUALS;
@@ -40,15 +40,15 @@ public class Population implements Iterable<Individual<Gene>> {
         population=new ArrayList<>();
         this.MAX_NUMBER_OF_GENES_BY_INDIVIDUALS = MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
         this.NEW_NUMBER_OF_GENE_BY_InDIVIDUALS=random.nextInt(MAX_NUMBER_OF_GENES_BY_INDIVIDUALS+1)+1;
-        bestIndividual=new IndividualSolution<>(NEW_NUMBER_OF_GENE_BY_InDIVIDUALS);
+        bestIndividual=new IndividualSolution(NEW_NUMBER_OF_GENE_BY_InDIVIDUALS);
         this.initialPopulation(numberOfIndividuals);
         this.maxIndividual=numberOfIndividuals;
     }
 
-    public Individual<Gene> generateIndividual(){
+    public IndividualSolution generateIndividual(){
         int MaxNumberOfGenesByIndividual=random.nextInt(this.MAX_NUMBER_OF_GENES_BY_INDIVIDUALS+1)+1;
-        Individual<Gene> individual = new IndividualSolution<>(MaxNumberOfGenesByIndividual);
-        ArrayList<Gene> genome = new ArrayList<>();
+        IndividualSolution individual = new IndividualSolution(MaxNumberOfGenesByIndividual);
+        List<GenePolygon> genome = new ArrayList<>();
         for(int i = 0;i<MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;i++){
             GenePolygon gene = new GenePolygon(3);
             genome.add(gene);
@@ -76,12 +76,12 @@ public class Population implements Iterable<Individual<Gene>> {
     // ??? SHALLOW/DEEP
 
 
-    public List<Individual<Gene>> getPopulation() {
+    public List<IndividualSolution> getPopulation() {
         return population;
     }
 
-    public void setPopulation(List<Individual<Gene>> population) {
-        this.population = (ArrayList<Individual<Gene>>) population;
+    public void setPopulation(List<IndividualSolution> population) {
+        this.population = (ArrayList<IndividualSolution>) population;
     }
 
     public int getMaxNumberOfGenesByIndividuals() {
@@ -94,7 +94,7 @@ public class Population implements Iterable<Individual<Gene>> {
                 ", Number of gene by individual : " + NEW_NUMBER_OF_GENE_BY_InDIVIDUALS;
     }
 
-    public double fitness(Color[][] target, Individual individual) throws IllegalStateException{
+    public double fitness(Color[][] target, IndividualSolution individual) throws IllegalStateException{
         double result;
         Group imageIndividual = new Group();
         for ( Object gene : individual.getGenome()) {
@@ -122,11 +122,11 @@ public class Population implements Iterable<Individual<Gene>> {
         return result;
     }
 
-    public Individual<Gene> getBestIndividual() {
+    public IndividualSolution getBestIndividual() {
         return bestIndividual;
     }
 
-    public void setBestIndividual(Individual<Gene> bestIndividual) {
+    public void setBestIndividual(IndividualSolution bestIndividual) {
         this.bestIndividual = bestIndividual;
     }
 
@@ -156,8 +156,8 @@ public class Population implements Iterable<Individual<Gene>> {
         imageDrawer(writeWritableImage);
     }
 
-    public static void stringGene(ArrayList<Gene> genome){
-        for(Gene g : genome){
+    public static void stringGene(ArrayList<GenePolygon> genome){
+        for(GenePolygon g : genome){
             System.out.println(g);
         }
     }
@@ -180,7 +180,7 @@ public class Population implements Iterable<Individual<Gene>> {
         return "mean : " + Math.round(mean) + ", sigma : " + Math.round(standardDeviation) + ", worst :"
                 + Math.round(worstFitness) + ", best :" + Math.round(bestFitness) + ", Total : " + Math.round(sumFitness);
     }
-    public boolean removeIndividual(Individual<Gene> individual){
+    public boolean removeIndividual(IndividualSolution individual){
         if(individual.getFitness() == bestIndividual.getFitness())
             return false;
         if(population.remove(individual)) {
@@ -195,7 +195,7 @@ public class Population implements Iterable<Individual<Gene>> {
         return sumFitness;
     }
 
-    public void add(Individual<Gene> newIndividual){
+    public void add(IndividualSolution newIndividual){
         newIndividual.setFitness(fitness(target,newIndividual));
 
         if(newIndividual.getFitness()<bestIndividual.getFitness()) {
@@ -207,26 +207,26 @@ public class Population implements Iterable<Individual<Gene>> {
         sumFitness += newIndividual.getFitness();
 
     }
-    public void addPopulation(ArrayList<Individual<Gene>> population){
-       for(Individual<Gene> individual : population){
+    public void addPopulation(ArrayList<IndividualSolution> population){
+       for(IndividualSolution individual : population){
            this.add(individual);
        }
     }
 
     public void severalStranger(int numberOfStranger){
         for(int i = 0; i<numberOfStranger;i++){
-            Individual<Gene> individual = generateIndividual();
+            IndividualSolution individual = generateIndividual();
             add(individual);
         }
     }
 
 
-    public Individual<Gene> get(int index){
+    public IndividualSolution get(int index){
         return population.get(index);
     }
 
     @Override
-    public Iterator<Individual<Gene>> iterator() {
+    public Iterator<IndividualSolution> iterator() {
         return population.iterator();
     }
 
