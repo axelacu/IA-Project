@@ -11,7 +11,7 @@ import javafx.scene.transform.Translate;
 import java.util.List;
 import java.util.Random;
 
-public class GenePolygon extends ConvexPolygon implements Gene{
+public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
     private Paint color;
 
@@ -65,13 +65,13 @@ public class GenePolygon extends ConvexPolygon implements Gene{
         return numberOfPoints;
     }
 
-    @Override
-    public Gene mutation() {
+
+    public GenePolygon mutation() {
         Random random = new Random();
         return new GenePolygon(3 + random.nextInt(8));
     }
 
-    public Gene mutationPoint(){
+    public GenePolygon mutationPoint(){
         Random random = new Random();
         GenePolygon newGen = new GenePolygon(this);
         int x = random.nextInt(ConvexPolygon.max_X);
@@ -80,7 +80,7 @@ public class GenePolygon extends ConvexPolygon implements Gene{
         return newGen;
     }
 
-    public Gene mutationFill(){
+    public GenePolygon mutationFill(){
         GenePolygon newGen = new GenePolygon(this);
 
         Random gen = new Random();
@@ -90,7 +90,7 @@ public class GenePolygon extends ConvexPolygon implements Gene{
         newGen.setFill(Color.rgb(r, g, b));
         return newGen;
     }
-    public Gene mutationOpacity(){
+    public GenePolygon mutationOpacity(){
         GenePolygon newGen = new GenePolygon(this);
         Random gen = new Random();
         this.setOpacity(gen.nextDouble());

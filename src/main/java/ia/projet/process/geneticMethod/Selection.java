@@ -17,7 +17,7 @@ public class Selection {
 
         while(population.size()> (numberOfIndividualByGeneration)){
             int index = random.nextInt(population.size());
-           Individual<Gene> individual = population.get(index);
+           IndividualSolution individual = population.get(index);
            //plus la fitness est grand plus il a de chance de mourir.
            double probability = individual.getFitness()/sumFitForThisGen;
            if(probability>random.nextDouble() && bestFitness!=individual.getFitness()){
@@ -65,16 +65,16 @@ public class Selection {
     }
     //slow version of reaper
     public static void reaper4(Population population){
-        List<Individual<Gene>> list = population.getPopulation();
+        List<IndividualSolution> list = population.getPopulation();
         IndividualSolution.sort2(list);
         double sumFit = population.getSumFitness();
         while(population.size()>numberOfIndividualByGeneration){
-            Individual<Gene> individual = getIndividualSelect(list,sumFit);
+            IndividualSolution individual = getIndividualSelect(list,sumFit);
             population.removeIndividual(individual);
         }
     }
     //slow selection individual
-    public static Individual<Gene> getIndividualSelect(List<Individual<Gene>> individuals, double sumFit){
+    public static IndividualSolution getIndividualSelect(List<IndividualSolution> individuals, double sumFit){
         Random random = new Random();
         double val = - random.nextDouble();
         double prob = 0;
