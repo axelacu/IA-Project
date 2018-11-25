@@ -75,6 +75,23 @@ public class IndividualSolution<G> implements Individual<G>,Comparable {
                 });
     }
 
+    public static <G> void sort2(List<Individual<G>> list){
+        Collections.sort(list,
+                new Comparator<Individual<G>>() {
+                    @Override
+                    public int compare(Individual<G> o1, Individual<G> o2) {
+                        if(o1.getFitness()<o2.getFitness()){
+                            return -1;
+                        }
+                        if(o1.getFitness()>o2.getFitness()){
+                            return 1;
+                        }
+
+                        return 0;
+                    }
+                });
+    }
+
     /**
      * Add one year old to this individual
      */

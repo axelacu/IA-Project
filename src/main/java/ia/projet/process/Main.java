@@ -31,12 +31,12 @@ public class Main extends Application {
         for(int i = 0; i <10000000; i++){
             System.out.println("Generation : " + i + " Pop : " + population);
             System.out.println("\t" + population.statistics());
-            population.severalStranger(10);
+            //population.severalStranger(10);
             if(random.nextBoolean())
-                rep.reproduction(population);
+                rep.reproduction3(population);
             else
-                rep.reproduction2(population);
-            Selection.reaper(population);
+                rep.reproduction3(population);
+            Selection.reaper4(population);
             int actualIndex = i;
             Thread th = new Thread(){
                 @Override

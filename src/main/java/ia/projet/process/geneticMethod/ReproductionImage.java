@@ -28,9 +28,38 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
         }
         //population.getPopulation().addAll(childs);
         //return population;
+    }
+    //slow version of repoduction
+    public void reproduction3(Population population){
+        List<Individual<Gene>> listPop = population.getPopulation();
+        double sumFit = population.getSumFitness();
+        IndividualSolution.sort(population.getPopulation());
+        for(int i = 0; i<population.size()/2; i++){
+            Individual<Gene> parent1 = getIndividualToReproduction(listPop,sumFit);
+            Individual<Gene> parent2 = getIndividualToReproduction(listPop,sumFit);
+            int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
+            Individual<Gene> child=new IndividualSolution<>(random.nextInt(numberOfGene+1)+1);
+            child.setGenome(crossover(parent1,parent2,numberOfGene));
+            population.add(child);
+        }
 
     }
 
+    public Individual<Gene> getIndividualToReproduction(List<Individual<Gene>> individuals, double sumFit){
+        Random random = new Random();
+        double val = - random.nextDouble();
+        double prob = 0;
+        double previousProb = 0;
+
+        for(int i = 0; i<individuals.size();i++){
+            prob= - (individuals.get(i).getFitness())/sumFit;
+            previousProb +=prob;
+            if(previousProb<val){
+                return individuals.get(i);
+            }
+        }
+        return individuals.get(individuals.size()-1);
+    }
     /**
      * reproduction between two solutions
      * @param parent1   parent1 choose during the selection.
@@ -78,20 +107,24 @@ public class ReproductionImage extends Thread implements Reproduction<Gene> {
 
         return childGenome;
     }
-    /**
+
      public List<Gene> crossover2(Individual<Gene> parent1, Individual<Gene> parent2, int sizeGenome){
-     List<Gene> childGenome = new ArrayList<>();
-     ArrayList<Gene> list = new ArrayList<>();
-     if(sizeGenome>(parent1.getNumberOfGenes() + parent2.getNumberOfGenes())){
-     return list;
-     }
-     int intervalSize1 = sizeGenome/2;
-     int intervalSize2 = sizeGenome - intervalSize1;
-     if(intervalSize1<parent1.getNumberOfGenes()){
-     int lbound = random.nextInt(parent1.getNumberOfGenes() - intervalSize1);
-     list.addAll(parent1.getGenome().subList(lbound,intervalSize1));
-     }
-     return null;
+         List<Gene> childGenome = new ArrayList<>();
+         ArrayList<Gene> list = new ArrayList<>();
+         if(sizeGenome>(parent1.getNumberOfGenes() + parent2.getNumberOfGenes())){
+             list.addAll(parent1.getGenome());
+             list.addAll(parent2.getGenome());
+            return list;
+         }
+         int intervalSize1 = sizeGenome/2;
+         int intervalSize2 = sizeGenome - intervalSize1;
+
+         if(intervalSize1<parent1.getNumberOfGenes()){
+            int lbound = random.nextInt(parent1.getNumberOfGenes() - intervalSize1);
+            list.addAll(parent1.getGenome().subList(lbound,lbound + intervalSize1));
+         }
+
+         return null;
      }
 
      /**

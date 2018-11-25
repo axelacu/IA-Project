@@ -63,6 +63,39 @@ public class Selection {
             suppression--;
         }
     }
+    //slow version of reaper
+    public static void reaper4(Population population){
+        List<Individual<Gene>> list = population.getPopulation();
+        IndividualSolution.sort2(list);
+        double sumFit = population.getSumFitness();
+        while(population.size()>numberOfIndividualByGeneration){
+            Individual<Gene> individual = getIndividualSelect(list,sumFit);
+            population.removeIndividual(individual);
+        }
+    }
+    //slow selection individual
+    public static Individual<Gene> getIndividualSelect(List<Individual<Gene>> individuals, double sumFit){
+        Random random = new Random();
+        double val = - random.nextDouble();
+        double prob = 0;
+        double previousProb = 0;
+
+        for(int i = 0; i<individuals.size();i++){
+            prob=  (individuals.get(i).getFitness())/sumFit;
+            previousProb +=prob;
+            if(previousProb>val){
+                return individuals.get(i);
+            }
+        }
+        System.out.println("Dernier individu");
+        return individuals.get(individuals.size()-1);
+    }
+
+
+
+
+
+
     public static void setNumberOfIndividualByGeneration(int number){
         numberOfIndividualByGeneration =number;
     }
