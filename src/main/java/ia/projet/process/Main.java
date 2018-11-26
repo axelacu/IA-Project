@@ -13,9 +13,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 50;
+        int initialPopulation = 100;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.12);
+        Population.setMutationRate(0.20);
         Selection.setNumberOfIndividualByGeneration(50);
         ///////
         System.out.println("Working Directory = " +
@@ -31,7 +31,9 @@ public class Main extends Application {
         for(int i = 0; i<1000000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
+            population.severalStranger(10);
             rep.reproduction3(population);
+            Mutation.mutation(population);
             Selection.reaper4(population);
             if(i%100 == 0){
                 population.drawBestIndividual();

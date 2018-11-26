@@ -34,8 +34,8 @@ public class ReproductionImage extends Thread{
         List<IndividualSolution> listPop = population.getPopulation();
         double sumFit = population.getSumFitness();
         IndividualSolution.sort2(population.getPopulation());
-
-        for(int i = 0; i<population.size(); i++){
+        int a=population.size();
+        for(int i = 0; i<a; i++){
             IndividualSolution parent1;
             if( i == 0) {
                 parent1 = population.getBestIndividual();
@@ -44,6 +44,7 @@ public class ReproductionImage extends Thread{
                 parent1 = listPop.get(random.nextInt(listPop.size()));
             }
             IndividualSolution parent2 = getIndividualToReproduction(listPop,sumFit);
+
             int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
             IndividualSolution child=new IndividualSolution(population.getMaxNumberOfGenesByIndividuals());
             child.setGenome(crossover(parent1,parent2,numberOfGene));
@@ -77,41 +78,16 @@ public class ReproductionImage extends Thread{
     public  List<GenePolygon> crossover(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
         List<GenePolygon> childGenome = new ArrayList<>();
         List<GenePolygon> list = new ArrayList<>();
-        list.addAll(parent1.getGenome());
-        list.addAll(parent2.getGenome());
-        if(sizeGenome>(parent1.getNumberOfGenes() + parent2.getNumberOfGenes())){
-            return list;
+        for(int i=0;i<sizeGenome;i++){
+            int sort=random.nextInt(2);
+            if(sort==0){
+                list.add(new GenePolygon(parent1.getGenome().get(i)));
+            } else {
+                list.add(new GenePolygon(parent2.getGenome().get(i)));
+            }
         }
         Collections.shuffle(list);
-        for(int i = 0; i <sizeGenome; i++ ){
-            GenePolygon geneChild ;
-            //may be add a evaluation gen.
-            geneChild = new GenePolygon (list.get(i));
-                        //Mutation.
-
-            double ran = random.nextDouble();
-            if(Population.MUTATION_RATE > ran){
-                geneChild = geneChild.mutation();
-                childGenome.add(geneChild);
-                continue;
-            }
-            if(Population.MUTATION_RATE> random.nextDouble()) {
-                geneChild = geneChild.mutationRotation();
-            }
-            if(Population.MUTATION_RATE>random.nextDouble()){
-                geneChild = geneChild.mutationPoint();
-            }
-            if(Population.MUTATION_RATE>random.nextDouble()){
-                geneChild = geneChild.mutationOpacity();
-            }
-            if(Population.MUTATION_RATE>random.nextDouble()){
-                geneChild = geneChild.mutationFill();
-            }
-            childGenome.add(geneChild);
-
-        }
-
-        return childGenome;
+        return  list;
     }
 
      public List<GenePolygon> crossover2(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
