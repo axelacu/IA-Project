@@ -16,12 +16,12 @@ public class Population implements Iterable<IndividualSolution> {
     private ArrayList<IndividualSolution> population;
     private int numberOfIndividuals = 0;
     static double MUTATION_RATE =0.12;
+    public static double numberOfMutation = 0;
     public static Color[][] target;
     private double sumFitness = 0;
     private IndividualSolution bestIndividual ;
     public int maxIndividual;
     Random random=new Random();
-    private int NEW_NUMBER_OF_GENE_BY_InDIVIDUALS;
     //TODO: ajouter ces class
     //public final static int MAX_X ;
     //public final static int MAX_Y;
@@ -189,7 +189,7 @@ public class Population implements Iterable<IndividualSolution> {
         standardDeviation = Math.sqrt(deviation/population.size());
         meanPoly = meanPoly/population.size();
 
-        return "mean : " + Math.round(mean) + ", sigma : " + Math.round(standardDeviation) + ", worst :"
+        return "N° mutation : " + numberOfMutation +", mean : " + Math.round(mean) + ", sigma : " + Math.round(standardDeviation) + ", worst :"
                 + Math.round(worstFitness) + ", best :" + Math.round(bestFitness) + ", meanPolygonByIn : " + meanPoly
                 + ", N° PolyBest : " + bestIndividual.getNumberOfGenes()  + ", Total : " + Math.round(sumFitness);
     }
@@ -225,6 +225,12 @@ public class Population implements Iterable<IndividualSolution> {
                setBestIndividual(individual);
            add(individual);
        }
+    }
+
+    public void removeAllPopulation(){
+        population = new ArrayList<>();
+        sumFitness = 0;
+        numberOfIndividuals = 0;
     }
 
     public void severalStranger(int numberOfStranger){

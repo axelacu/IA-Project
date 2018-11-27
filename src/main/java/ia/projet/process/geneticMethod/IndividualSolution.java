@@ -19,6 +19,15 @@ public class IndividualSolution  {
 
     }
 
+    public IndividualSolution(IndividualSolution individualSolution){
+        genome = new ArrayList<>();
+        for(GenePolygon genePolygon : individualSolution.getGenome()){
+            genome.add(new GenePolygon(genePolygon));
+        }
+        numberOfGenes  = individualSolution.getNumberOfGenes();
+        fitness = individualSolution.getFitness();
+    }
+
     public List<GenePolygon> getGenome() {
         return genome;
     }
