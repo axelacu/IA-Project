@@ -15,6 +15,7 @@ public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
     private int id;
     private static int  numberOfInstance=0;
+    static int MAX_NUMBER_OF_POINTS = 7;
     /**
      * Generate à gene in that case the gene correspond to a polygon
      * @param numberOfPoints number of point that compound the polygon.
@@ -29,10 +30,6 @@ public class GenePolygon extends ConvexPolygon{
         return this.id;
     }
 
-    public int getNumberOfPoint(){
-        return this.numberOfPoints;
-    }
-
     public GenePolygon(GenePolygon genePolygon){
         super();
         this.getPoints().addAll(genePolygon.getPoints());
@@ -40,7 +37,6 @@ public class GenePolygon extends ConvexPolygon{
         this.setFill(genePolygon.getFill());
         this.setOpacity(genePolygon.getOpacity());
         this.id=numberOfInstance++;
-
     }
 
     @Override
@@ -71,21 +67,6 @@ public class GenePolygon extends ConvexPolygon{
         return true;
     }
 
-    public GenePolygon mutationTranslate() {
-        //System.out.println("MUTATION");
-        GenePolygon newGen = new GenePolygon(this);
-        Random random = new Random();
-
-        Translate translate = new Translate();
-        double intervalX =ConvexPolygon.max_X - newGen.getTranslateX();
-        double intervalY =ConvexPolygon.max_Y - newGen.getTranslateY();
-        translate.setX(random.nextInt((int) intervalX));
-        translate.setY(random.nextInt((int) intervalY));
-        newGen.getTransforms().addAll(translate);
-
-        return newGen;
-    }
-
     public GenePolygon mutationRotation(){
         GenePolygon newGen = new GenePolygon(this);
         Random random = new Random();
@@ -101,7 +82,7 @@ public class GenePolygon extends ConvexPolygon{
 
     public GenePolygon mutation() {
         Random random = new Random();
-        return new GenePolygon(3 + random.nextInt(5));
+        return new GenePolygon(3 + random.nextInt(MAX_NUMBER_OF_POINTS));
     }
 
     public GenePolygon mutationPoint(){

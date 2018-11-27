@@ -59,7 +59,6 @@ public class Mutation {
         population.setBestIndividual(bestIndivual);
         population.add(bestIndivual);
         population.addPopulation(newGenerationMutate);
-
     }
 
 }
