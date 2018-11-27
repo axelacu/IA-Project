@@ -43,7 +43,22 @@ public class GenePolygon extends ConvexPolygon{
             return false;
         }
         GenePolygon gene = (GenePolygon) obj;
-        List list = gene.getPoints();
+        List<Double> list = gene.getPoints();
+        List<Double> list2 = this.getPoints();
+        if(list2.size() != list.size())
+            return false;
+
+        for(int i = 0; i<list2.size() ;i++){
+            if(list.get(i) != list2.get(i)){
+                return false;
+            }
+        }
+        if(!this.getFill().equals(((GenePolygon) obj).getFill()))
+            return false;
+        if (this.getOpacity() != ((GenePolygon) obj).getOpacity()){
+            return false;
+        }
+
         return true;
     }
 
