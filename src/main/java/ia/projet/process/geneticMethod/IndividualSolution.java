@@ -1,34 +1,58 @@
 package ia.projet.process.geneticMethod;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
-public class IndividualSolution  {
+public class IndividualSolution implements Iterable<GenePolygon>  {
     private ArrayList<GenePolygon> genome;
     private int numberOfGenes;
-	private double fitness = 10000;
+	private double fitness = 300000000;
 	private int timeOfLife = 0;
+    private int id;
+    private static int  numberOfInstance=0;
 
 
     public IndividualSolution(int numberOfGenes){
         //TODO La fitness doit etre initialiser lors de sa construction
         genome=new ArrayList<>();
         this.numberOfGenes = numberOfGenes;
-
+        this.id=numberOfInstance++;
     }
 
+    /**
+     * Deep copy of the individual
+     * @param individualSolution
+     */
     public IndividualSolution(IndividualSolution individualSolution){
         genome = new ArrayList<>();
-        for(GenePolygon genePolygon : individualSolution.getGenome()){
+        for(GenePolygon genePolygon : individualSolution){
             genome.add(new GenePolygon(genePolygon));
         }
         numberOfGenes  = individualSolution.getNumberOfGenes();
         fitness = individualSolution.getFitness();
+        this.id=numberOfInstance++;
     }
 
-    public List<GenePolygon> getGenome() {
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            return true;
+        }
+        if(!(obj instanceof IndividualSolution)){
+            return false;
+        }
+        IndividualSolution individual = (IndividualSolution) obj;
+        if(this.getNumberOfGenes() != individual.getNumberOfGenes())
+            return false;
+
+        for(int i = 0; i<individual.getNumberOfGenes();i++){
+            if(!genome.contains(individual.get(i)))
+                return false;
+        }
+         return true;
+
+    }
+
+    public ArrayList<GenePolygon> getGenome() {
         return genome;
     }
 
@@ -37,7 +61,12 @@ public class IndividualSolution  {
         this.numberOfGenes=genome.size();
 
     }
-
+    public GenePolygon get(int i){
+        if(i>=genome.size()){
+            return null;
+        }
+        return genome.get(i);
+    }
     public double getFitness() {
         return fitness;
     }
@@ -102,33 +131,9 @@ public class IndividualSolution  {
     public int getTimeOfLife() {
         return timeOfLife;
     }
-    
 
-    //Exemple de fitness du prof.
-	/*
-    public double getFitness(Color[][] target){
-	Group image = new Group();
-	for(ConvexPolygon p : this.genome){
-	    image.getChildren().add(p);
-	}
-
-	int x = body.length;
-	int y = body[].length;
-	
-        WritableImage image = new WritableImage(x,y);
-	image.snapshot(null,wimg);
-	PixelReader pr = wimg.getPixelReader();
-	double res = 0;
-	for(int i=0; i<x; i++){
-	    for(int j=0; j<y; j++){
-		Color c = pr.getcolor(i,j);
-		res+= Math.pow(c.getBlue()-target[i][j].getBlue(),2)
-		    + Math.pow(c.getRed()-target[i][j].getRed(),2)
-		    + Math.pow(c.getGreen()-target[i][j].getGreen(),2);
-	    }
-	}
-
-	return res;
+    @Override
+    public Iterator<GenePolygon> iterator() {
+        return genome.iterator();
     }
-    */
 }
