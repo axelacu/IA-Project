@@ -25,6 +25,10 @@ public class GenePolygon extends ConvexPolygon{
         this.id=numberOfInstance++;
     }
 
+    public int getGeneById(){
+        return this.id;
+    }
+
     public int getNumberOfPoint(){
         return this.numberOfPoints;
     }
