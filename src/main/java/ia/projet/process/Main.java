@@ -13,10 +13,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 100;
+        int initialPopulation = 150;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.07);
-        Selection.setNumberOfIndividualByGeneration(100);
+        Population.setMutationRate(0.1);
+        Selection.setNumberOfIndividualByGeneration(150);
         ///////
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
@@ -31,7 +31,7 @@ public class Main extends Application {
         for(int i = 0; i<1000000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
-            rep.reproduction4(population);
+            rep.reproduction3(population);
             Mutation.mutation(population);
             //Selection.reaper4(population);
             if(i%100 == 0){

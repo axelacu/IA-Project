@@ -140,8 +140,8 @@ public class Population implements Iterable<IndividualSolution> {
     public void imageDrawer(WritableImage image){
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
         try {
-            ImageIO.write(renderedImage, "png", new File("test2.png"));
-            System.out.println("\twrote image in " + "test2.png");
+            ImageIO.write(renderedImage, "png", new File("test1.png"));
+            System.out.println("\twrote image in " + "test1.png");
         } catch (IOException e1) {
             e1.printStackTrace();
         }

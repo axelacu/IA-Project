@@ -55,7 +55,7 @@ public class ReproductionImage extends Thread{
         ArrayList<IndividualSolution> nextGen = new ArrayList<>();
         population.removeAllPopulation();
         //faire ça tant que la nouvelle gen à une taille inf à 100
-        while(nextGen.size()<99){
+        while(nextGen.size()<149){
             IndividualSolution parent1;
             IndividualSolution parent2;
             if(0.8>random.nextDouble()){
@@ -74,9 +74,9 @@ public class ReproductionImage extends Thread{
         }
         //population.add(population.getBestIndividual());
 
-        if(nextGen.size()>99){
+        if(nextGen.size()>149){
 
-            nextGen = new ArrayList<>(nextGen.subList(0,99));
+            nextGen = new ArrayList<>(nextGen.subList(0,149));
             nextGen.add(bestPrecedent);
         }
         population.removeAllPopulation();

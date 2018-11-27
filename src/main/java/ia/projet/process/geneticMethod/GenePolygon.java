@@ -13,8 +13,6 @@ import java.util.Random;
 
 public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
-    private Paint color;
-
     /**
      * Generate à gene in that case the gene correspond to a polygon
      * @param numberOfPoints number of point that compound the polygon.
@@ -22,8 +20,6 @@ public class GenePolygon extends ConvexPolygon{
     public GenePolygon(int numberOfPoints){
         super(numberOfPoints);
         this.numberOfPoints = numberOfPoints;
-        this.color = this.getFill();
-
     }
 
     public int getNumberOfPoint(){
@@ -31,12 +27,25 @@ public class GenePolygon extends ConvexPolygon{
     }
 
     public GenePolygon(GenePolygon genePolygon){
+        super();
         this.getPoints().addAll(genePolygon.getPoints());
         this.numberOfPoints = genePolygon.getPoints().size();
         this.setFill(genePolygon.getFill());
         this.setOpacity(genePolygon.getOpacity());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            return true;
+        }
+        if(!(obj instanceof GenePolygon)){
+            return false;
+        }
+        GenePolygon gene = (GenePolygon) obj;
+        List list = gene.getPoints();
+        return true;
+    }
 
     public GenePolygon mutationTranslate() {
         //System.out.println("MUTATION");
