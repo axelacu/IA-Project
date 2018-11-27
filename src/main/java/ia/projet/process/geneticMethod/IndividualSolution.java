@@ -17,6 +17,12 @@ public class IndividualSolution implements Iterable<GenePolygon>  {
         this.numberOfGenes = numberOfGenes;
         this.id=numberOfInstance++;
     }
+    public IndividualSolution(int numberOfGenes, ArrayList<GenePolygon> genePolygons){
+        //TODO La fitness doit etre initialiser lors de sa construction
+        genome=genePolygons;
+        this.numberOfGenes = numberOfGenes;
+        this.id=numberOfInstance++;
+    }
 
     /**
      * Deep copy of the individual

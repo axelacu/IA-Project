@@ -57,7 +57,7 @@ public class Population implements Iterable<IndividualSolution> {
     /**
      * initializes the population with individuals
      */
-    private void initialPopulation(int numberOfIndividuals) {
+    public void initialPopulation(int numberOfIndividuals) {
         for(int i=0;i<numberOfIndividuals;i++){
             add(generateIndividual());
         }
@@ -204,10 +204,21 @@ public class Population implements Iterable<IndividualSolution> {
     }
     public void addPopulation(ArrayList<IndividualSolution> population){
        for(IndividualSolution individual : population){
-           if(individual.getFitness()<bestIndividual.getFitness())
-               setBestIndividual(individual);
            add(individual);
        }
+    }
+
+    public void increaseSort(){
+        IndividualSolution.sort2(population);
+    }
+    public void decreaseSort(){
+        IndividualSolution.sort(population);
+    }
+
+    public void setNewPopulation(ArrayList<IndividualSolution> population){
+        removeAllPopulation();
+        addPopulation(population);
+
     }
 
     public void removeAllPopulation(){

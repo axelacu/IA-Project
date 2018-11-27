@@ -13,10 +13,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 150;
+        int initialPopulation = 1000;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.1);
-        Selection.setNumberOfIndividualByGeneration(150);
+        Population.setMutationRate(0.07);
+        Selection.setNumberOfIndividualByGeneration(100);
         ///////
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
@@ -25,14 +25,18 @@ public class Main extends Application {
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
+        population.initialPopulation(initialPopulation);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
 
         for(int i = 0; i<1000000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
-            rep.reproduction3(population);
-            Mutation.mutation(population);
+            population.increaseSort();
+            for(IndividualSolution individualSolution : population){
+                System.out.print("\t" + Math.round(individualSolution.getFitness()));
+            }
+            population.setNewPopulation(rep.nextGeneration(population));
             //Selection.reaper4(population);
             if(i%100 == 0){
                 population.drawBestIndividual();
@@ -89,7 +93,7 @@ public class Main extends Application {
             ReproductionImage rep = new ReproductionImage();
             for(int i = 0;i<301;i++){
                 population.severalStranger(numberStrangerByGen);
-                rep.reproduction3(population);
+                //rep.reproduction3(population);
                 Selection.reaper4(population);
                 if(i%150 == 0){
                     System.out.println("  " + population);
