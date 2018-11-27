@@ -43,13 +43,13 @@ public class IndividualSolution implements Iterable<GenePolygon>  {
         IndividualSolution individual = (IndividualSolution) obj;
         if(this.getNumberOfGenes() != individual.getNumberOfGenes())
             return false;
-
+        if(individual.getGenome() == genome)
+            return true;
         for(int i = 0; i<individual.getNumberOfGenes();i++){
             if(!genome.contains(individual.get(i)))
                 return false;
         }
          return true;
-
     }
 
     public ArrayList<GenePolygon> getGenome() {

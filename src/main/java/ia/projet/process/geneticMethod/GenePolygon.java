@@ -8,6 +8,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,7 +16,7 @@ public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
     private int id;
     private static int  numberOfInstance=0;
-    static int MAX_NUMBER_OF_POINTS = 7;
+    static int MAX_NUMBER_OF_POINTS = 5;
     /**
      * Generate à gene in that case the gene correspond to a polygon
      * @param numberOfPoints number of point that compound the polygon.
@@ -109,5 +110,15 @@ public class GenePolygon extends ConvexPolygon{
         Random gen = new Random();
         this.setOpacity(gen.nextDouble());
         return newGen;
+    }
+
+    static ArrayList<GenePolygon> generateGenome(int numberOfGene){
+        Random random = new Random();
+        ArrayList<GenePolygon> genome = new ArrayList<>();
+        for(int i = 0;i<numberOfGene;i++){
+            GenePolygon gene = new GenePolygon(3 + random.nextInt(MAX_NUMBER_OF_POINTS));
+            genome.add(gene);
+        }
+        return genome;
     }
 }
