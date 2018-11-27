@@ -11,6 +11,7 @@ public class Mutation {
     public static void mutation(Population population){
         IndividualSolution bestIndivual = new IndividualSolution(population.getBestIndividual());
         ArrayList<IndividualSolution> newGenerationMutate = new ArrayList<>();
+        //System.out.println("BEST INDIVIDUALS SCORE BEFORE MUTE: "  + bestIndivual.getFitness() );
         for(IndividualSolution individualSolution:population){
             List<GenePolygon> childGenome = new ArrayList<>();
             List<GenePolygon> list = new ArrayList<>(individualSolution.getGenome());
@@ -53,7 +54,9 @@ public class Mutation {
         individualSolution.setGenome(childGenome);
         newGenerationMutate.add(individualSolution);
         }
+        //System.out.println("BEST INDIVIDUALS SCORE after MUTE: "  + bestIndivual.getFitness() );
         population.removeAllPopulation();
+        population.setBestIndividual(bestIndivual);
         population.add(bestIndivual);
         population.addPopulation(newGenerationMutate);
 
