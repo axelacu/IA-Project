@@ -27,8 +27,6 @@ public class ReproductionImage extends Thread{
             child.setGenome(crossover(parent1,parent2,numberOfGene));
             population.add(child);
         }
-        //population.getPopulation().addAll(childs);
-        //return population;
     }
     //slow version of repoduction
     public void reproduction3(Population population){
