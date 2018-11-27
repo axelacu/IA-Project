@@ -9,6 +9,40 @@ import java.util.Random;
 public class ReproductionImage extends Thread{
     Random random=new Random();
 
+    public ArrayList<IndividualSolution> nextGeneration(Population population){
+        ArrayList<IndividualSolution> nextGenerationPopulation = new ArrayList<>();
+        nextGenerationPopulation.add(population.getBestIndividual());
+        int sizeGenome = population.getMaxNumberOfGenesByIndividuals();
+        while(nextGenerationPopulation.size()<population.size()){
+            IndividualSolution parent1 = getIndividualSelect(population);
+            IndividualSolution parent2 = getIndividualSelect(population);
+            IndividualSolution child = new IndividualSolution(sizeGenome,
+                                         crossover(parent1,parent2,sizeGenome));
+            nextGenerationPopulation.add(child);
+        }
+        return nextGenerationPopulation;
+    }
+
+    /**
+     * Receive à sorted population to chose select one individual from that list.
+     * @param population a sorted population
+     * @return
+     */
+    public IndividualSolution getIndividualSelect(Population population){
+        double size = population.size();
+        double biais = size * 0.5;
+        double denominator = size + biais;
+        int index = 1;
+        for(IndividualSolution individual : population){
+            double numerator = (size - index);
+            if(numerator/denominator>random.nextDouble()){
+                return individual;
+            }
+            index++;
+        }
+        //if priorityqeueu faire une peek;
+        return population.getBestIndividual();
+    }
     public void reproduction(Population population){
         ArrayList<IndividualSolution> childs = new ArrayList<>();
 
@@ -27,23 +61,6 @@ public class ReproductionImage extends Thread{
             child.setGenome(crossover(parent1,parent2,numberOfGene));
             population.add(child);
         }
-    }
-    //slow version of repoduction
-    public void reproduction3(Population population){
-        List<IndividualSolution> listPop = new ArrayList<>(population.getPopulation());
-        double sumFit = population.getSumFitness();
-        IndividualSolution.sort2(population.getPopulation());
-
-        for(int i = 0; i<listPop.size(); i++){
-            IndividualSolution parent1;
-            parent1 = getIndividualToReproduction(listPop,sumFit);
-            IndividualSolution parent2 = getIndividualToReproduction(listPop,sumFit);
-            int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
-            IndividualSolution child=new IndividualSolution(population.getMaxNumberOfGenesByIndividuals());
-            child.setGenome(crossover(parent1,parent2,numberOfGene));
-            population.add(child);
-        }
-
     }
 
     public void reproduction4(Population population){
@@ -82,40 +99,25 @@ public class ReproductionImage extends Thread{
         population.addPopulation(nextGen);
     }
 
-    public IndividualSolution getIndividualToReproduction(List<IndividualSolution> individuals, double sumFit){
-        Random random = new Random();
-        double val = - random.nextDouble();
-        double prob = 0;
-        double previousProb = 0;
 
-        for(int i = 0; i<individuals.size();i++){
-            prob= - (individuals.get(i).getFitness())/sumFit;
-            previousProb +=prob;
-            if(previousProb<val){
-                return individuals.get(i);
-            }
-        }
-        System.out.println("Dernier indiv.");
-        return individuals.get(individuals.size()-1);
-    }
     /**
      * reproduction between two solutions
      * @param parent1   parent1 choose during the selection.
      * @param parent2   parent2 choose during the selection.
      * @return
      */
-    public  List<GenePolygon> crossover(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
-        List<GenePolygon> childGenome = new ArrayList<>();
-        List<GenePolygon> list = new ArrayList<>();
+    public  ArrayList<GenePolygon> crossover(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
+        ArrayList<GenePolygon> childGenome = new ArrayList<>();
         for(int i=0;i<sizeGenome;i++){
             if(random.nextBoolean()){
-                list.add(new GenePolygon(parent1.getGenome().get(i)));
+                GenePolygon genePolygon = new GenePolygon(parent1.getGenome().get(i));
+                childGenome.add(Mutation.mutation(genePolygon));
             } else {
-                list.add(new GenePolygon(parent2.getGenome().get(i)));
+                GenePolygon genePolygon = new GenePolygon(parent2.getGenome().get(i));
+                childGenome.add(Mutation.mutation(genePolygon));
             }
         }
-        Collections.shuffle(list);
-        return  list;
+        return  childGenome;
     }
     /** this crossover select randomly part of genom of the parent. **/
      public List<GenePolygon> crossover2(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
