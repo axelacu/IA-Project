@@ -1,5 +1,6 @@
 package ia.projet.process.geneticMethod;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,26 +32,56 @@ public class ReproductionImage extends Thread{
     }
     //slow version of repoduction
     public void reproduction3(Population population){
-        List<IndividualSolution> listPop = population.getPopulation();
+        List<IndividualSolution> listPop = new ArrayList<>(population.getPopulation());
         double sumFit = population.getSumFitness();
         IndividualSolution.sort2(population.getPopulation());
-        int a=population.size();
-        for(int i = 0; i<a; i++){
-            IndividualSolution parent1;
-            if( i == 0) {
-                parent1 = population.getBestIndividual();
-            }
-            else{
-                parent1 = listPop.get(random.nextInt(listPop.size()));
-            }
-            IndividualSolution parent2 = getIndividualToReproduction(listPop,sumFit);
 
+        for(int i = 0; i<listPop.size(); i++){
+            IndividualSolution parent1;
+            parent1 = getIndividualToReproduction(listPop,sumFit);
+            IndividualSolution parent2 = getIndividualToReproduction(listPop,sumFit);
             int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
             IndividualSolution child=new IndividualSolution(population.getMaxNumberOfGenesByIndividuals());
             child.setGenome(crossover(parent1,parent2,numberOfGene));
             population.add(child);
         }
 
+    }
+
+    public void reproduction4(Population population){
+        List<IndividualSolution> listPop = new ArrayList<>(population.getPopulation());
+        IndividualSolution.sort2(listPop);
+        IndividualSolution bestPrecedent = population.getBestIndividual();
+        ArrayList<IndividualSolution> nextGen = new ArrayList<>();
+        population.removeAllPopulation();
+        //faire ça tant que la nouvelle gen à une taille inf à 100
+        while(nextGen.size()<99){
+            IndividualSolution parent1;
+            IndividualSolution parent2;
+            if(0.8>random.nextDouble()){
+                //get person from best 20
+                parent1 = listPop.get(random.nextInt(20));
+            }else{
+                parent1 = listPop.get(random.nextInt(listPop.size()));
+            }
+            if(0.8>random.nextDouble()){
+                //get person from best 20
+                parent2 = listPop.get(random.nextInt(21));
+            }else{
+                parent2 = listPop.get(random.nextInt(listPop.size()));
+            }
+            nextGen.addAll(crossover3(parent1,parent2,population.getMaxNumberOfGenesByIndividuals()));
+        }
+        //population.add(population.getBestIndividual());
+
+        if(nextGen.size()>99){
+
+            nextGen = new ArrayList<>(nextGen.subList(0,99));
+            nextGen.add(bestPrecedent);
+        }
+        population.removeAllPopulation();
+        //System.out.println(nextGen.size());
+        population.addPopulation(nextGen);
     }
 
     public IndividualSolution getIndividualToReproduction(List<IndividualSolution> individuals, double sumFit){
@@ -79,8 +110,7 @@ public class ReproductionImage extends Thread{
         List<GenePolygon> childGenome = new ArrayList<>();
         List<GenePolygon> list = new ArrayList<>();
         for(int i=0;i<sizeGenome;i++){
-            int sort=random.nextInt(2);
-            if(sort==0){
+            if(random.nextBoolean()){
                 list.add(new GenePolygon(parent1.getGenome().get(i)));
             } else {
                 list.add(new GenePolygon(parent2.getGenome().get(i)));
@@ -89,10 +119,12 @@ public class ReproductionImage extends Thread{
         Collections.shuffle(list);
         return  list;
     }
-
+    /** this crossover select randomly part of genom of the parent. **/
      public List<GenePolygon> crossover2(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
          List<GenePolygon> childGenome = new ArrayList<>();
          ArrayList<GenePolygon> list = new ArrayList<>();
+         ArrayList<GenePolygon> genomPArent1 = new ArrayList<>(parent1.getGenome());
+         ArrayList<GenePolygon> genomPArent2 = new ArrayList<GenePolygon> (parent2.getGenome());
          if(sizeGenome>(parent1.getNumberOfGenes() + parent2.getNumberOfGenes())){
              list.addAll(parent1.getGenome());
              list.addAll(parent2.getGenome());
@@ -101,12 +133,68 @@ public class ReproductionImage extends Thread{
          int intervalSize1 = sizeGenome/2;
          int intervalSize2 = sizeGenome - intervalSize1;
 
-         if(intervalSize1<parent1.getNumberOfGenes()){
+         if(intervalSize1<parent1.getNumberOfGenes() && intervalSize2<parent2.getNumberOfGenes() ){
+             // add part genom parent1
             int lbound = random.nextInt(parent1.getNumberOfGenes() - intervalSize1);
-            list.addAll(parent1.getGenome().subList(lbound,lbound + intervalSize1));
-         }
+            for(int i = lbound;i<lbound + intervalSize1;i++){
+                GenePolygon gene = new GenePolygon(genomPArent1.get(i));
+                list.add(gene);
+            }
+             // add part genom parent2
+             lbound = random.nextInt(parent2.getNumberOfGenes() - intervalSize2);
+             for(int i = lbound;i<lbound + intervalSize2;i++){
+                 GenePolygon gene = new GenePolygon(genomPArent2.get(i));
+                 list.add(gene);
+             }
 
-         return null;
+             //list.addAll(parent2.getGenome().subList(lbound,lbound + intervalSize2));
+         }else{
+
+             int lbound = random.nextInt(parent2.getNumberOfGenes() - intervalSize1);
+             for(int i = lbound;i<lbound + intervalSize1;i++){
+                 GenePolygon gene = new GenePolygon(genomPArent2.get(i));
+                 list.add(gene);
+             }
+             // add part genom parent2
+             lbound = random.nextInt(parent1.getNumberOfGenes() - intervalSize2);
+             for(int i = lbound;i<lbound + intervalSize2;i++){
+                 GenePolygon gene = new GenePolygon(genomPArent1.get(i));
+                 list.add(gene);
+             }
+             /*
+             int lbound = random.nextInt(parent2.getNumberOfGenes() - intervalSize1);
+             list.addAll(new ArrayList<>(parent2.getGenome().subList(lbound,lbound + intervalSize1)));
+             // add part genom parent2
+             lbound = random.nextInt(parent1.getNumberOfGenes() - intervalSize2);
+             list.addAll(parent1.getGenome().subList(lbound,lbound + intervalSize2));*/
+         }
+         return list;
+     }
+
+
+     //this return à list with two individual that are the result of two parent.
+     public ArrayList<IndividualSolution> crossover3(IndividualSolution parent1, IndividualSolution parent2,int sizeGenome){
+         ArrayList<IndividualSolution> result = new ArrayList<>();
+         if(parent1.getNumberOfGenes() != parent2.getNumberOfGenes()){
+             return null;
+         }
+         int middle = sizeGenome/2;
+         //child1 Genome
+         ArrayList<GenePolygon> genomeChild1 = new ArrayList<>();
+         genomeChild1.addAll(parent1.getGenome().subList(0,middle));
+         genomeChild1.addAll(parent2.getGenome().subList(middle,sizeGenome));
+         IndividualSolution child1 = new IndividualSolution(sizeGenome);
+         child1.setGenome(genomeChild1);
+         //child2 Genome
+         ArrayList<GenePolygon> genomeChild2 = new ArrayList<>();
+         genomeChild2.addAll(parent2.getGenome().subList(0,middle));
+         genomeChild2.addAll(parent1.getGenome().subList(middle,sizeGenome));
+         IndividualSolution child2 = new IndividualSolution(sizeGenome);
+         child2.setGenome(genomeChild2);
+         //
+         result.add(child1);
+         result.add(child2);
+         return result;
      }
 
      /**

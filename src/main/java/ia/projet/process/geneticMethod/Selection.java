@@ -77,7 +77,8 @@ public class Selection {
     //slow selection individual
     public static IndividualSolution getIndividualSelect(List<IndividualSolution> individuals, double sumFit){
         Random random = new Random();
-        double val = random.nextDouble();
+        double val;
+        val = random.nextDouble();
         double prob = 0;
         double previousProb = 0;
 
