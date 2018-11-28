@@ -13,9 +13,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 1000;
+        int initialPopulation = 200;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.07);
+        Population.setMutationRate(0.06);
         Selection.setNumberOfIndividualByGeneration(100);
         ///////
         System.out.println("Working Directory = " +

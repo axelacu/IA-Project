@@ -2,7 +2,7 @@ package ia.projet.process.geneticMethod;
 
 import java.util.*;
 
-public class IndividualSolution implements Iterable<GenePolygon>  {
+public class IndividualSolution implements Iterable<GenePolygon>,Comparable<IndividualSolution>  {
     private ArrayList<GenePolygon> genome;
     private int numberOfGenes;
 	private double fitness = 300000000;
@@ -89,11 +89,6 @@ public class IndividualSolution implements Iterable<GenePolygon>  {
         return "Genome size : " + genome.size() + ", fitness : " + fitness  + ", " + timeOfLife;
     }
 
-    public int compareTo(Object o) {
-        return 0;
-    }
-
-
     public static void sort(List<IndividualSolution> list){
         Collections.sort(list,
                 new Comparator<IndividualSolution>() {
@@ -141,5 +136,18 @@ public class IndividualSolution implements Iterable<GenePolygon>  {
     @Override
     public Iterator<GenePolygon> iterator() {
         return genome.iterator();
+    }
+
+    @Override
+    public int compareTo(IndividualSolution o2) {
+
+        if(this.getFitness()<o2.getFitness()){
+            return -1;
+        }
+        if(this.getFitness()>o2.getFitness()){
+            return 1;
+        }
+
+        return 0;
     }
 }

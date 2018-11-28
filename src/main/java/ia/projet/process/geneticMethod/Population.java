@@ -84,6 +84,41 @@ public class Population implements Iterable<IndividualSolution> {
                 ", Number of gene by individual : " + MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
+    public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException{
+        double result;
+        Group imageIndividual = new Group();
+        for (GenePolygon gene : individual.getGenome()) {
+            imageIndividual.getChildren().add(gene);
+        }
+        //TODO : Changer les parametre de cette class et utiliser les paramettre de la classe population au lieu de polygon.
+        int maxX = ConvexPolygon.max_X;
+        int maxY = ConvexPolygon.max_Y;
+        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
+
+        // TODO : il faut reussir à faire que individual image fasse une capture de image et transformer ça en PixelReader
+        imageIndividual.snapshot(null,writeWritableImage);
+        PixelReader individualImagePixelReader = writeWritableImage.getPixelReader();
+        double res=0;
+        for (int i=0;i<maxX;i++){
+            for (int j=0;j<maxY;j++){
+                Color c = individualImagePixelReader.getColor(i, j);
+                //pr  =
+                /*
+                //System.err.println(c);
+
+                res += Math.pow(c.getBlue()-target[i][j].getBlue(),2)
+                        +Math.pow(c.getRed()-target[i][j].getRed(),2)
+                        +Math.pow(c.getGreen()-target[i][j].getGreen(),2);*/
+            }
+        }
+        result = Math.sqrt(res);
+        return result;
+    }
+
+    private double calculatePixelError(Color target, Color pixel){
+        //if()
+        return  0;
+    }
     public double fitness(Color[][] target, IndividualSolution individual) throws IllegalStateException{
         double result;
         Group imageIndividual = new Group();
@@ -111,7 +146,6 @@ public class Population implements Iterable<IndividualSolution> {
         result = Math.sqrt(res);
         return result;
     }
-
     public IndividualSolution getBestIndividual() {
         return bestIndividual;
     }
@@ -119,6 +153,7 @@ public class Population implements Iterable<IndividualSolution> {
     public void setBestIndividual(IndividualSolution bestIndividual) {
         this.bestIndividual = new IndividualSolution(bestIndividual);
     }
+
 
     /**
      * Draw and image on your sourcepath.
