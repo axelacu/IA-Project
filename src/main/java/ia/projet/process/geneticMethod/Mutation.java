@@ -12,8 +12,26 @@ public class Mutation {
         if(Population.MUTATION_RATE>random.nextDouble()){
             //select the type of mutation
             Population.numberOfMutation++;
-            return genePolygon.mutation();
+            GenePolygon newGen ;
+            if(random.nextBoolean())
+                return genePolygon.mutation();
+            else{
+                if(random.nextBoolean()) {
+                    if(random.nextBoolean())
+                        newGen = genePolygon.mutationOpacity();
+                    else
+                        newGen = genePolygon.mutationFill();
+                    return newGen.mutationTranslate();
+                }
+                else {
+                    if(random.nextBoolean())
+                        newGen = genePolygon.mutationOpacity();
+                    else
+                        newGen = genePolygon.mutationFill();
 
+                    return newGen.mutationRotation();
+                }
+            }
         }else{
             return genePolygon;
         }
