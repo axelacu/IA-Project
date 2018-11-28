@@ -16,20 +16,25 @@ import java.util.Random;
 public class TestTranform extends Application {
     @Override
     public void start(Stage myStage) throws Exception {
-        //////////
-        int initialPopulation = 100;
-        int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.1);
-        Selection.setNumberOfIndividualByGeneration(150);
-        ///////
-        System.out.println("Working Directory = " +
-                System.getProperty("user.dir"));
-        Random random = new Random();
-        String pathImage = "monaLisa-100.jpg";
-        Color[][] target = ImageExtractor.getTarget(pathImage);
-        Population.target = target;
-        Population population = new Population(initialPopulation,numberOfGeneByIndividual);
-        ReproductionImage rep = new ReproductionImage();
+        //ajouter les polygone
+        //definir Max X et Y de convexpolygone
+        int maxX = 100;
+        int maxY = 149;
+        ConvexPolygon.max_X = 100;
+        ConvexPolygon.max_Y = 149;
+        ConvexPolygon polygon = new ConvexPolygon(3);
+        //Creer un polygone
+        // tu peux le faire avec un tableau de double
+        //fait un polygone.
+        Group image = new Group();
+        //ajouter polygone à la iste enfant.
+        image.getChildren().add(polygon);
 
+        Scene scene = new Scene(image,maxX, maxY);
+        myStage.setScene(scene);
+        myStage.show();
+    }
+    public static void main(String[] arg){
+        launch(arg);
     }
 }
