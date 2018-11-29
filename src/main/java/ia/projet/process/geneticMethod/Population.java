@@ -119,6 +119,19 @@ public class Population implements Iterable<IndividualSolution> {
         //if()
         return  0;
     }
+    public double probabilityColorDark(double ct,double ci){
+        double probability;
+        if(Math.abs(255-ct)>=255-ct){
+            probability=(255-ci)/255-ct;
+        } else if (Math.abs(ci-ct)<=255-ct){
+            probability=(ct-Math.abs(ct-ci))/ct;
+        }else {
+            probability=0.0;
+
+        }
+        return probability;
+    }
+
     public double fitness(Color[][] target, IndividualSolution individual) throws IllegalStateException{
         double result;
         Group imageIndividual = new Group();

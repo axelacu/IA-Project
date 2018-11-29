@@ -13,8 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 100;
-        int numberOfGeneByIndividual = 30;
+        int initialPopulation = 200;
+        int numberOfGeneByIndividual = 50;
         Population.setMutationRate(0.03);
         Selection.setNumberOfIndividualByGeneration(100);
         ///////
@@ -29,7 +29,7 @@ public class Main extends Application {
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
 
-        for(int i = 0; i<500; i++ ){
+        for(int i = 0; i<10000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             population.increaseSort();
