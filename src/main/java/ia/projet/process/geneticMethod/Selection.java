@@ -5,10 +5,6 @@ import java.util.*;
 public class Selection {
     static Random random = new Random();
     static int numberOfIndividualByGeneration = 100;
-
-
-
-
     /**
      * This methode purge the population.
      * @param population
