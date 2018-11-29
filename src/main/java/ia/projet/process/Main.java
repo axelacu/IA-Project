@@ -13,9 +13,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 200;
-        int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.06);
+        int initialPopulation = 100;
+        int numberOfGeneByIndividual = 30;
+        Population.setMutationRate(0.03);
         Selection.setNumberOfIndividualByGeneration(100);
         ///////
         System.out.println("Working Directory = " +
@@ -29,16 +29,14 @@ public class Main extends Application {
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
 
-        for(int i = 0; i<1000000; i++ ){
+        for(int i = 0; i<500; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             population.increaseSort();
-            for(IndividualSolution individualSolution : population){
-                System.out.print("\t" + Math.round(individualSolution.getFitness()));
-            }
+
             population.setNewPopulation(rep.nextGeneration(population));
             //Selection.reaper4(population);
-            if(i%100 == 0){
+            if(i%10 == 0){
                 population.drawBestIndividual();
             }
             /*

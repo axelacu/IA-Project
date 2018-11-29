@@ -39,19 +39,19 @@ public class TestTranform extends Application {
 
 
         ConvexPolygon polygon1 = new GenePolygon((GenePolygon) polygon);
-        for(int i = 0; i< 20;i++)
-            polygon = ((GenePolygon) polygon).mutationTranslate();
 
-        GenePolygon polygon2 = new GenePolygon((GenePolygon) polygon).mutationRotation();
+        polygon1 = new GenePolygon((GenePolygon) polygon).mutationScale();
+        polygon1 = ((GenePolygon) polygon1).mutationFill();
+
         System.out.println(polygon1.getPoints());
         System.out.println(polygon.getPoints());
-        System.out.println(polygon2.getPoints());
+        //System.out.println(polygon2.getPoints());
         Group image = new Group();
 
         //ajouter polygone à la iste enfant.
         image.getChildren().add(polygon);
         image.getChildren().add(polygon1);
-        image.getChildren().add(polygon2);
+        //image.getChildren().add(polygon2);
 
         Scene scene = new Scene(image,maxX, maxY);
         myStage.setScene(scene);
