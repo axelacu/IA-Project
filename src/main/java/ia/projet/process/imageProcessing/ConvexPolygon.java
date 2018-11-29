@@ -27,7 +27,7 @@ public class ConvexPolygon extends Polygon {
 			int g = gen.nextInt(256);
 			int b = gen.nextInt(256); 
 			this.setFill(Color.rgb(r, g, b));
-			//this.setOpacity(gen.nextDouble());
+			this.setOpacity(gen.nextDouble());
 		}
 		
 		public ConvexPolygon(){

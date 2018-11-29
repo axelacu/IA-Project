@@ -31,11 +31,23 @@ public class GenePolygon extends ConvexPolygon{
     }
 
     public GenePolygon(int numberOfPoints, Double[] points){
-        //super();
-        //this.getPoints().addAll(points);
-        //this.numberOfPoints = numberOfPoints;
+        super();
+        this.getPoints().addAll(points);
+        this.numberOfPoints = numberOfPoints;
         //this.setOpacity(genePolygon.getOpacity());
         System.err.println("FAUUTE !");
+    }
+
+    public GenePolygon mutationScale(){
+        Random random = new Random();
+        GenePolygon newGen = new GenePolygon(this);
+        //Random random = new Random();
+        List<Double> points = newGen.getPoints();
+
+        Scale scale=new Scale(random.nextDouble(),random.nextDouble(),points.get(0),points.get(1));
+        updatePoints(scale,newGen);
+
+        return newGen;
     }
 
     private GenePolygon updatePoints(Transform transform, GenePolygon gen){
@@ -49,7 +61,7 @@ public class GenePolygon extends ConvexPolygon{
                     i += 2;
                 }
             }
-        if(transform instanceof  Translate) {
+        if(transform instanceof  Translate || transform instanceof Scale) {
             i = 0;
             while (i < numberOfpoints ) {
                 calculPoint(transform,gen,i);
