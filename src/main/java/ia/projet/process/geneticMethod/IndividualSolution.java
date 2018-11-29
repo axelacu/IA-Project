@@ -5,7 +5,7 @@ import java.util.*;
 public class IndividualSolution implements Iterable<GenePolygon>,Comparable<IndividualSolution>  {
     private ArrayList<GenePolygon> genome;
     private int numberOfGenes;
-	private double fitness = 300000000;
+	private double fitness = -1;
 	private int timeOfLife = 0;
     private int id;
     private static int  numberOfInstance=0;

@@ -30,7 +30,7 @@ public class ReproductionImage extends Thread{
      */
     public IndividualSolution getIndividualSelect(Population population){
         double size = population.size();
-        double biais = size * 0.5;
+        double biais = size * 0.6;
         double denominator = size + biais;
         int index = 1;
         for(IndividualSolution individual : population){

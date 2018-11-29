@@ -11,6 +11,7 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -19,7 +20,7 @@ public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
     private int id;
     private static int  numberOfInstance=0;
-    static int MAX_NUMBER_OF_POINTS = 5;
+    static int MAX_NUMBER_OF_POINTS = 3;
     /**
      * Generate à gene in that case the gene correspond to a polygon
      * @param numberOfPoints number of point that compound the polygon.
@@ -46,7 +47,6 @@ public class GenePolygon extends ConvexPolygon{
 
         Scale scale=new Scale(random.nextDouble(),random.nextDouble(),points.get(0),points.get(1));
         updatePoints(scale,newGen);
-
         return newGen;
     }
 
@@ -55,7 +55,6 @@ public class GenePolygon extends ConvexPolygon{
             int numberOfpoints = gen.numberOfPoints;
             if(transform instanceof  Rotate) {
                 i = 2;
-
                 while (i < numberOfpoints) {
                     calculPoint(transform,gen,i);
                     i += 2;
@@ -175,12 +174,18 @@ public class GenePolygon extends ConvexPolygon{
         Random random = new Random();
         return new GenePolygon(3 + random.nextInt(MAX_NUMBER_OF_POINTS));
     }
-
+    //http://www.personal.kent.edu/~rmuhamma/Compgeometry/MyCG/ConvexHull/incrementCH.htm
+    //pseudo
     public GenePolygon mutationPoint(){
         Random random = new Random();
         GenePolygon newGen = new GenePolygon(this);
-        int x = random.nextInt(ConvexPolygon.max_X);
-        int y= random.nextInt(ConvexPolygon.max_Y);
+        double x = random.nextInt(ConvexPolygon.max_X);
+        double y= random.nextInt(ConvexPolygon.max_Y);
+
+        while(newGen.contains(x,y)){
+            x = random.nextInt(ConvexPolygon.max_X);
+            y = random.nextInt(ConvexPolygon.max_Y);
+        }
         newGen.addPoint(x,y);
         return newGen;
     }

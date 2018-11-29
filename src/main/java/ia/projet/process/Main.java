@@ -13,30 +13,31 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //////////
-        int initialPopulation = 200;
+        int initialPopulation = 50;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.03);
-        Selection.setNumberOfIndividualByGeneration(100);
+        Population.setMutationRate(0.06);
+        //Selection.setNumberOfIndividualByGeneration(100);
         ///////
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
         Random random = new Random();
-        String pathImage = "monaLisa-100.jpg";
+        String pathImage = "goo.png";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
         population.initialPopulation(initialPopulation);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
-
-        for(int i = 0; i<10000; i++ ){
+        for(int i = 0; i<3000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
-            population.increaseSort();
-
+            population.decreaseSort();
             population.setNewPopulation(rep.nextGeneration(population));
+            for(IndividualSolution individualSolution : population){
+                System.out.print(Math.round(individualSolution.getFitness()*100) + " ");
+            }
             //Selection.reaper4(population);
-            if(i%10 == 0){
+            if(i%50 == 0){
                 population.drawBestIndividual();
             }
             /*

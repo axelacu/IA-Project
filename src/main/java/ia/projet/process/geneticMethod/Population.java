@@ -84,54 +84,6 @@ public class Population implements Iterable<IndividualSolution> {
                 ", Number of gene by individual : " + MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 
-    public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException{
-        double result;
-        Group imageIndividual = new Group();
-        for (GenePolygon gene : individual.getGenome()) {
-            imageIndividual.getChildren().add(gene);
-        }
-        //TODO : Changer les parametre de cette class et utiliser les paramettre de la classe population au lieu de polygon.
-        int maxX = ConvexPolygon.max_X;
-        int maxY = ConvexPolygon.max_Y;
-        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
-
-        // TODO : il faut reussir à faire que individual image fasse une capture de image et transformer ça en PixelReader
-        imageIndividual.snapshot(null,writeWritableImage);
-        PixelReader individualImagePixelReader = writeWritableImage.getPixelReader();
-        double res=0;
-        for (int i=0;i<maxX;i++){
-            for (int j=0;j<maxY;j++){
-                Color c = individualImagePixelReader.getColor(i, j);
-                //pr  =
-                /*
-                //System.err.println(c);
-
-                res += Math.pow(c.getBlue()-target[i][j].getBlue(),2)
-                        +Math.pow(c.getRed()-target[i][j].getRed(),2)
-                        +Math.pow(c.getGreen()-target[i][j].getGreen(),2);*/
-            }
-        }
-        result = Math.sqrt(res);
-        return result;
-    }
-
-    private double calculatePixelError(Color target, Color pixel){
-        //if()
-        return  0;
-    }
-    public double probabilityColorDark(double ct,double ci){
-        double probability;
-        if(Math.abs(255-ct)>=255-ct){
-            probability=(255-ci)/255-ct;
-        } else if (Math.abs(ci-ct)<=255-ct){
-            probability=(ct-Math.abs(ct-ci))/ct;
-        }else {
-            probability=0.0;
-
-        }
-        return probability;
-    }
-
     public double fitness(Color[][] target, IndividualSolution individual) throws IllegalStateException{
         double result;
         Group imageIndividual = new Group();
@@ -159,6 +111,85 @@ public class Population implements Iterable<IndividualSolution> {
         result = Math.sqrt(res);
         return result;
     }
+
+    //TODO : CHANGER à individu
+    public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException{
+
+        int maxX = ConvexPolygon.max_X;
+        int maxY = ConvexPolygon.max_Y;
+
+        Group imageIndividual = new Group();
+        for (GenePolygon gene : individual.getGenome()) {
+            imageIndividual.getChildren().add(gene);
+        }
+        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
+
+        imageIndividual.snapshot(null,writeWritableImage);
+        PixelReader individualImagePixelReader = writeWritableImage.getPixelReader();
+        double rate  = 0;
+        for (int i=0;i<maxX;i++){
+            for (int j=0;j<maxY;j++){
+                Color ci = individualImagePixelReader.getColor(i, j);
+                Color ct = target[i][j];
+                //System.err.println(c);
+                double pixelRate = probabilityPixel(ct,ci);
+                if(pixelRate>1){
+                    System.out.println("Error On rate : " + pixelRate);
+                    System.exit(-1);
+                }
+                rate +=pixelRate;
+            }
+        }
+        return rate/(double)(maxX*maxY);
+    }
+
+    public double probabilityPixel(Color target, Color pixel){
+        double[] colorsTarget = new double[]{target.getRed(),target.getGreen(),target.getBlue()};
+        double[] colorsPixel = new double[]{pixel.getRed(),pixel.getGreen(),pixel.getBlue()};
+        double pi = 0;
+        for(int i = 0;i<colorsPixel.length;i++){
+            if(colorsTarget[i]>(1/2)){
+                pi += probabilityLightColor(colorsTarget[i],colorsPixel[i]);
+            }else{
+                pi += probabilityColorDark(colorsTarget[i],colorsPixel[i]);
+            }
+            //System.err.println("Ecar : " + (colorsTarget[i] + " " +  colorsPixel[i]) + " taux : " + probabilityLightColor(colorsTarget[i],colorsPixel[i]) );
+        }
+        return pi/3;
+    }
+
+    /**
+     *
+     * @param ct
+     * @param ci
+     * @return
+     */
+    public double probabilityLightColor(double ct, double ci){
+        if(ct>=ci){
+            return ci/ct;
+        }
+        else if((ci-ct)<ct){
+            return (ct -(ci-ct))/ct;
+        }else{
+            return 0;
+        }
+    }
+
+    public double probabilityColorDark(double ct,double ci){
+        double probability;
+        double constant = 1;
+        if((constant-ci)<=(constant-ct)){
+            probability =  (constant-ci)/(constant-ct);
+            return  probability;
+        } else if (ci<ct){
+            probability=(constant - (ct+(ct-ci)))/(constant-ct);
+        }else {
+            probability=0.0;
+        }
+        return probability;
+    }
+
+
     public IndividualSolution getBestIndividual() {
         return bestIndividual;
     }
@@ -241,9 +272,9 @@ public class Population implements Iterable<IndividualSolution> {
     }
 
     public void add(IndividualSolution newIndividual){
-        newIndividual.setFitness(fitness(target,newIndividual));
+        newIndividual.setFitness(fitness2(target,newIndividual));
 
-        if(newIndividual.getFitness()<bestIndividual.getFitness()) {
+        if(newIndividual.getFitness()>bestIndividual.getFitness()) {
             setBestIndividual(newIndividual);
         }
         population.add(newIndividual);
