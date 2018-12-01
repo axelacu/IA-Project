@@ -19,6 +19,10 @@ public class ReproductionImage extends Thread{
             IndividualSolution child = new IndividualSolution(sizeGenome,
                                          crossover(parent1,parent2,sizeGenome));
             nextGenerationPopulation.add(child);
+            //TODO : Verifier performance
+            if(Population.MUTATION_RATE>random.nextDouble()){
+                Mutation.permutateGene(child);
+            }
         }
         return nextGenerationPopulation;
     }
