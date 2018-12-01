@@ -10,7 +10,7 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
     private int id;
     private static int  numberOfInstance=0;
 
-
+    public IndividualSolution(){}
     public IndividualSolution(int numberOfGenes){
         //TODO La fitness doit etre initialiser lors de sa construction
         genome=new ArrayList<>();
@@ -19,7 +19,7 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
     }
     public IndividualSolution(int numberOfGenes, ArrayList<GenePolygon> genePolygons){
         //TODO La fitness doit etre initialiser lors de sa construction
-        genome=genePolygons;
+        genome=new ArrayList<>(genePolygons);
         this.numberOfGenes = numberOfGenes;
         this.id=numberOfInstance++;
     }
@@ -66,6 +66,17 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
         this.genome = new ArrayList<>(genome);
         this.numberOfGenes=genome.size();
 
+    }
+
+    public void setGen(int index,GenePolygon genePolygon){
+        this.genome.set(index,genePolygon);
+    }
+    public void removeGene(int i){
+        genome.remove(i);
+    }
+    public void addGene(GenePolygon genePolygon ){
+        this.numberOfGenes++;
+        this.genome.add(genePolygon);
     }
     public GenePolygon get(int i){
         if(i>=genome.size()){

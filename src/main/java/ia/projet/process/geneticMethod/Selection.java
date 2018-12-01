@@ -10,28 +10,11 @@ public class Selection {
      * @param population
      */
     public static void reaper(Population population) {
-        double bestFitness = population.getBestIndividual().getFitness();
-        double sumFitForThisGen= population.getSumFitness();
+        IndividualSolution individualSolution = population.getBestIndividual();
         //System.out.println(population + "\n\t" + population.statistics());
 
-        while(population.size()> (numberOfIndividualByGeneration)){
-            int index = random.nextInt(population.size());
-           IndividualSolution individual = population.get(index);
-           //plus la fitness est grand plus il a de chance de mourir.
-           double probability = individual.getFitness()/sumFitForThisGen;
-           if(probability>random.nextDouble() && bestFitness!=individual.getFitness()){
-
-               if(!population.removeIndividual(individual))
-                   System.out.println("FALSE !");
-           }
-            if(population.statistics().contains("sigma : 0")){
-                System.out.println(population.statistics());
-                population.drawBestIndividual();
-                System.exit(-1);
-            }
-
-        }
     }
+
 
     public static void reaper2(Population population,List<Integer> list) {
         ReproductionImage rep=new ReproductionImage();

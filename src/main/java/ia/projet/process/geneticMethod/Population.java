@@ -30,6 +30,7 @@ public class Population implements Iterable<IndividualSolution> {
      * returns the max polygon number of each individual
      */
     private int MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
+    public Population(){};
 
     /**
      * Generate a population with a numberOfIndividuals and NUMBER_OF_GENES_BY_INDIVIDUALS.
@@ -41,7 +42,6 @@ public class Population implements Iterable<IndividualSolution> {
         this.MAX_NUMBER_OF_GENES_BY_INDIVIDUALS = MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
         bestIndividual=new IndividualSolution(MAX_NUMBER_OF_GENES_BY_INDIVIDUALS);
     }
-
     public Population(Population population){
         this.population=new ArrayList<>(population.getPopulation());
         this.MAX_NUMBER_OF_GENES_BY_INDIVIDUALS = population.MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
@@ -206,8 +206,8 @@ public class Population implements Iterable<IndividualSolution> {
     public void imageDrawer(WritableImage image){
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
         try {
-            ImageIO.write(renderedImage, "png", new File("test1.png"));
-            System.out.println("\twrote image in " + "test1.png");
+            ImageIO.write(renderedImage, "png", new File("fire2.png"));
+            System.out.println("\twrote image in " + "fire2.png");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -234,8 +234,8 @@ public class Population implements Iterable<IndividualSolution> {
     public String statistics(){
         double mean = sumFitness/population.size();
         double standardDeviation;
-        double bestFitness = 10000;
-        double worstFitness = 0;
+        double bestFitness = -1;
+        double worstFitness = 1;
         double deviation = 0;
         double meanPoly =0;
         for(int i=0;i<population.size();i++){
@@ -243,18 +243,18 @@ public class Population implements Iterable<IndividualSolution> {
             double fitness = individualSolution.getFitness();
             meanPoly += individualSolution.getNumberOfGenes();
             //System.out.println(individualSolution.getNumberOfGenes());
-            if(fitness>worstFitness)
+            if(fitness<worstFitness)
                 worstFitness = fitness;
-            if(bestFitness>fitness)
+            if(bestFitness<fitness)
                 bestFitness = fitness;
             deviation+=Math.pow(fitness - mean,2);
         }
         standardDeviation = Math.sqrt(deviation/population.size());
         meanPoly = meanPoly/population.size();
 
-        return "N° mutation : " + numberOfMutation +", mean : " + Math.round(mean) + ", sigma : " + Math.round(standardDeviation) + ", worst :"
-                + Math.round(worstFitness) + ", best :" + Math.round(bestFitness) + ", meanPolygonByIn : " + meanPoly
-                + ", N° PolyBest : " + bestIndividual.getNumberOfGenes()  + ", Total : " + Math.round(sumFitness);
+        return "N° mutation : " + numberOfMutation +", mean : " + Math.round(mean*100) + ", sigma : " + Math.round(standardDeviation*100) + ", worst :"
+                + Math.round(worstFitness*100) + ", best :" + Math.round(bestFitness*100) + ", meanPolygonByIn : " + meanPoly
+                + ", N° PolyBest : " + bestIndividual.getNumberOfGenes()  + ", Total : " + Math.round(sumFitness*100);
     }
     public boolean removeIndividual(IndividualSolution individual){
         if(individual.getFitness() == bestIndividual.getFitness())
