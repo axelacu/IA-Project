@@ -211,9 +211,11 @@ public class GenePolygon extends ConvexPolygon{
         double px = random.nextInt(ConvexPolygon.max_X);
         double py = random.nextInt(ConvexPolygon.max_Y);
         while(newGen.contains(px,py)){
+            List<Point> l = new ArrayList<>(ls);
             px = random.nextInt(ConvexPolygon.max_X);
             py = random.nextInt(ConvexPolygon.max_Y);
             Point newPoint = new Point((int) px, (int) py);
+            l.add(newPoint);
 
         }
         ls = GrahamScan.getConvexHull(ls);
