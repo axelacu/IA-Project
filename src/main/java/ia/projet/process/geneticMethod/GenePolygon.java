@@ -216,7 +216,7 @@ public class GenePolygon extends ConvexPolygon{
             py = random.nextInt(ConvexPolygon.max_Y);
             Point newPoint = new Point((int) px, (int) py);
             l.add(newPoint);
-
+            //l = GrahamScan.
         }
         ls = GrahamScan.getConvexHull(ls);
         return newGen;
