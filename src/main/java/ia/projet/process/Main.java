@@ -23,7 +23,7 @@ public class Main extends Application {
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
         Random random = new Random();
-        String pathImage = "firefox2.png";
+        String pathImage = "monaLisa-100.jpg";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
