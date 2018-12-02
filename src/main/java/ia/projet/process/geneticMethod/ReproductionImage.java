@@ -11,7 +11,6 @@ public class ReproductionImage extends Thread{
 
     public ArrayList<IndividualSolution> nextGeneration(Population population){
         ArrayList<IndividualSolution> nextGenerationPopulation = new ArrayList<>();
-        nextGenerationPopulation.add(population.getBestIndividual());
         int sizeGenome = population.getMaxNumberOfGenesByIndividuals();
         while(nextGenerationPopulation.size()<population.size()){
             IndividualSolution parent1 = getIndividualSelect(population);
@@ -24,6 +23,8 @@ public class ReproductionImage extends Thread{
                 Mutation.permutateGene(child);
             }
         }
+
+        //Take count of parent TODO : Verifier performance de l'ajout de parent.
         return nextGenerationPopulation;
     }
 
@@ -47,6 +48,7 @@ public class ReproductionImage extends Thread{
         //if priorityqeueu faire une peek;
         return population.getBestIndividual();
     }
+
     public void reproduction(Population population){
         ArrayList<IndividualSolution> childs = new ArrayList<>();
 

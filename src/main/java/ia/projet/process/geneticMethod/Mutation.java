@@ -15,22 +15,26 @@ public class Mutation {
             GenePolygon newGen = genePolygon;
             if(random.nextBoolean()) {
                 return newGen.mutation();
-            }
-            if(random.nextBoolean()) {
-                if(random.nextDouble()<0.5)
-                    newGen = genePolygon.mutationOpacity();
-                if(random.nextDouble()<0.1)
-                    newGen = genePolygon.mutationFill();
-                return newGen.mutationTranslate();
-            }else if(random.nextBoolean()){
-                return newGen.mutationScale();
-            }
-            else {
-                if(random.nextDouble()<0.5)
-                    newGen = genePolygon.mutationOpacity();
-                if(random.nextDouble()<0.1)
-                    newGen = genePolygon.mutationFill();
-                return newGen.mutationRotation();
+            }else{
+                if(random.nextBoolean()){
+                    return newGen.mutationTranslate();
+                }else{
+                    switch (random.nextInt(4)){
+                        case 0:
+                            newGen = genePolygon.mutationOpacity();
+                            break;
+                        case 1:
+                            newGen = genePolygon.mutationFill();
+                            break;
+                        case 2:
+                            newGen = genePolygon.mutationScale();
+                            break;
+                        case 3:
+                            newGen = genePolygon.mutationRotation();
+                            break;
+                    }
+                 }
+                return newGen;
             }
         }else{
             return genePolygon;

@@ -21,21 +21,29 @@ public class HillClimber extends Application {
         individual.setFitness(population.fitness2(target,individual));
         population.setBestIndividual(individual);
         Random random = new Random();
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 100000; i++){
             IndividualSolution newIndividual  = new IndividualSolution();
 
-            newIndividual = Mutation.individualMutation2(individual, 1);
-
-
+            int r = random.nextInt(2);
+            switch (r){
+                case 0:
+                    newIndividual = Mutation.individualMutation(individual,1);
+                    break;
+                case 1:
+                    newIndividual = Mutation.individualMutation2(individual, 1);
+                    break;
+            }
             newIndividual.setFitness(population.fitness2(target,newIndividual));
             //System.out.println(newIndividual.getFitness() + "  " + individual.getFitness());
             if(individual.getFitness()<newIndividual.getFitness()){
                 individual = new IndividualSolution(newIndividual);
                 population.setBestIndividual(newIndividual);
-                //System.out.println("Best fit : "  + individual.getFitness());
+                System.out.println("Best fit : "  + individual.getFitness());
+            }
+            if(i%300 == 0){
+                population.drawBestIndividual();
             }
         }
-        System.out.println(individual);
         return individual;
     }
     public static void main(String[] args){
