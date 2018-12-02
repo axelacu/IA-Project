@@ -206,8 +206,8 @@ public class Population implements Iterable<IndividualSolution> {
     public void imageDrawer(WritableImage image){
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
         try {
-            ImageIO.write(renderedImage, "png", new File("fire2.png"));
-            System.out.println("\twrote image in " + "fire2.png");
+            ImageIO.write(renderedImage, "png", new File("firefoxP.png"));
+            System.out.println("\twrote image in " + "firefoxP.png");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -257,6 +257,17 @@ public class Population implements Iterable<IndividualSolution> {
                 + ", N° PolyBest : " + bestIndividual.getNumberOfGenes()  + ", Total : " + Math.round(sumFitness*100);
     }
     public boolean removeIndividual(IndividualSolution individual){
+        if(individual.getFitness() == bestIndividual.getFitness())
+            return false;
+        if(population.remove(individual)) {
+            sumFitness -= individual.getFitness();
+            numberOfIndividuals--;
+            return true;
+        }
+        return false;
+    }
+    public boolean removeIndividual(int i){
+        IndividualSolution individual = population.get(i);
         if(individual.getFitness() == bestIndividual.getFitness())
             return false;
         if(population.remove(individual)) {

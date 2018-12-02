@@ -16,30 +16,34 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //////////
         int initialPopulation = 100;
-        int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.03);
+        int numberOfGeneByIndividual = 40;
+        Population.setMutationRate(0.07);
         //Selection.setNumberOfIndividualByGeneration(100);
 
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
         Random random = new Random();
-        String pathImage = "monaLisa-100.jpg";
+        String pathImage = "firefox2.png";
         Color[][] target = ImageExtractor.getTarget(pathImage);
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
         population.initialPopulation(initialPopulation);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
-        for(int i = 0; i<300000; i++ ){
+        for(int i = 0; i<1000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             population.decreaseSort();
             //TODO : Verifier
             population.setNewPopulation(rep.nextGeneration(population));
-            //IndividualSolution in = HillClimber.hillClimber(population.getBestIndividual(),target);
-            //population.add(in);
+            /*
+            if(population.getBestIndividual().getFitness()>0.66){
+                IndividualSolution in = HillClimber.hillClimber(population.get(population.size()-1),target);
+                population.removeIndividual(population.size()-1);
+                population.add(in);
+            }*/
             //Selection.reaper4(population);
-            if(i%3 == 0){
+            if(i%2 == 0){
                 population.drawBestIndividual();
             }
             /*
@@ -50,6 +54,8 @@ public class Main extends Application {
                 System.exit(-1);
             }*/
         }
+        System.out.println("Hill Climbing Methode : ");
+        population.setBestIndividual(HillClimber.hillClimber(population.getBestIndividual(),target));
         ////// PLUSIEUR POP
         /**
          //Population precedentPop = null;

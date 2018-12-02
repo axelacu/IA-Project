@@ -9,12 +9,6 @@ public class Selection {
      * This methode purge the population.
      * @param population
      */
-    public static void reaper(Population population) {
-        IndividualSolution individualSolution = population.getBestIndividual();
-        //System.out.println(population + "\n\t" + population.statistics());
-
-    }
-
 
     public static void reaper2(Population population,List<Integer> list) {
         ReproductionImage rep=new ReproductionImage();

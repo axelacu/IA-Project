@@ -1,18 +1,15 @@
 package ia.projet.process.geneticMethod;
 
+import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
 import ia.projet.process.imageProcessing.ConvexPolygon;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-
-import javax.swing.text.MutableAttributeSet;
+import java.awt.Point;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
@@ -42,8 +39,20 @@ public class GenePolygon extends ConvexPolygon{
         GenePolygon newGen = new GenePolygon(this);
         //Random random = new Random();
         List<Double> points = newGen.getPoints();
-
-        Scale scale=new Scale(0.2 + random.nextDouble(),0.2 + random.nextDouble(),points.get(0),points.get(1));
+        Scale scale = new Scale();
+        double min = 0.5;
+        double max = 1.2;
+        switch (random.nextInt(3)){
+            case 0:
+                scale = new Scale(min + (max - min) *random.nextDouble(),1,points.get(0),points.get(1));
+                break;
+            case 1:
+                scale = new Scale(1,min + (max - min) *random.nextDouble(),points.get(0),points.get(1));
+                break;
+            case 2:
+                scale=new Scale(min + (max - min) *random.nextDouble(),min + (max - min) *random.nextDouble(),points.get(0),points.get(1));
+                break;
+        }
         updatePoints(scale,newGen);
         return newGen;
     }
@@ -116,7 +125,6 @@ public class GenePolygon extends ConvexPolygon{
         if (this.getOpacity() != ((GenePolygon) obj).getOpacity()){
             return false;
         }
-
         return true;
     }
 
@@ -124,7 +132,7 @@ public class GenePolygon extends ConvexPolygon{
         GenePolygon newGen = new GenePolygon(this);
         Random random = new Random();
         List<Double> point = newGen.getPoints();
-        Rotate rotate = new Rotate(1+random.nextInt(361) ,point.get(0),point.get(1));
+        Rotate rotate = new Rotate(1+random.nextInt(30) ,point.get(0),point.get(1));
         //newGen.getTransforms().addAll(rotate);
         updatePoints(rotate,newGen);
         return newGen;
@@ -132,33 +140,52 @@ public class GenePolygon extends ConvexPolygon{
 
     public GenePolygon mutationTranslate(){
         GenePolygon newGen = new GenePolygon(this);
-        Random random = new Random();
         double x1=newGen.getPoints().get(0);
         double y1=newGen.getPoints().get(1);
-        double tx ;
-        double ty ;
-        if(random.nextBoolean()) {
-            tx = random.nextInt((int) (Math.round(ConvexPolygon.max_X - x1)));
+        Random random = new Random();
+        Translate translate=new Translate();
+        switch (random.nextInt(3)){
+            case 0:
+                translate=new Translate(translationX(x1),0);
+                break;
+            case 1:
+                translate=new Translate(0,translationY(y1));
+                break;
+            case 2:
+                translate=new Translate(translationX(x1),translationY(y1));
+                break;
         }
-        else {
-            if (x1 > 0)
-                tx = -random.nextInt((int) (x1));
-            else
-                tx = 0;
-        }
-        if(random.nextBoolean()) {
-            ty = random.nextInt((int) (Math.round(ConvexPolygon.max_Y - y1)));
-        }
-        else {
-            if (y1 > 0)
-                ty = -random.nextInt((int) y1);
-            else
-                ty = 0;
-        }
-        Translate translate=new Translate(tx,ty);
         //newGen.getTransforms().addAll(translate);
         updatePoints(translate,newGen);
         return newGen;
+   }
+   private double translationX(double x){
+       Random random = new Random();
+       int tx;
+       if(random.nextBoolean()) {
+               tx = random.nextInt((int) (Math.round(ConvexPolygon.max_X - x)));
+       }
+       else {
+           if (x > 0)
+               tx = -random.nextInt((int) (x));
+           else
+               tx = 0;
+       }
+       return tx;
+   }
+   private double translationY(double y){
+       Random random = new Random();
+       double ty;
+       if(random.nextBoolean()) {
+           ty = random.nextInt((int) (Math.round(ConvexPolygon.max_Y - y)));
+       }
+       else {
+           if (y > 0)
+               ty = -random.nextInt((int) y);
+           else
+               ty = 0;
+       }
+       return ty;
    }
 
 
@@ -172,94 +199,109 @@ public class GenePolygon extends ConvexPolygon{
         return new GenePolygon(3 + random.nextInt(MAX_NUMBER_OF_POINTS));
     }
     //http://www.personal.kent.edu/~rmuhamma/Compgeometry/MyCG/ConvexHull/incrementCH.htm
-    //pseudo
+    //INSPIRE FROM GRAHAM
     public GenePolygon mutationPoint(){
         Random random = new Random();
         GenePolygon newGen = new GenePolygon(this);
         List<Double> points = newGen.getPoints();
-        List<Point2D> ls = new ArrayList<>();
+        List<Point> ls = new ArrayList<>();
+        for(int i = 0; i<points.size();i+=2){
+            ls.add(new Point((int)Math.round(points.get(i)),(int)Math.round(points.get(i+1))));
+        }
         double px = random.nextInt(ConvexPolygon.max_X);
         double py = random.nextInt(ConvexPolygon.max_Y);
-        while(!newGen.contains(px,py)){
+        while(newGen.contains(px,py)){
             px = random.nextInt(ConvexPolygon.max_X);
             py = random.nextInt(ConvexPolygon.max_Y);
-        }
-        points.add(px);
-        points.add(py);
+            Point newPoint = new Point((int) px, (int) py);
 
-        for(int i = 0; i<points.size();i+=2){
-            ls.add(new Point2D(points.get(i),points.get(i+1)));
         }
-        System.out.println(" tes " + ls.size());
-        ls = graham(ls);
-        System.out.println(ls.size());
-        for(Point2D p : ls ){
-            newGen.addPoint(p.getX(),p.getY());
-        }
+        ls = GrahamScan.getConvexHull(ls);
         return newGen;
     }
     //https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/
-    ArrayList<Point2D> graham(List<Point2D> lp){
-//
-//        List<Point2D> env = new Stack<>();
-//        Point2D pBasGauche = lp.get(0);
-//        int iBasGauche = 0;
-//        for( int i = 1; i < lp.size(); ++i) {
-//            Point2D p = lp.get(i);
-//            if(p.getY()> pBasGauche.getY() || (p.getY()==pBasGauche.getY() && p.getX() < pBasGauche.getX())){
-//                pBasGauche = p;
-//                iBasGauche = i;
-//            }
-//        }
-//        lp.remove(iBasGauche);
-//        Collections.sort(lp, (x,y) ->  Math.atan2(x.getY(), x.getX())  < Math.atan2(y.getY(), y.getX()) ? -1 :
-//                Math.atan2(x.getY(), x.getX())  == Math.atan2(y.getY(), y.getX()) ? 0 : 1);
-//        lp.add(0, pBasGauche);
-//        Point2D p0 = lp.get(lp.size()-1);
-//        Point2D p1 = lp.get(0);
-//        env.add(p0);env.add(p1);env.add(lp.);
-//        while (){
-//
-//        }
-//        /*
-//        for( int i = 1; i < lp.size(); ++i) {
-//            Point2D p2 = lp.get(i);
-//            for( ; ;){
-//                p0 = env.get(env.size()-2);
-//                p1 = env.get(env.size()-1);
-//                // si ça tourne pas dans le bon sens on enlève
-//                if(pointSegment(p2, p1, p0) >= 0 && env.size()>2){
-//                    env .remove(env.size()-1);
-//                }
-//                else break;
-//            }
-//            env.add(p2);
-//        }*/
-//        System.out.println(" Env : Sise : " + env.size());
-//        return env;
-        return null;
+    List<Point2D> graham(List<Point2D> lp){
+        System.out.println("beginin " + lp);
+        List<Point2D> env = new ArrayList<>();
+        Point2D pBasGauche = lp.get(0);
+        int iBasGauche = 0;
+        for( int i = 1; i < lp.size(); ++i) {
+            Point2D p = lp.get(i);
+            if(p.getY()> pBasGauche.getY() || (p.getY()==pBasGauche.getY() && p.getX() < pBasGauche.getX())){
+                pBasGauche = p;
+                iBasGauche = i;
+            }
+        }
+        lp.remove(iBasGauche);
+        System.out.println("Before sort " + lp);
+        Collections.sort(lp, (x,y) ->  Math.atan2(x.getY(), x.getX())  < Math.atan2(y.getY(), y.getX()) ? -1 :
+                Math.atan2(x.getY(), x.getX())  == Math.atan2(y.getY(), y.getX()) ? 0 : 1);
+        lp.add(0, pBasGauche);
+        System.out.println("lp after sort" +  lp);
+        Point2D p0 = lp.get(lp.size()-1);
+        Point2D p1 = lp.get(0);
+        env.add(p0);env.add(p1);
+
+        for( int i = 1; i < lp.size(); ++i) {
+            Point2D p2 = lp.get(i);
+            for( ; ;){
+                p0 = env.get(env.size()-2);
+                p1 = env.get(env.size()-1);
+                // si ça tourne pas dans le bon sens on enlève
+                if(pointSegment(p2, p1, p0) >= 0 && env.size()>2){
+                    env .remove(env.size()-1);
+                }
+                else break;
+            }
+            env.add(p2);
+        }
+        System.out.println(" Env  : " + env);
+
+        return env;
     }
 
     double pointSegment(Point2D p1, Point2D p2, Point2D p){
         return ((p2.getX()-p1.getX())*(p1.getY()-p1.getY()) - (p2.getY()-p2.getY())*(p.getX()-p1.getX()));
-
     }
 
 
     public GenePolygon mutationFill(){
         GenePolygon newGen = new GenePolygon(this);
+        Color fill = (Color) newGen.getFill();
+        Random ran = new Random();
+        double r;
+        double g;
+        double b;
+        if(ran.nextBoolean()){
+            r = fill.getRed() + (1 - fill.getRed()) * ran.nextDouble();
+        }else {
+            r = (fill.getRed()) * ran.nextDouble();
+        }
+        if(ran.nextBoolean()){
+            g = fill.getGreen() + (1 - fill.getGreen()) * ran.nextDouble();
+        }else {
+            g = (fill.getGreen()) * ran.nextDouble();
+        }
+        if(ran.nextBoolean()){
+            b = fill.getBlue() + (1 - fill.getBlue()) * ran.nextDouble();
+        }else {
+            b = (fill.getGreen()) * ran.nextDouble();
+        }
 
-        Random gen = new Random();
-        int r = gen.nextInt(256);
-        int g = gen.nextInt(256);
-        int b = gen.nextInt(256);
-        newGen.setFill(Color.rgb(r, g, b));
+        newGen.setFill(Color.color(r, g, b));
         return newGen;
     }
     public GenePolygon mutationOpacity(){
         GenePolygon newGen = new GenePolygon(this);
-        Random gen = new Random();
-        this.setOpacity(gen.nextDouble());
+        Random ran = new Random();
+        double opacity = newGen.getOpacity();
+        double newOpacity ;
+        if(ran.nextBoolean()){
+            newOpacity = opacity + (1 - opacity) * ran.nextDouble();
+        }else{
+            newOpacity = opacity * ran.nextDouble();
+        }
+        newGen.setOpacity(newOpacity);
         return newGen;
     }
 
