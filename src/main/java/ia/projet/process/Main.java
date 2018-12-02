@@ -1,12 +1,14 @@
 package ia.projet.process;
 
 import ia.projet.process.geneticMethod.*;
+import ia.projet.process.hillClimberMethod.HillClimber;
 import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Main extends Application {
@@ -15,7 +17,7 @@ public class Main extends Application {
         //////////
         int initialPopulation = 100;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.005);
+        Population.setMutationRate(0.03);
         //Selection.setNumberOfIndividualByGeneration(100);
 
         System.out.println("Working Directory = " +
@@ -32,9 +34,12 @@ public class Main extends Application {
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             population.decreaseSort();
+            //TODO : Verifier
             population.setNewPopulation(rep.nextGeneration(population));
+            //IndividualSolution in = HillClimber.hillClimber(population.getBestIndividual(),target);
+            //population.add(in);
             //Selection.reaper4(population);
-            if(i%50 == 0){
+            if(i%3 == 0){
                 population.drawBestIndividual();
             }
             /*
