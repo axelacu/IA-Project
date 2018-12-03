@@ -1,10 +1,52 @@
 package ia.projet.process.geneticMethod;
+import sun.jvm.hotspot.runtime.ppc.PPCCurrentFrameGuess;
+
 import java.util.Random;
 import java.util.*;
 
 public class Selection {
     static Random random = new Random();
     static int numberOfIndividualByGeneration = 100;
+
+    public static Population SUS(Population population, int N){
+        double F=population.getSumFitness();
+        int P=(int)F/N;
+        int start=random.nextInt(P);
+        List<Integer> pointers=new ArrayList<>();
+        for(int i=0;i<=N-1;i++){
+            pointers.add(i,start+i*P);
+        }
+        List<IndividualSolution> list=RWS(population, pointers);
+        Population newPopulation=new Population(list.size(),50);
+        for(IndividualSolution individualSolution: list){
+            newPopulation.add(individualSolution);
+        }
+        return newPopulation;
+    }
+
+    public static List<IndividualSolution> RWS(Population population, List<Integer> points){
+        List<IndividualSolution> keep=new ArrayList<>();
+        int i=0;
+        for(Integer P:points){
+            i=0;
+            while(sumFitnessInferiority(population,i,P)){
+                i++;
+            }
+            keep.add(population.get(i));
+        }
+        return keep;
+    }
+
+    public static boolean sumFitnessInferiority(Population population,int i,int P){
+        double sumFitness=0;
+        int index=0;
+        for(IndividualSolution individualSolution:population){
+            if(index<=i){
+                sumFitness+=population.get(i).getFitness();
+            }
+        }
+        return (sumFitness)<P;
+    }
     /**
      * This methode purge the population.
      * @param population
