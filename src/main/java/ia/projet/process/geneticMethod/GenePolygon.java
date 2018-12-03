@@ -210,15 +210,19 @@ public class GenePolygon extends ConvexPolygon{
         }
         double px = random.nextInt(ConvexPolygon.max_X);
         double py = random.nextInt(ConvexPolygon.max_Y);
-        while(newGen.contains(px,py)){
-            List<Point> l = new ArrayList<>(ls);
+        List<Point> l = new ArrayList<>() ;
+        while(newGen.contains(px,py) && l.size()<ls.size()){
+            l = new ArrayList<>(ls);
             px = random.nextInt(ConvexPolygon.max_X);
             py = random.nextInt(ConvexPolygon.max_Y);
             Point newPoint = new Point((int) px, (int) py);
             l.add(newPoint);
-            //l = GrahamScan.
+            l = GrahamScan.getConvexHull(l);
         }
-        ls = GrahamScan.getConvexHull(ls);
+        newGen.getPoints().clear();
+        for(Point p : l){
+            newGen.addPoint(p.getX(),p.getY());
+        }
         return newGen;
     }
     //https://www.geeksforgeeks.org/convex-hull-set-2-graham-scan/
