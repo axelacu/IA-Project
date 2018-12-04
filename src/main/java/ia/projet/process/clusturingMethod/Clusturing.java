@@ -55,17 +55,18 @@ public class Clusturing {
     private Circle nearestCentroid(Set<Circle> centroids,Circle c){
 
         Iterator<Circle> itCentroid = centroids.iterator();
-        Circle nerestCentroid  = itCentroid.next();
-        //double nearestDistance =
+        Circle nearestCentroid  = itCentroid.next();
+        double nearestDistance = distanceEuclidienne(nearestCentroid,c);
         for(;itCentroid.hasNext();){
             Circle centroid = itCentroid.next();
-            //double colorCente = P
-            double euclidianDistance = Math.pow(c.getCenterX() - centroid.getCenterX(),2)
-                    + Math.pow(c.getCenterY() - centroid.getCenterY(),2) ;
-           // if()
+            double euclidianDistance = distanceEuclidienne(centroid,c);
+            if(euclidianDistance<nearestDistance){
+                nearestDistance = euclidianDistance;
+                nearestCentroid = centroid;
+            }
 
         }
-        return null;
+        return nearestCentroid;
     }
 
     public static HashMap<Circle,List<Circle>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
@@ -122,11 +123,21 @@ public class Clusturing {
 
     }
 
+    /**
+     * calculate euclidian distance from  two vector (x,y,R,G,V).
+     * @param c1 color1
+     * @param c2 color2
+     * @return
+     */
     public static double distanceEuclidienne(Circle c1, Circle c2){
         double a=c1.getCenterX()-c1.getCenterY();
         double b=c2.getCenterX()-c2.getCenterY();
-        double c=Population.probabilityPixel((Color)c1.getFill(),(Color)c2.getFill())*100;
-        return Math.sqrt((a*a)+(b*b)+(c*c));
+        Color color1 = (Color) c1.getFill();
+        Color color2 = (Color) c2.getFill();
+        double c = Math.pow(color1.getBlue()-color2.getBlue(),2)
+                +Math.pow(color1.getRed()-color2.getRed(),2)
+                +Math.pow(color1.getGreen()-color2.getGreen(),2);
+        return Math.sqrt((a*a)+(b*b)+(c));
     }
 
     public static Circle barycentre(List<Circle> circles){
