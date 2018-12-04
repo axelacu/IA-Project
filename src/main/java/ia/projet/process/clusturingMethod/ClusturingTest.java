@@ -1,5 +1,6 @@
 package ia.projet.process.clusturingMethod;
 
+import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
 import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -10,14 +11,16 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
-
 import javax.imageio.ImageIO;
+
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
-import static java.lang.Thread.sleep;
 
 public class ClusturingTest extends Application {
     @Override
@@ -43,13 +46,19 @@ public class ClusturingTest extends Application {
             }
         };
         //Platform.startup(runnable);
-        for(int i = 0; i<50;i++){
-            int x = random.nextInt(maxX);
-            int y = random.nextInt(maxY);
-            Color c = target[x][y];
-            Circle circle = new Circle(x,y,4);
-            circle.setFill(c);
-            image.getChildren().add(circle);
+        //TODO : Rendre adaptable.
+        ArrayList<Circle> circles = new ArrayList<>();/*Clusturing.creationPoints(target,maxX,maxY,50);*/
+        circles.add(new Circle(20,20,4));
+        circles.add(new Circle(40,40,4));
+        circles.add(new Circle(20,40,4));
+        circles.add(new Circle(40,20,4));
+        circles.add(new Circle(80,20,4));
+        ArrayList<Point> points = new ArrayList<>();
+        for (Circle c:
+             circles) {
+            image.getChildren().add(c);
+            points.add(new Point(( int) c.getCenterX(),(int)c.getCenterY()));
         }
+        image.getChildren().add(Clusturing.creationPolygones(points,Color.color(0.5,0.5,0.5)));
     }
 }
