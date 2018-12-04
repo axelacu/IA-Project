@@ -3,6 +3,7 @@ package ia.projet.process.clusturingMethod;
 import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
 import ia.projet.process.geneticMethod.GenePolygon;
 import ia.projet.process.geneticMethod.Population;
+import ia.projet.process.imageProcessing.ConvexPolygon;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -65,6 +66,79 @@ public class Clusturing {
 
         }
         return null;
+    }
+
+    public static List<List<Point>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
+        List<Circle> center_cluster=new ArrayList<>();
+        Random random=new Random();
+        int f=0;
+        do {
+            //calcul des points aléatoire
+
+            for (int i = 0; i < numberOfPolygones; i++) {
+                Circle point = new Circle();
+                point.setCenterX(random.nextInt(ConvexPolygon.max_X));
+                point.setCenterY(random.nextInt(ConvexPolygon.max_Y));
+                center_cluster.add(point);
+            }
+            HashMap<Circle, List<Circle>> map = new HashMap<>();
+            if (f == 0) {
+                for (Circle points_aleatoire : center_cluster) {
+                    map.put(points_aleatoire, new ArrayList<Circle>());
+
+                }
+            }
+
+            for (Circle circle : circles) {
+                Circle cluster = new Circle();
+                for (Circle points_aleatoire : map.keySet()) {
+                    double distance = 1000000;
+                    double myDist = Clusturing.distanceEuclidienne(circle, points_aleatoire);
+                    if (myDist < distance) {
+                        distance = myDist;
+                        cluster = points_aleatoire;
+                    }
+                }
+                map.get(cluster).add(circle);
+
+            }
+            HashMap<Circle, List<Circle>> newMap = new HashMap<>();
+            // calcul des barycentres
+            for (Circle circle : map.keySet()) {
+                Circle cercle = barycentre(map.get(circle));
+                List<Circle> tmp = map.get(circle);
+                newMap.put(cercle, map.get(circle));
+            }
+            map = newMap;
+        } while(f<numberOfIteration);
+
+
+
+
+        return null;
+
+    }
+
+    public static double distanceEuclidienne(Circle c1, Circle c2){
+        double a=c1.getCenterX()-c1.getCenterY();
+        double b=c2.getCenterX()-c2.getCenterY();
+        double c=Population.probabilityPixel((Color)c1.getFill(),(Color)c2.getFill())*100;
+        return Math.sqrt((a*a)+(b*b)+(c*c));
+    }
+
+    public static Circle barycentre(List<Circle> circles){
+        double sum_x=0;
+        double sum_y=0;
+        for(Circle circle:circles){
+            sum_x+=circle.getCenterX();
+            sum_y+=circle.getCenterY();
+        }
+        double x= (1/ circles.size())*(sum_x);
+        double y=((1/circles.size())*sum_y);
+        Circle retour=new Circle();
+        retour.setCenterX(x);
+        retour.setCenterY(y);
+        return retour;
     }
 
 }
