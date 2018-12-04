@@ -68,10 +68,12 @@ public class Clusturing {
         return null;
     }
 
-    public static List<List<Point>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
+    public static HashMap<Circle,List<Circle>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
         List<Circle> center_cluster=new ArrayList<>();
         Random random=new Random();
         int f=0;
+        HashMap<Circle, List<Circle>> map = new HashMap<>();
+
         do {
             //calcul des points aléatoire
             if(f==0) {
@@ -82,7 +84,6 @@ public class Clusturing {
                     center_cluster.add(point);
                 }
             }
-            HashMap<Circle, List<Circle>> map = new HashMap<>();
             if (f == 0) {
                 for (Circle points_aleatoire : center_cluster) {
                     map.put(points_aleatoire, new ArrayList<Circle>());
@@ -117,7 +118,7 @@ public class Clusturing {
 
 
 
-        return null;
+        return map;
 
     }
 
