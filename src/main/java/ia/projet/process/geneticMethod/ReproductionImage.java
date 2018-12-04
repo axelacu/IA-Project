@@ -17,11 +17,8 @@ public class ReproductionImage extends Thread{
             IndividualSolution parent2 = getIndividualSelect(population);
             IndividualSolution child = new IndividualSolution(sizeGenome,
                                          crossover(parent1,parent2,sizeGenome));
+
             nextGenerationPopulation.add(child);
-            //TODO : Verifier performance
-            if(Population.MUTATION_RATE>random.nextDouble()){
-                Mutation.permutateGene(child);
-            }
         }
 
         //Take count of parent TODO : Verifier performance de l'ajout de parent.
@@ -123,6 +120,16 @@ public class ReproductionImage extends Thread{
                 childGenome.add(Mutation.mutation(genePolygon));
             }
         }
+        // TODO : Verifier performance  !!IMPORTANT
+        if(0.20>random.nextDouble()){
+            int i  = random.nextInt(sizeGenome/2);
+            int j  = sizeGenome/2  + random.nextInt(sizeGenome/2);
+            GenePolygon gene1 = childGenome.get(i);
+            GenePolygon gene2 = childGenome.get(j);
+            childGenome.set(i,gene2);
+            childGenome.set(j,gene1);
+        }
+
         return  childGenome;
     }
     /** this crossover select randomly part of genom of the parent. **/

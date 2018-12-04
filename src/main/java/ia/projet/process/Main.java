@@ -16,8 +16,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         //////////
         int initialPopulation = 100;
-        int numberOfGeneByIndividual = 40;
-        Population.setMutationRate(0.07);
+        int numberOfGeneByIndividual = 50;
+        Population.setMutationRate(0.09);
         //Selection.setNumberOfIndividualByGeneration(100);
 
         System.out.println("Working Directory = " +
@@ -30,7 +30,7 @@ public class Main extends Application {
         population.initialPopulation(initialPopulation);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
-        for(int i = 0; i<1000; i++ ){
+        for(int i = 0; i<90000; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             population.decreaseSort();
@@ -43,7 +43,7 @@ public class Main extends Application {
                 population.add(in);
             }*/
             //Selection.reaper4(population);
-            if(i%2 == 0){
+            if(i%5 == 0){
                 population.drawBestIndividual();
             }
             /*

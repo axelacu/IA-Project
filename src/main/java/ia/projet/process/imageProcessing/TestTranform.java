@@ -32,13 +32,13 @@ public class TestTranform extends Application {
         ConvexPolygon polygon = new GenePolygon(3,doubles);
 
 
-        //ConvexPolygon polygon1 = new GenePolygon((GenePolygon) polygon);
-
+        ConvexPolygon polygon1 = new GenePolygon((GenePolygon) polygon);
+        polygon.setFill(Color.rgb(255,255,255));
         //polygon1 = new GenePolygon((GenePolygon) polygon).mutationScale();
         //polygon1 = ((GenePolygon) polygon1).mutationPoint();
         //GenePolygon polygon2=((GenePolygon) polygon1).mutationPoint();
 
-        //System.out.println(polygon1.getPoints());
+        System.out.println(polygon1.getPoints());
         System.out.println(polygon.getPoints());
         //System.out.println(polygon2.getPoints());
 
@@ -47,8 +47,11 @@ public class TestTranform extends Application {
 
         //ajouter polygone à la iste enfant.
         //image.getChildren().add(polygon);
-        image.getChildren().add(((GenePolygon) polygon).mutationPoint());
-        //image.getChildren().add(polygon2);
+        //for(int i = 0; i <7; i++)
+        //    polygon = ((GenePolygon) polygon).mutationPoint();
+        System.out.println("nombre de point : " + polygon.getPoints().size());
+        image.getChildren().add(polygon1);
+        image.getChildren().add(polygon);
 
         Scene scene = new Scene(image,maxX, maxY);
         myStage.setScene(scene);
