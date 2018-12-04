@@ -63,10 +63,10 @@ public class Clusturing {
                 Circle centroid = it.next();
                 Circle newCentroid = barycentre(mapRes.get(centroid));
                 if (centroid.getCenterX()!=newCentroid.getCenterX() && centroid.getCenterY()!=newCentroid.getCenterY()) {
+                    mapRes.get(centroid).clear();
                     centroid.setCenterX(newCentroid.getCenterX());
                     centroid.setCenterY(newCentroid.getCenterY());
-                    mapRes.get(centroid).clear();
-                    //centroid.setFill(centroid.getFill());
+                    centroid.setFill(newCentroid.getFill());
                     System.out.println("\t i'm false");
                     condition = false;
                 }
@@ -153,10 +153,10 @@ public class Clusturing {
         double b=Math.pow(c1.getCenterY()-c2.getCenterY(),2);
         Color color1 = (Color) c1.getFill();
         Color color2 = (Color) c2.getFill();
-        double c = Math.pow((color1.getBlue() -color2.getBlue())*100,2)
-                +Math.pow((color1.getRed()-color2.getRed()) * 100,2)
-                +Math.pow((color1.getGreen()-color2.getGreen())*100,2);
-        return Math.sqrt((a)+(b)+(c));
+        double cr = Math.pow((color1.getBlue() -color2.getBlue()),2);
+        double cg = Math.pow((color1.getRed()-color2.getRed()),2);
+        double cb = Math.pow((color1.getGreen()-color2.getGreen()),2);
+        return Math.sqrt((a)+(b)+(cr)+(cg)+(cb));
     }
 
     public static Circle barycentre(List<Circle> circles){
@@ -170,9 +170,9 @@ public class Clusturing {
             Color color = (Color) circle.getFill();
             sum_x+=circle.getCenterX();
             sum_y+=circle.getCenterY();
-            //sum_r+=color.getRed();
-            //sum_g+=color.getGreen();
-            //sum_b+=color.getBlue();
+            sum_r+=color.getRed();
+            sum_g+=color.getGreen();
+            sum_b+=color.getBlue();
         }
         double x= (sum_x)/n ;
         double y= sum_y/n;
@@ -183,7 +183,7 @@ public class Clusturing {
         Circle retour=new Circle();
         retour.setCenterX((int) Math.round(x));
         retour.setCenterY((int) Math.round(y));
-        //retour.setFill(Color.color(r,g,b));
+        retour.setFill(Color.color(r,g,b));
 
         return retour;
     }

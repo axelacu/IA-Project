@@ -63,7 +63,7 @@ public class ClusturingTest extends Application {
             image.getChildren().add(c);
         }
 
-        Map<Circle,List<Circle>> mapCentroids = Clusturing.kMeans(circles,400);
+        Map<Circle,List<Circle>> mapCentroids = Clusturing.kMeans(circles,50);
 
         for(Iterator<Circle> it = mapCentroids.keySet().iterator();it.hasNext();){
             Circle key = it.next();
