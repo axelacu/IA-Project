@@ -1,12 +1,15 @@
 package ia.projet.process.clusturingMethod;
 
 import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
+import ia.projet.process.geneticMethod.GenePolygon;
+import ia.projet.process.geneticMethod.Population;
 import ia.projet.process.imageProcessing.ConvexPolygon;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
@@ -26,9 +29,14 @@ public class Clusturing {
         return circles;
     }
 
-    public static Polygon creationPolygones(List<Point> points,Color color){
+    public static Polygon creationPolygones(List<Circle> circles,Color color){
         Polygon polygon = new Polygon();
         polygon.setFill(color);
+        List<Point> points = new ArrayList<>();
+        for (Circle circle : circles){
+            points.add(new Point((int)circle.getCenterX(),(int)circle.getCenterY()));
+        }
+
         List<Point> hull = GrahamScan.getConvexHull(points);
         for(int i = 0; i<hull.size()-1;i++){
             polygon.getPoints().addAll(hull.get(i).getX(),hull.get(i).getY());
@@ -66,23 +74,21 @@ public class Clusturing {
         return nearestCentroid;
     }
 
-    public static HashMap<Circle,List<Circle>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
+    public static HashMap<Circle,List<Circle>> k_Means (List<Circle> circles, int numberOfCentroids,int numberOfIteration){
         List<Circle> center_cluster=new ArrayList<>();
         Random random=new Random();
-        int f=0;
+        int iterations=0;
         HashMap<Circle, List<Circle>> map = new HashMap<>();
 
         do {
             //calcul des points aléatoire
-            if(f==0) {
-                for (int i = 0; i < numberOfPolygones; i++) {
-                    Circle point = new Circle();
-                    point.setCenterX(random.nextInt(ConvexPolygon.max_X));
-                    point.setCenterY(random.nextInt(ConvexPolygon.max_Y));
+            if(iterations==0) {
+                for (int i = 0; i < numberOfCentroids; i++) {
+                    Circle point = circles.get(random.nextInt(circles.size()));
                     center_cluster.add(point);
                 }
             }
-            if (f == 0) {
+            if (iterations == 0) {
                 for (Circle points_aleatoire : center_cluster) {
                     map.put(points_aleatoire, new ArrayList<Circle>());
 
@@ -92,7 +98,7 @@ public class Clusturing {
             for (Circle circle : circles) {
                 Circle cluster = new Circle();
                 for (Circle points_aleatoire : map.keySet()) {
-                    double distance = 1000000;
+                    double distance = 1000000000;
                     double myDist = Clusturing.distanceEuclidean(circle, points_aleatoire);
                     if (myDist < distance) {
                         distance = myDist;
@@ -110,8 +116,8 @@ public class Clusturing {
                 newMap.put(cercle, new ArrayList<>());
             }
             map = newMap;
-            f++;
-        } while(f<numberOfIteration);
+            iterations++;
+        } while(iterations<numberOfIteration);
 
 
 
