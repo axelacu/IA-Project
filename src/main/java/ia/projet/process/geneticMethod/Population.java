@@ -144,7 +144,7 @@ public class Population implements Iterable<IndividualSolution> {
         return rate/(double)(maxX*maxY);
     }
 
-    public double probabilityPixel(Color target, Color pixel){
+    public static double probabilityPixel(Color target, Color pixel){
         double[] colorsTarget = new double[]{target.getRed(),target.getGreen(),target.getBlue()};
         double[] colorsPixel = new double[]{pixel.getRed(),pixel.getGreen(),pixel.getBlue()};
         double pi = 0;
@@ -165,7 +165,7 @@ public class Population implements Iterable<IndividualSolution> {
      * @param ci
      * @return
      */
-    public double probabilityLightColor(double ct, double ci){
+    public static double probabilityLightColor(double ct, double ci){
         if(ct>=ci){
             return ci/ct;
         }
@@ -176,7 +176,7 @@ public class Population implements Iterable<IndividualSolution> {
         }
     }
 
-    public double probabilityColorDark(double ct,double ci){
+    public static double probabilityColorDark(double ct,double ci){
         double probability;
         double constant = 1;
         if((constant-ci)<=(constant-ct)){
