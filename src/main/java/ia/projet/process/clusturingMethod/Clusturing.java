@@ -63,10 +63,10 @@ public class Clusturing {
                 Circle centroid = it.next();
                 Circle newCentroid = barycentre(mapRes.get(centroid));
                 if (centroid.getCenterX()!=newCentroid.getCenterX() && centroid.getCenterY()!=newCentroid.getCenterY()) {
-                    mapRes.get(centroid).clear();
                     centroid.setCenterX(newCentroid.getCenterX());
                     centroid.setCenterY(newCentroid.getCenterY());
-                    centroid.setFill(newCentroid.getFill());
+                    mapRes.get(centroid).clear();
+                    //centroid.setFill(centroid.getFill());
                     System.out.println("\t i'm false");
                     condition = false;
                 }
@@ -89,6 +89,7 @@ public class Clusturing {
                 nearestDistance = euclidianDistance;
                 nearestCentroid = centroid;
             }
+
         }
         return nearestCentroid;
     }
@@ -116,8 +117,9 @@ public class Clusturing {
 
             for (Circle circle : circles) {
                 Circle cluster = new Circle();
+                double distance = 1000000000;
+
                 for (Circle points_aleatoire : map.keySet()) {
-                    double distance = 1000000000;
                     double myDist = Clusturing.distanceEuclidean(circle, points_aleatoire);
                     if (myDist < distance) {
                         distance = myDist;
@@ -125,13 +127,15 @@ public class Clusturing {
                     }
                 }
                 map.get(cluster).add(circle);
+
             }
             HashMap<Circle, List<Circle>> newMap = new HashMap<>();
             // calcul des barycentres
             for (Circle circle : map.keySet()) {
                 Circle cercle = barycentre(map.get(circle));
                 List<Circle> tmp = map.get(circle);
-                newMap.put(cercle, new ArrayList<>());
+                newMap.put(cercle, tmp);
+
             }
             map = newMap;
             iterations++;
@@ -153,10 +157,10 @@ public class Clusturing {
         double b=Math.pow(c1.getCenterY()-c2.getCenterY(),2);
         Color color1 = (Color) c1.getFill();
         Color color2 = (Color) c2.getFill();
-        double cr = Math.pow((color1.getBlue() -color2.getBlue()),2);
-        double cg = Math.pow((color1.getRed()-color2.getRed()),2);
-        double cb = Math.pow((color1.getGreen()-color2.getGreen()),2);
-        return Math.sqrt((a)+(b)+(cr)+(cg)+(cb));
+        double c = Math.pow((color1.getBlue()-color2.getBlue())*100,2)
+                +Math.pow((color1.getRed()-color2.getRed()) * 100,2)
+                +Math.pow((color1.getGreen()-color2.getGreen())*100,2);
+        return Math.sqrt((a)+(b)+(c));
     }
 
     public static Circle barycentre(List<Circle> circles){
@@ -181,9 +185,8 @@ public class Clusturing {
         double b = sum_b/n;
 
         Circle retour=new Circle();
-        retour.setCenterX((int) Math.round(x));
-        retour.setCenterY((int) Math.round(y));
-        retour.setFill(Color.color(r,g,b));
+        retour.setCenterX(x);
+        retour.setCenterY(y);
 
         return retour;
     }
