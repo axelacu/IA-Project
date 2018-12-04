@@ -1,15 +1,12 @@
 package ia.projet.process.clusturingMethod;
 
 import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
-import ia.projet.process.geneticMethod.GenePolygon;
-import ia.projet.process.geneticMethod.Population;
 import ia.projet.process.imageProcessing.ConvexPolygon;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
@@ -56,10 +53,10 @@ public class Clusturing {
 
         Iterator<Circle> itCentroid = centroids.iterator();
         Circle nearestCentroid  = itCentroid.next();
-        double nearestDistance = distanceEuclidienne(nearestCentroid,c);
+        double nearestDistance = distanceEuclidean(nearestCentroid,c);
         for(;itCentroid.hasNext();){
             Circle centroid = itCentroid.next();
-            double euclidianDistance = distanceEuclidienne(centroid,c);
+            double euclidianDistance = distanceEuclidean(centroid,c);
             if(euclidianDistance<nearestDistance){
                 nearestDistance = euclidianDistance;
                 nearestCentroid = centroid;
@@ -96,7 +93,7 @@ public class Clusturing {
                 Circle cluster = new Circle();
                 for (Circle points_aleatoire : map.keySet()) {
                     double distance = 1000000;
-                    double myDist = Clusturing.distanceEuclidienne(circle, points_aleatoire);
+                    double myDist = Clusturing.distanceEuclidean(circle, points_aleatoire);
                     if (myDist < distance) {
                         distance = myDist;
                         cluster = points_aleatoire;
@@ -129,15 +126,15 @@ public class Clusturing {
      * @param c2 color2
      * @return
      */
-    public static double distanceEuclidienne(Circle c1, Circle c2){
-        double a=c1.getCenterX()-c1.getCenterY();
-        double b=c2.getCenterX()-c2.getCenterY();
+    public static double distanceEuclidean(Circle c1, Circle c2){
+        double a=Math.pow(c1.getCenterX()-c1.getCenterY(),2);
+        double b=Math.pow(c2.getCenterX()-c2.getCenterY(),2);
         Color color1 = (Color) c1.getFill();
         Color color2 = (Color) c2.getFill();
         double c = Math.pow(color1.getBlue()-color2.getBlue(),2)
                 +Math.pow(color1.getRed()-color2.getRed(),2)
                 +Math.pow(color1.getGreen()-color2.getGreen(),2);
-        return Math.sqrt((a*a)+(b*b)+(c));
+        return Math.sqrt((a)+(b)+(c));
     }
 
     public static Circle barycentre(List<Circle> circles){
