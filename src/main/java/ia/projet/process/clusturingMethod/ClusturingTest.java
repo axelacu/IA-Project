@@ -45,20 +45,35 @@ public class ClusturingTest extends Application {
         };
         //Platform.startup(runnable);
         //TODO : Rendre adaptable.
-        ArrayList<Circle> circles = Clusturing.creationPoints(target,maxX,maxY,2000);
+        ArrayList<Circle> circles = new ArrayList<>(); /*Clusturing.creationPoints(target,maxX,maxY,5000)*/;
+
+        for (int i=0;i<maxX;i++){
+            for (int j=0;j<maxY;j++){
+                Circle c = new Circle(i,j,0);
+                c.setFill(target[i][j]);
+                circles.add(c);
+            }
+
+        }
+        //ArrayList<Circle> circles = Clusturing.creationPoints(target,maxX,maxY,5000);
+
 
         for (Circle c:
              circles) {
             image.getChildren().add(c);
         }
 
-        Map<Circle,List<Circle>> mapCentroids = Clusturing.k_Means(circles,50,4);
+        Map<Circle,List<Circle>> mapCentroids = Clusturing.kMeans(circles,400);
 
         for(Iterator<Circle> it = mapCentroids.keySet().iterator();it.hasNext();){
             Circle key = it.next();
             Color color =(Color) key.getFill();
-            Polygon polygon = Clusturing.creationPolygones(mapCentroids.get(key),color);
-            image.getChildren().add(polygon);
+            System.out.println(mapCentroids.get(key).size());
+            if(mapCentroids.get(key).size()>3) {
+                System.out.println(mapCentroids.get(key).size());
+                Polygon polygon = Clusturing.creationPolygones(mapCentroids.get(key), color);
+                image.getChildren().add(polygon);
+            }
         }
 
         //image.getChildren().add(Clusturing.creationPolygones(circles,Color.color(0.5,0.5,0.5)));

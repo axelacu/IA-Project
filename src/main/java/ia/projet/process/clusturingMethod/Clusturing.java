@@ -22,7 +22,7 @@ public class Clusturing {
             int x = random.nextInt(maxX);
             int y = random.nextInt(maxY);
             Color color = target[x][y];
-            Circle circle = new Circle(x,y,4);
+            Circle circle = new Circle(x,y,0);
             circle.setFill(color);
             circles.add(circle);
         }
@@ -44,21 +44,41 @@ public class Clusturing {
         return polygon;
     }
 
-    public static Map<Circle,ArrayList<Circle>> kMeans(ArrayList<Circle> circles,int numberOfCentroids){
-        Map<Circle,ArrayList<Circle>> mapRes = new HashMap<>(numberOfCentroids);
+    public static Map<Circle,List<Circle>> kMeans(ArrayList<Circle> circles,int numberOfCentroids){
+        Map<Circle,List<Circle>> mapRes = new HashMap<>(numberOfCentroids);
 
         for(int i = 0; i<numberOfCentroids;i++){
             Circle centroid = circles.get(random.nextInt(circles.size()));
             mapRes.put(centroid,new ArrayList<>());
         }
-        for(Circle circle : circles){
-
+        boolean condition = false;
+        while(!condition) {
+            condition = true;
+            System.out.println("Debut du while");
+            for (Circle circle : circles) {
+                Circle centroid = nearestCentroid(mapRes.keySet(), circle);
+                mapRes.get(centroid).add(circle);
+            }
+            for (Iterator<Circle> it = mapRes.keySet().iterator(); it.hasNext(); ) {
+                Circle centroid = it.next();
+                Circle newCentroid = barycentre(mapRes.get(centroid));
+                if (centroid.getCenterX()!=newCentroid.getCenterX() && centroid.getCenterY()!=newCentroid.getCenterY()) {
+                    centroid.setCenterX(newCentroid.getCenterX());
+                    centroid.setCenterY(newCentroid.getCenterY());
+                    mapRes.get(centroid).clear();
+                    //centroid.setFill(centroid.getFill());
+                    System.out.println("\t i'm false");
+                    condition = false;
+                }
+            }
         }
-        return null;
+        /*for(Iterator<Circle> it = mapRes.keySet().iterator();it.hasNext();){
+            System.out.println(mapRes.get(it.next()).size());
+        }*/
+        return mapRes;
     }
 
-    private Circle nearestCentroid(Set<Circle> centroids,Circle c){
-
+    private static Circle nearestCentroid(Set<Circle> centroids,Circle c){
         Iterator<Circle> itCentroid = centroids.iterator();
         Circle nearestCentroid  = itCentroid.next();
         double nearestDistance = distanceEuclidean(nearestCentroid,c);
@@ -69,7 +89,6 @@ public class Clusturing {
                 nearestDistance = euclidianDistance;
                 nearestCentroid = centroid;
             }
-
         }
         return nearestCentroid;
     }
@@ -106,7 +125,6 @@ public class Clusturing {
                     }
                 }
                 map.get(cluster).add(circle);
-
             }
             HashMap<Circle, List<Circle>> newMap = new HashMap<>();
             // calcul des barycentres
@@ -120,8 +138,6 @@ public class Clusturing {
         } while(iterations<numberOfIteration);
 
 
-
-
         return map;
 
     }
@@ -133,28 +149,42 @@ public class Clusturing {
      * @return
      */
     public static double distanceEuclidean(Circle c1, Circle c2){
-        double a=Math.pow(c1.getCenterX()-c1.getCenterY(),2);
-        double b=Math.pow(c2.getCenterX()-c2.getCenterY(),2);
+        double a=Math.pow(c1.getCenterX()-c2.getCenterX(),2);
+        double b=Math.pow(c1.getCenterY()-c2.getCenterY(),2);
         Color color1 = (Color) c1.getFill();
         Color color2 = (Color) c2.getFill();
-        double c = Math.pow(color1.getBlue()-color2.getBlue(),2)
-                +Math.pow(color1.getRed()-color2.getRed(),2)
-                +Math.pow(color1.getGreen()-color2.getGreen(),2);
+        double c = Math.pow((color1.getBlue() -color2.getBlue())*100,2)
+                +Math.pow((color1.getRed()-color2.getRed()) * 100,2)
+                +Math.pow((color1.getGreen()-color2.getGreen())*100,2);
         return Math.sqrt((a)+(b)+(c));
     }
 
     public static Circle barycentre(List<Circle> circles){
         double sum_x=0;
         double sum_y=0;
+        double sum_r=0;
+        double sum_g =0;
+        double sum_b =0;
+        double n = circles.size();
         for(Circle circle:circles){
+            Color color = (Color) circle.getFill();
             sum_x+=circle.getCenterX();
             sum_y+=circle.getCenterY();
+            //sum_r+=color.getRed();
+            //sum_g+=color.getGreen();
+            //sum_b+=color.getBlue();
         }
-        double x= (1/ circles.size())*(sum_x);
-        double y=((1/circles.size())*sum_y);
+        double x= (sum_x)/n ;
+        double y= sum_y/n;
+        double r = sum_r/n;
+        double g = sum_g/n;
+        double b = sum_b/n;
+
         Circle retour=new Circle();
-        retour.setCenterX(x);
-        retour.setCenterY(y);
+        retour.setCenterX((int) Math.round(x));
+        retour.setCenterY((int) Math.round(y));
+        //retour.setFill(Color.color(r,g,b));
+
         return retour;
     }
 

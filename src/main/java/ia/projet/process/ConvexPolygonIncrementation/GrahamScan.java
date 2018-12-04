@@ -112,6 +112,7 @@ public final class GrahamScan {
         List<Point> sorted = new ArrayList<Point>(getSortedPointSet(points));
 
         if (sorted.size() < 3) {
+            System.err.println("Size : " + sorted.size() + " poinst : " + points.size() );
             throw new IllegalArgumentException("can only create a convex hull of 3 or more unique points");
         }
 
