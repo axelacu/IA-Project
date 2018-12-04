@@ -69,20 +69,22 @@ public class Clusturing {
         return nearestCentroid;
     }
 
-    public static List<List<Point>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
+    public static HashMap<Circle,List<Circle>> k_Means (List<Circle> circles, int numberOfPolygones,int numberOfIteration){
         List<Circle> center_cluster=new ArrayList<>();
         Random random=new Random();
         int f=0;
+        HashMap<Circle, List<Circle>> map = new HashMap<>();
+
         do {
             //calcul des points aléatoire
-
-            for (int i = 0; i < numberOfPolygones; i++) {
-                Circle point = new Circle();
-                point.setCenterX(random.nextInt(ConvexPolygon.max_X));
-                point.setCenterY(random.nextInt(ConvexPolygon.max_Y));
-                center_cluster.add(point);
+            if(f==0) {
+                for (int i = 0; i < numberOfPolygones; i++) {
+                    Circle point = new Circle();
+                    point.setCenterX(random.nextInt(ConvexPolygon.max_X));
+                    point.setCenterY(random.nextInt(ConvexPolygon.max_Y));
+                    center_cluster.add(point);
+                }
             }
-            HashMap<Circle, List<Circle>> map = new HashMap<>();
             if (f == 0) {
                 for (Circle points_aleatoire : center_cluster) {
                     map.put(points_aleatoire, new ArrayList<Circle>());
@@ -108,15 +110,16 @@ public class Clusturing {
             for (Circle circle : map.keySet()) {
                 Circle cercle = barycentre(map.get(circle));
                 List<Circle> tmp = map.get(circle);
-                newMap.put(cercle, map.get(circle));
+                newMap.put(cercle, new ArrayList<>());
             }
             map = newMap;
+            f++;
         } while(f<numberOfIteration);
 
 
 
 
-        return null;
+        return map;
 
     }
 
