@@ -48,6 +48,7 @@ public class Population implements Iterable<IndividualSolution> {
         bestIndividual=population.getBestIndividual();
     }
 
+
     public IndividualSolution generateIndividual(){
         IndividualSolution individual = new IndividualSolution(MAX_NUMBER_OF_GENES_BY_INDIVIDUALS);
         individual.setGenome(GenePolygon.generateGenome(MAX_NUMBER_OF_GENES_BY_INDIVIDUALS));
