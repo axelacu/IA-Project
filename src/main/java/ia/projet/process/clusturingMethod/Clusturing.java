@@ -74,12 +74,13 @@ public class Clusturing {
         int f=0;
         do {
             //calcul des points aléatoire
-
-            for (int i = 0; i < numberOfPolygones; i++) {
-                Circle point = new Circle();
-                point.setCenterX(random.nextInt(ConvexPolygon.max_X));
-                point.setCenterY(random.nextInt(ConvexPolygon.max_Y));
-                center_cluster.add(point);
+            if(f==0) {
+                for (int i = 0; i < numberOfPolygones; i++) {
+                    Circle point = new Circle();
+                    point.setCenterX(random.nextInt(ConvexPolygon.max_X));
+                    point.setCenterY(random.nextInt(ConvexPolygon.max_Y));
+                    center_cluster.add(point);
+                }
             }
             HashMap<Circle, List<Circle>> map = new HashMap<>();
             if (f == 0) {
@@ -107,9 +108,10 @@ public class Clusturing {
             for (Circle circle : map.keySet()) {
                 Circle cercle = barycentre(map.get(circle));
                 List<Circle> tmp = map.get(circle);
-                newMap.put(cercle, map.get(circle));
+                newMap.put(cercle, new ArrayList<>());
             }
             map = newMap;
+            f++;
         } while(f<numberOfIteration);
 
 
