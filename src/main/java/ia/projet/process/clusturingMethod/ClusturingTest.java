@@ -53,7 +53,6 @@ public class ClusturingTest extends Application {
                 c.setFill(target[i][j]);
                 circles.add(c);
             }
-
         }
         //ArrayList<Circle> circles = Clusturing.creationPoints(target,maxX,maxY,5000);
 

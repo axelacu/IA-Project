@@ -59,6 +59,7 @@ public class Clusturing {
                 Circle centroid = nearestCentroid(mapRes.keySet(), circle);
                 mapRes.get(centroid).add(circle);
             }
+
             for (Iterator<Circle> it = mapRes.keySet().iterator(); it.hasNext(); ) {
                 Circle centroid = it.next();
                 Circle newCentroid = barycentre(mapRes.get(centroid));
@@ -136,10 +137,7 @@ public class Clusturing {
             map = newMap;
             iterations++;
         } while(iterations<numberOfIteration);
-
-
         return map;
-
     }
 
     /**
@@ -153,9 +151,9 @@ public class Clusturing {
         double b=Math.pow(c1.getCenterY()-c2.getCenterY(),2);
         Color color1 = (Color) c1.getFill();
         Color color2 = (Color) c2.getFill();
-        double cr = Math.pow((color1.getBlue() -color2.getBlue()),2);
-        double cg = Math.pow((color1.getRed()-color2.getRed()),2);
-        double cb = Math.pow((color1.getGreen()-color2.getGreen()),2);
+        double cr = Math.pow((color1.getBlue() -color2.getBlue())*200,2);
+        double cg = Math.pow((color1.getRed()-color2.getRed())*200,2);
+        double cb = Math.pow((color1.getGreen()-color2.getGreen()*200),2);
         return Math.sqrt((a)+(b)+(cr)+(cg)+(cb));
     }
 
