@@ -144,6 +144,7 @@ public class Population implements Iterable<IndividualSolution> {
         return rate/(double)(maxX*maxY);
     }
 
+
     public static double probabilityPixel(Color target, Color pixel){
         double[] colorsTarget = new double[]{target.getRed(),target.getGreen(),target.getBlue()};
         double[] colorsPixel = new double[]{pixel.getRed(),pixel.getGreen(),pixel.getBlue()};
