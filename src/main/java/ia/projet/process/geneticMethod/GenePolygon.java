@@ -8,8 +8,10 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-import java.awt.Point;
+
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
@@ -26,12 +28,13 @@ public class GenePolygon extends ConvexPolygon{
         this.id=numberOfInstance++;
     }
 
-    public GenePolygon(int numberOfPoints, Double[] points){
+    public GenePolygon(int numberOfPoints, List<Double> points,Color c,double opacity){
         super();
         this.getPoints().addAll(points);
         this.numberOfPoints = numberOfPoints;
-        //this.setOpacity(genePolygon.getOpacity());
-        System.err.println("FAUUTE !");
+        this.setFill(c);
+        this.setOpacity(opacity);
+        //System.err.println("FAUUTE !");
     }
 
     /**
@@ -247,12 +250,10 @@ public class GenePolygon extends ConvexPolygon{
         List<Point> auxList = new ArrayList<>() ;
         while(auxList.size()<points1.size()){
             auxList = new ArrayList<>(points1);
-            //System.out.println(auxList);
-            //System.out.println(newGen.contains(px,py));
             Point newPoint = new Point((int) px, (int) py);
             auxList.add(newPoint);
             auxList = GrahamScan.getConvexHull(auxList);
-            //System.out.println(auxList);
+            auxList.remove(auxList.size()-1);
             px = random.nextInt(ConvexPolygon.max_X);
             py =random.nextInt(ConvexPolygon.max_Y);
         }

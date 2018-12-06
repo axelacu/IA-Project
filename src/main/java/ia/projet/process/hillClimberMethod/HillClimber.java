@@ -24,13 +24,16 @@ public class HillClimber extends Application {
         for(int i = 0; i < 100000; i++){
             IndividualSolution newIndividual  = new IndividualSolution();
 
-            int r = random.nextInt(2);
+            int r = random.nextInt(3);
             switch (r){
                 case 0:
-                    newIndividual = Mutation.individualMutation(individual,2);
+                    newIndividual = Mutation.individualMutation(individual,1);
                     break;
                 case 1:
-                    newIndividual = Mutation.individualMutation4(individual, 2);
+                    newIndividual = Mutation.individualMutation2(individual, 1);
+                    break;
+                case 2:
+                    newIndividual = Mutation.individualMutation3(individual, 1);
                     break;
             }
             newIndividual.setFitness(population.fitness2(target,newIndividual));
