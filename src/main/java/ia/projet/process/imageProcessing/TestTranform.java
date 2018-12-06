@@ -23,17 +23,17 @@ public class TestTranform extends Application {
         int maxY = 149;
         //ConvexPolygon polygon = new ConvexPolygon(3);
         int n = 6;
-        Double[] doubles = new Double[n];
+        List<Double> doubles = new ArrayList<>();
         double[] doubles1 = new double[]{30,30,30,70,70,70};
         for(int i = 0 ; i<6;i++){
-            doubles[i] = doubles1[i];
+            doubles.add(doubles1[i]);
         }
         //fait un polygone.
-        ConvexPolygon polygon = new GenePolygon(3,doubles);
+        ConvexPolygon polygon = new GenePolygon(3,doubles,Color.rgb(0,0,50),1);
 
 
         ConvexPolygon polygon1 = new GenePolygon((GenePolygon) polygon);
-        polygon.setFill(Color.rgb(255,255,255));
+        //polygon.setFill(Color.rgb(255,255,255));
         //polygon1 = new GenePolygon((GenePolygon) polygon).mutationScale();
         //polygon1 = ((GenePolygon) polygon1).mutationPoint();
         //GenePolygon polygon2=((GenePolygon) polygon1).mutationPoint();
