@@ -22,6 +22,7 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
         this.id=numberOfInstance++;
     }
 
+    public IndividualSolution(){}
     /**
      * Builder who creates IndividualSolution
      * @param numberOfGenes number of polygons in this solution

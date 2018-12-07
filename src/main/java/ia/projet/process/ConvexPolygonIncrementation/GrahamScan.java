@@ -173,7 +173,6 @@ public final class GrahamScan {
                 lowest = temp;
             }
         }
-
         return lowest;
     }
 
@@ -227,7 +226,6 @@ public final class GrahamScan {
         });
 
         set.addAll(points);
-
         return set;
     }
 
