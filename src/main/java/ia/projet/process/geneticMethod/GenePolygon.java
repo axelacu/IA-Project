@@ -341,4 +341,30 @@ public class GenePolygon extends ConvexPolygon{
         }
         return genome;
     }
+
+    public GenePolygon mutationTranslatePoint(){
+        Random random = new Random();
+        int xTranslation=random.nextInt(GenePolygon.max_X);
+        int yTranslation= random.nextInt(GenePolygon.max_Y);
+        GenePolygon newGen = new GenePolygon(this);
+        int size= newGen.getPoints().size();
+
+        List<Double> points = newGen.getPoints();
+        List<Point> pointList = new ArrayList<>();
+        for(int i = 0;i<size;i+=2){
+            pointList.add(new Point((int)Math.round( points.get(i)),(int) Math.round(points.get(i+1))));
+        }
+
+        Point point = pointList.get(random.nextInt(pointList.size()));
+        point.translate(xTranslation,yTranslation);
+
+        try{
+            pointList = GrahamScan.getConvexHull(pointList);
+
+        }catch (Exception e){
+            return newGen;
+        }
+        return newGen;
+
+    }
 }
