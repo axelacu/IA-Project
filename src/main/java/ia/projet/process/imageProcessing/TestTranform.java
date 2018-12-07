@@ -34,7 +34,7 @@ public class TestTranform extends Application {
 
         ConvexPolygon polygon1 = new GenePolygon((GenePolygon) polygon);
         for(int i = 0;i<12;i++){
-            polygon1 = ((GenePolygon) polygon1).mutationPoint();
+            polygon1 = ((GenePolygon) polygon1).mutationTranslatePoint();
         }
         //polygon.setFill(Color.rgb(255,255,255));
         //polygon1 = new GenePolygon((GenePolygon) polygon).mutationScale();
