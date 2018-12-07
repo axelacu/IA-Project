@@ -247,20 +247,22 @@ public class GenePolygon extends ConvexPolygon{
             px = random.nextInt(ConvexPolygon.max_X);
             py =random.nextInt(ConvexPolygon.max_Y);
         }
-        List<Point> auxList = new ArrayList<>() ;
-        while(auxList.size()<points1.size()){
-            auxList = new ArrayList<>(points1);
-            Point newPoint = new Point((int) px, (int) py);
-            auxList.add(newPoint);
-            auxList = GrahamScan.getConvexHull(auxList);
-            auxList.remove(auxList.size()-1);
-            px = random.nextInt(ConvexPolygon.max_X);
-            py =random.nextInt(ConvexPolygon.max_Y);
+
+        points1.add(new Point((int)Math.round(px),(int)Math.round(py)));
+        List<Point> auxList;
+        try {
+            auxList = GrahamScan.getConvexHull(points1);
+        }catch (Exception e){
+            return newGen.mutation();
         }
+
+        //remove duplicate point.
+        auxList.remove(auxList.size()-1);
         newGen.getPoints().clear();
         for(Point p : auxList){
             newGen.addPoint(p.getX(), p.getY());
         }
+
         newGen.numberOfPoints = points1.size();
         //xSystem.out.println(points1.size());
         //System.out.println("AFTER : " + newGen);

@@ -69,7 +69,6 @@ public class Mutation {
                 if(random.nextBoolean()) {
                     individualSolution.removeGene(indexRan);
                     individualSolution.getGenome().add(gen.mutation());
-                    //individualSolution.setGen(indexRan, gen.mutation());
                 }else{
                     individualSolution.setGen(indexRan, gen.mutation());
                 }
