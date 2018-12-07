@@ -5,20 +5,36 @@ import java.util.*;
 public class IndividualSolution implements Iterable<GenePolygon>,Comparable<IndividualSolution>  {
     private ArrayList<GenePolygon> genome;
     private int numberOfGenes;
-	private double fitness = -1;
+	private double fitness= -1;
 	private int timeOfLife = 0;
     private int id;
-    private static int  numberOfInstance=0;
+    private static int numberOfInstance=0;
 
-    public IndividualSolution(){}
+    /**
+     * Builder who creates IndividualSolution with an empty polygon list
+     * @param numberOfGenes number of polygons
+     */
+
     public IndividualSolution(int numberOfGenes){
         //TODO La fitness doit etre initialiser lors de sa construction
         genome=new ArrayList<>();
         this.numberOfGenes = numberOfGenes;
         this.id=numberOfInstance++;
     }
+
+    /**
+     * Builder who creates IndividualSolution
+     * @param numberOfGenes number of polygons in this solution
+     * @param genePolygons list of polygons to create a potential solution
+     */
+
+
     public IndividualSolution(int numberOfGenes, ArrayList<GenePolygon> genePolygons){
         //TODO La fitness doit etre initialiser lors de sa construction
+        if(genePolygons.size()!=numberOfGenes){
+            System.out.println("Error in Individual Solution creation; numberOfGenes must be equals to genePolygons.size() ");
+            return;
+        }
         genome=new ArrayList<>(genePolygons);
         this.numberOfGenes = numberOfGenes;
         this.id=numberOfInstance++;
@@ -37,6 +53,12 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
         fitness = individualSolution.getFitness();
         this.id=numberOfInstance++;
     }
+
+    /**
+     * to test if an individualSolution equals to this object
+     * @param obj other individualSolution
+     * @return boolean true if equals; false if not
+     */
 
     @Override
     public boolean equals(Object obj) {
@@ -58,9 +80,19 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
          return true;
     }
 
+    /**
+     * getter for list of polygons(we call this "genome")
+     * @return genome
+     */
+
     public ArrayList<GenePolygon> getGenome() {
         return genome;
     }
+
+    /**
+     * setter for list genome
+     * @param genome new list of polygons with new a new address
+     */
 
     public void setGenome(List<GenePolygon> genome) {
         this.genome = new ArrayList<>(genome);
@@ -68,33 +100,75 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
 
     }
 
+    /**
+     * replace a polygon in the genome list
+     * @param index position of this polygons in this genome
+     * @param genePolygon  polygon to add instead of the old
+     */
+
     public void setGen(int index,GenePolygon genePolygon){
         this.genome.set(index,genePolygon);
     }
+
+    /**
+     * remove polygon in list of polygon(genome)
+     * @param i  index of place
+     */
+
     public void removeGene(int i){
         genome.remove(i);
     }
+
+    /**
+     * to add a polygon in solution
+     * @param genePolygon this genePolygon
+     */
+
     public void addGene(GenePolygon genePolygon ){
         this.numberOfGenes++;
         this.genome.add(genePolygon);
     }
+
+    /**
+     * get a polygon in genome
+     * @param i index
+     * @return the genePolygon in the in this index
+     */
+
     public GenePolygon get(int i){
         if(i>=genome.size()){
             return null;
         }
         return genome.get(i);
     }
+
+    /**
+     *
+     * @return the fitness
+     */
     public double getFitness() {
         return fitness;
     }
+
+    /**
+     * to modify a fitness
+     * @param fitness
+     */
+
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+
+    /**
+     *
+     * @return
+     */
 
     public int getNumberOfGenes() {
         return numberOfGenes;
     }
 
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
-    }
+
 
     public String toString() {
         return "Genome size : " + genome.size() + ", fitness : " + fitness  + ", " + timeOfLife;
