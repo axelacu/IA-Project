@@ -360,9 +360,15 @@ public class GenePolygon extends ConvexPolygon{
 
         try{
             pointList = GrahamScan.getConvexHull(pointList);
+            pointList.remove(pointList.size() -1);
 
         }catch (Exception e){
             return newGen;
+        }
+        newGen.getPoints().clear();
+
+        for(Point p : pointList){
+            newGen.addPoint(p.getX(),p.getY());
         }
         return newGen;
 
