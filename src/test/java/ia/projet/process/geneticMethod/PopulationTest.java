@@ -8,8 +8,8 @@ import junit.framework.TestCase;
 public class PopulationTest extends TestCase {
     public static void testNewPolygone(){
         Population pop = new Population(10,10);
-        assertEquals(pop.probabilityColorDark(80,160),(double) (1 - 160)/(1-80));
-        assertEquals(pop.probabilityLightColor(200,100),(double )100/200);
+        assertEquals(pop.similarityColorDark(80,160),(double) (1 - 160)/(1-80));
+        assertEquals(pop.similarityLightColor(200,100),(double )100/200);
         Color t1 = Color.rgb(10,10,10);
         Color c2 = Color.rgb(10,10,10);
         assertEquals(pop.probabilityPixel(t1,t1),(double) 1);

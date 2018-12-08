@@ -14,6 +14,8 @@ import java.util.List;
 
 public class Clustering {
 
+    static Random random = new Random();
+
     public static GenePolygon geneClust(Color[][] target,int genomeSize, int maxX, int maxY){
         ArrayList<Polygon> polygons = new ArrayList<>();
         ArrayList<Circle> circles = Clustering.pixelCircle(target,maxX,maxY);
@@ -32,7 +34,11 @@ public class Clustering {
         List<Double> points = polygon.getPoints();
         return new GenePolygon(points.size()/2,points,(Color) polygon.getFill(),polygon.getOpacity());
     }
-    static Random random = new Random();
+
+
+
+
+
     public static IndividualSolution createIndividual(Color[][] target,int genomeSize, int maxX, int maxY){
         //ArrayList<Circle> circles = Clustering.creationPoints(target,maxX,maxY,maxX*maxY);
         ArrayList<Circle> circles;
@@ -69,6 +75,8 @@ public class Clustering {
         individualSolution.setGenome(genes);
         return individualSolution;
     }
+
+
 
     public static ArrayList<Circle> pixelCircle(Color[][] target,int maxX,int maxY){
         ArrayList<Circle> circles = new ArrayList<>();
@@ -161,51 +169,6 @@ public class Clustering {
         return nearestCentroid;
     }
 
-    public static HashMap<Circle,List<Circle>> k_Means (List<Circle> circles, int numberOfCentroids,int numberOfIteration){
-        List<Circle> center_cluster=new ArrayList<>();
-        Random random=new Random();
-        int iterations=0;
-        HashMap<Circle, List<Circle>> map = new HashMap<>();
-
-        do {
-            //calcul des points aléatoire
-            if(iterations==0) {
-                for (int i = 0; i < numberOfCentroids; i++) {
-                    Circle point = circles.get(random.nextInt(circles.size()));
-                    center_cluster.add(point);
-                }
-            }
-            if (iterations == 0) {
-                for (Circle points_aleatoire : center_cluster) {
-                    map.put(points_aleatoire, new ArrayList<Circle>());
-
-                }
-            }
-
-            for (Circle circle : circles) {
-                Circle cluster = new Circle();
-                for (Circle points_aleatoire : map.keySet()) {
-                    double distance = 1000000000;
-                    double myDist = Clustering.distanceEuclidean(circle, points_aleatoire);
-                    if (myDist < distance) {
-                        distance = myDist;
-                        cluster = points_aleatoire;
-                    }
-                }
-                map.get(cluster).add(circle);
-            }
-            HashMap<Circle, List<Circle>> newMap = new HashMap<>();
-            // calcul des barycentres
-            for (Circle circle : map.keySet()) {
-                Circle cercle = barycentre(map.get(circle));
-                List<Circle> tmp = map.get(circle);
-                newMap.put(cercle, new ArrayList<>());
-            }
-            map = newMap;
-            iterations++;
-        } while(iterations<numberOfIteration);
-        return map;
-    }
 
     /**
      * calculate euclidian distance from  two vector (x,y,R,G,V).
@@ -213,6 +176,8 @@ public class Clustering {
      * @param c2 color2
      * @return
      */
+
+
     public static double distanceEuclidean(Circle c1, Circle c2){
         double a=Math.pow(c1.getCenterX()-c2.getCenterX(),2);
         double b=Math.pow(c1.getCenterY()-c2.getCenterY(),2);
