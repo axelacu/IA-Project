@@ -7,6 +7,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 public abstract class Context {
     public static double mutationRate;
@@ -15,6 +19,7 @@ public abstract class Context {
     public static int genomSize;
     public static int populationSize;
     public static Color[][] target;
+    public static int HillnumberIteration = 10000;
     public static void setTarget(String pathImage){
         Color[][] target=null;
         int maxX=0;
@@ -46,5 +51,17 @@ public abstract class Context {
             System.exit(9);
         }
         Context.target = target;
+    }
+
+    public static void isExistantFile(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Give fileName : ");
+        String answer = scanner.nextLine();
+        Path path = Paths.get(answer);
+        if(!Files.exists(path)){
+            System.err.println("Inexistant File");
+            System.exit(-1);
+        }
+        setTarget(answer);
     }
 }

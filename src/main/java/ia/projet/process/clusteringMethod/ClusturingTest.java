@@ -100,7 +100,7 @@ public class ClusturingTest extends Application {
             e1.printStackTrace();
         }
 
-        individualSolution = HillClimber.hillClimber(individualSolution,Context.target);
+        individualSolution = HillClimber.hillClimber(individualSolution,Context.target,Context.HillnumberIteration);
         individualSolution.forEach(z -> image.getChildren().addAll(z));
 
         Scene scene = new Scene(image,maxX,maxY );
