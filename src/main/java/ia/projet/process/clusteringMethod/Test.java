@@ -31,7 +31,7 @@ public class Test extends Application {
         Population.setMutationRate(0.07);
         int sizeGenome = 50;
         population.setMAX_NUMBER_OF_GENES_BY_INDIVIDUALS(sizeGenome);
-        for(int i = 0; i<20;i++){
+        for(int i = 0; i<30;i++){
             System.out.println("N° of individuals  : " + i + ", best : " + population.getBestIndividual().getFitness());
             IndividualSolution individualSolution = Clustering.createIndividual(target,sizeGenome,maxX,maxY);
             population.add(individualSolution);
