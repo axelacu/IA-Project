@@ -136,7 +136,6 @@ public class Population implements Iterable<IndividualSolution> {
         for (GenePolygon gene : individual.getGenome()) {
             imageIndividual.getChildren().add(gene);
         }
-        //TODO : Changer les parametre de cette class et utiliser les paramettre de la classe population au lieu de polygon.
         int maxX = ConvexPolygon.max_X;
         int maxY = ConvexPolygon.max_Y;
         WritableImage writeWritableImage = new WritableImage(maxX,maxY);
@@ -168,7 +167,6 @@ public class Population implements Iterable<IndividualSolution> {
      */
 
     public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException{
-        //TODO : ENLEVER CE MAX !
         int maxX = ConvexPolygon.max_X;
         int maxY = ConvexPolygon.max_Y;
 
@@ -320,10 +318,9 @@ public class Population implements Iterable<IndividualSolution> {
         double deviation = 0;
         double meanPoly =0;
         for(int i=0;i<population.size();i++){
-            IndividualSolution individualSolution  =population.get(i);
+            IndividualSolution individualSolution =population.get(i);
             double fitness = individualSolution.getFitness();
             meanPoly += individualSolution.getNumberOfGenes();
-            //System.out.println(individualSolution.getNumberOfGenes());
             if(fitness<worstFitness)
                 worstFitness = fitness;
             if(bestFitness<fitness)
@@ -332,11 +329,18 @@ public class Population implements Iterable<IndividualSolution> {
         }
         standardDeviation = Math.sqrt(deviation/population.size());
         meanPoly = meanPoly/population.size();
-
-        return "N° mutation : " + numberOfMutation +", mean : " + Math.round(mean*100) + ", sigma : " + Math.round(standardDeviation*100) + ", worst :"
+        return "N° mutation : " + numberOfMutation +", mean : " + Math.round(mean*100) + ", standardDeviation  : " + Math.round(standardDeviation*100) + ", worst :"
                 + Math.round(worstFitness*100) + ", best :" + Math.round(bestFitness*100) + ", meanPolygonByIn : " + meanPoly
                 + ", N° PolyBest : " + bestIndividual.getNumberOfGenes()   + ", Total : " + Math.round(sumFitness*100);
     }
+
+
+    /**
+     * remove a specified individual
+     * @param individual
+     * @return true if this is not the best fitness. If this is the best individual, return false and we can't remove it.
+     */
+
     public boolean removeIndividual(IndividualSolution individual){
         if(individual.getFitness() == bestIndividual.getFitness())
             return false;
@@ -347,21 +351,18 @@ public class Population implements Iterable<IndividualSolution> {
         }
         return false;
     }
-    public boolean removeIndividual(int i){
-        IndividualSolution individual = population.get(i);
-        if(individual.getFitness() == bestIndividual.getFitness())
-            return false;
-        if(population.remove(individual)) {
-            sumFitness -= individual.getFitness();
-            numberOfIndividuals--;
-            return true;
-        }
-        return false;
-    }
+
+
+
 
     public double getSumFitness() {
         return sumFitness;
     }
+
+    /**
+     * calculate a fitness of this newIndividual, edit if this is the new best individual and add this individual.
+     * @param newIndividual
+     */
 
     public void add(IndividualSolution newIndividual){
         newIndividual.setFitness(fitness2(target,newIndividual));
@@ -373,15 +374,30 @@ public class Population implements Iterable<IndividualSolution> {
         numberOfIndividuals++;
         sumFitness += newIndividual.getFitness();
     }
+
+    /**
+     * merge populations
+     * @param population
+     */
     public void addPopulation(ArrayList<IndividualSolution> population){
        for(IndividualSolution individual : population){
            add(individual);
        }
     }
 
+    /**
+     *ranks people in increasing order
+     */
+
     public void increaseSort(){
         IndividualSolution.sort2(population);
     }
+
+    /**
+     *ranks people in decreasing order
+     */
+
+
     public void decreaseSort(){
         IndividualSolution.sort(population);
     }
@@ -392,11 +408,20 @@ public class Population implements Iterable<IndividualSolution> {
 
     }
 
+    /**
+     * clear the population
+     */
+
     public void removeAllPopulation(){
         population = new ArrayList<>();
         sumFitness = 0;
         numberOfIndividuals = 0;
     }
+
+    /**
+     * to add random individual in the population
+     * @param numberOfStranger
+     */
 
     public void severalStranger(int numberOfStranger){
         for(int i = 0; i<numberOfStranger;i++){
@@ -419,7 +444,7 @@ public class Population implements Iterable<IndividualSolution> {
     }
 
     public static void setMutationRate(double mutationRate){
-        MUTATION_RATE =mutationRate;
+        MUTATION_RATE=mutationRate;
     }
 
     public void setNUMBER_OF_GENES_BY_INDIVIDUALS(int NUMBER_OF_GENES_BY_INDIVIDUALS) {
