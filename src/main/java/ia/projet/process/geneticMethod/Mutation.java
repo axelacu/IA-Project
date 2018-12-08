@@ -21,7 +21,7 @@ public class Mutation {
                     if(random.nextBoolean()){
                        it.set(newGen.mutationTranslate());
                     }else{
-                        switch (random.nextInt(5)){
+                        switch (random.nextInt(7)){
                             case 0:
                                 //System.out.println(0);
                                 it.set(newGen.mutationOpacity());
