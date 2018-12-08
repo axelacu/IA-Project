@@ -42,7 +42,7 @@ public class TestTranform extends Application {
         //GenePolygon polygon2=((GenePolygon) polygon1).mutationPoint();
 
         System.out.println(polygon1.getPoints());
-        System.out.println(polygon.getPoints());
+        //System.out.println(polygon.getPoints());
         //System.out.println(polygon2.getPoints());
 
         //System.out.println(polygon2.getPoints());
@@ -54,7 +54,7 @@ public class TestTranform extends Application {
         //    polygon = ((GenePolygon) polygon).mutationPoint();
         System.out.println("nombre de point : " + polygon.getPoints().size());
         image.getChildren().add(polygon1);
-        image.getChildren().add(polygon);
+        //image.getChildren().add(polygon);
 
         Scene scene = new Scene(image,maxX, maxY);
         myStage.setScene(scene);
