@@ -22,7 +22,6 @@ public class Main extends Application {
 
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
-        Random random = new Random();
         String pathImage = "monaLisa-100.jpg";
         Context.setTarget(pathImage);
         Color[][] target = Context.target;
