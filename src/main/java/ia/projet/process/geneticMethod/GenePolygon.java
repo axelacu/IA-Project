@@ -362,12 +362,8 @@ public class GenePolygon extends ConvexPolygon{
 
     public GenePolygon mutationTranslatePoint(){
         Random random = new Random();
-
         GenePolygon newGen = new GenePolygon(this);
         int size= newGen.getPoints().size();
-
-        //prise aléatoire d'un point
-
         int indexRandom= random.nextInt(size);
         if(indexRandom%2!=0){
             indexRandom--;
@@ -386,16 +382,12 @@ public class GenePolygon extends ConvexPolygon{
                 translate=new Translate(translationX(x1),translationY(y1));
                 break;
         }
-
         calculPoint(translate,newGen,indexRandom);
-
         List<Double> points = newGen.getPoints();
         List<Point> pointList = new ArrayList<>();
         for(int i = 0;i<size;i+=2){
             pointList.add(new Point((int)Math.round( points.get(i)),(int) Math.round(points.get(i+1))));
         }
-
-
         try{
             pointList = GrahamScan.getConvexHull(pointList);
             pointList.remove(pointList.size() -1);
@@ -404,61 +396,9 @@ public class GenePolygon extends ConvexPolygon{
             return newGen;
         }
         newGen.getPoints().clear();
-
         for(Point p : pointList){
             newGen.addPoint(p.getX(),p.getY());
         }
         return newGen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*Point point = pointList.get(random.nextInt(pointList.size()));
-        int xT = (int)Math.round(GenePolygon.max_X-point.getX());
-        int xTranslation;
-        if(xT>1)
-            xTranslation=random.nextInt(xT);
-        else
-            xTranslation = 0;
-        int yT = (int)Math.round(GenePolygon.max_Y-point.getY());
-        int yTranslation;
-        if(yT>1){
-            yTranslation = random.nextInt(yT);
-        }else{
-            yTranslation = 0;
-        }
-        point.translate(xTranslation,yTranslation);
-
-        try{
-            pointList = GrahamScan.getConvexHull(pointList);
-            pointList.remove(pointList.size() -1);
-
-        }catch (Exception e){
-            return newGen;
-        }
-        newGen.getPoints().clear();
-
-        for(Point p : pointList){
-            newGen.addPoint(p.getX(),p.getY());
-        }
-        return newGen;
-        */
-
     }
 }
