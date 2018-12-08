@@ -20,7 +20,6 @@ public class ReproductionImage extends Thread{
 
             nextGenerationPopulation.add(child);
         }
-
         //Take count of parent TODO : Verifier performance de l'ajout de parent.
         return nextGenerationPopulation;
     }
@@ -114,22 +113,14 @@ public class ReproductionImage extends Thread{
         for(int i=0;i<sizeGenome;i++){
             if(random.nextBoolean()){
                 GenePolygon genePolygon = new GenePolygon(parent1.getGenome().get(i));
-                childGenome.add(Mutation.mutation(genePolygon));
+                childGenome.add(genePolygon);
             } else {
                 GenePolygon genePolygon = new GenePolygon(parent2.getGenome().get(i));
-                childGenome.add(Mutation.mutation(genePolygon));
+                childGenome.add(genePolygon);
             }
         }
-        // TODO : Verifier performance  !!IMPORTANT
-        if(0.20>random.nextDouble()){
-            int i  = random.nextInt(sizeGenome/2);
-            int j  = sizeGenome/2  + random.nextInt(sizeGenome/2);
-            GenePolygon gene1 = childGenome.get(i);
-            GenePolygon gene2 = childGenome.get(j);
-            childGenome.set(i,gene2);
-            childGenome.set(j,gene1);
-        }
-
+        //TODO : changer le nom et améliorer si possible
+        childGenome = Mutation.mutationGenome(childGenome);
         return  childGenome;
     }
     /** this crossover select randomly part of genom of the parent. **/

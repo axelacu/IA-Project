@@ -1,15 +1,11 @@
-package ia.projet.process.clusturingMethod;
+package ia.projet.process.clusteringMethod;
 
-import ia.projet.process.geneticMethod.GenePolygon;
 import ia.projet.process.geneticMethod.Population;
-import ia.projet.process.imageProcessing.ConvexPolygon;
-import javafx.scene.Group;
 import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
-public class ClusturingFitness {
-    public static double fitnessClusturing(Color[][] target, PixelReader individual,int maxX, int maxY) throws IllegalStateException{
+public class ClusteringFitness {
+    public static double fitnessClustering(Color[][] target, PixelReader individual, int maxX, int maxY) throws IllegalStateException{
 
         double rate  = 0;
         for (int i=0;i<maxX;i++){
@@ -27,7 +23,7 @@ public class ClusturingFitness {
         }
         return rate/(double)(maxX*maxY);
     }
-    public static double fitnessClusturingProf(Color[][] target, PixelReader individual,int maxX, int maxY) throws IllegalStateException{
+    public static double fitnessClusteringProf(Color[][] target, PixelReader individual, int maxX, int maxY) throws IllegalStateException{
         double res  = 0;
         for (int i=0;i<maxX;i++){
             for (int j=0;j<maxY;j++){

@@ -1,15 +1,10 @@
-package ia.projet.process.clusturingMethod;
+package ia.projet.process.clusteringMethod;
 
-import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
 import ia.projet.process.geneticMethod.GenePolygon;
 import ia.projet.process.geneticMethod.IndividualSolution;
 import ia.projet.process.hillClimberMethod.HillClimber;
 import ia.projet.process.imageProcessing.ImageExtractor;
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.PauseTransition;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,12 +16,10 @@ import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javax.imageio.ImageIO;
 
-import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ClusturingTest extends Application {
@@ -52,7 +45,7 @@ public class ClusturingTest extends Application {
         //Platform.startup(runnable);
         //TODO : Rendre adaptable.
 
-        //ArrayList<Circle> circles = new ArrayList<>(); /*Clusturing.creationPoints(target,maxX,maxY,5000)*/;
+        //ArrayList<Circle> circles = new ArrayList<>(); /*Clustering.creationPoints(target,maxX,maxY,5000)*/;
         /*
         for (int i=0;i<maxX-1;i++){
             for (int j=0;j<maxY-1;j++){
@@ -61,8 +54,8 @@ public class ClusturingTest extends Application {
                 circles.add(c);
             }
         }*/
-        ArrayList<Circle> circles = Clusturing.creationPoints(target,maxX,maxY,maxX*maxY);
-        Map<Circle,List<Circle>> mapCentroids = Clusturing.kMeans(circles,200);
+        ArrayList<Circle> circles = Clustering.creationPoints(target,maxX,maxY,maxX*maxY);
+        Map<Circle,List<Circle>> mapCentroids = Clustering.kMeans(circles,200);
 
         ArrayList<Polygon> polygons = new ArrayList<>();
         Group image = new Group();
@@ -73,7 +66,7 @@ public class ClusturingTest extends Application {
             if(mapCentroids.get(key).size()>3) {
                 System.out.println(mapCentroids.get(key).size());
                 try {
-                    Polygon polygon = Clusturing.creationPolygones(mapCentroids.get(key), color);
+                    Polygon polygon = Clustering.creationPolygones(mapCentroids.get(key), color);
                     polygons.add(polygon);
                     //image.getChildren().add(polygon);
                 }catch (Exception e){
@@ -97,9 +90,9 @@ public class ClusturingTest extends Application {
         WritableImage wimg = new WritableImage(maxX,maxY);
         image.snapshot(null,wimg);
         PixelReader pr = wimg.getPixelReader();
-        System.out.println(ClusturingFitness.fitnessClusturing(target,pr,maxX,maxY));
-        System.out.println(ClusturingFitness.fitnessClusturingProf(target,pr,maxX,maxY));
-        //image.getChildren().add(Clusturing.creationPolygones(circles,Color.color(0.5,0.5,0.5)));
+        System.out.println(ClusteringFitness.fitnessClustering(target,pr,maxX,maxY));
+        System.out.println(ClusteringFitness.fitnessClusteringProf(target,pr,maxX,maxY));
+        //image.getChildren().add(Clustering.creationPolygones(circles,Color.color(0.5,0.5,0.5)));
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(wimg, null);
         try {
             ImageIO.write(renderedImage, "png", new File("clust.png"));

@@ -1,28 +1,95 @@
-package ia.projet.process.clusturingMethod;
+package ia.projet.process.clusteringMethod;
 
 import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
 import ia.projet.process.geneticMethod.GenePolygon;
-import ia.projet.process.geneticMethod.Population;
-import ia.projet.process.imageProcessing.ConvexPolygon;
+import ia.projet.process.geneticMethod.IndividualSolution;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
 
-public class Clusturing {
+public class Clustering {
+
+    public static GenePolygon geneClust(Color[][] target,int genomeSize, int maxX, int maxY){
+        ArrayList<Polygon> polygons = new ArrayList<>();
+        ArrayList<Circle> circles = Clustering.pixelCircle(target,maxX,maxY);
+        Map<Circle,List<Circle>> mapCentroids = Clustering.kMeans(circles,genomeSize);
+
+        for(Iterator<Circle> it = mapCentroids.keySet().iterator();it.hasNext();){
+            Circle key = it.next();
+            Color color =(Color) key.getFill();
+            //System.out.println(mapCentroids.get(key).size());
+            if(mapCentroids.get(key).size()>=3) {
+                Polygon polygon = Clustering.creationPolygones(mapCentroids.get(key), color);
+                polygons.add(polygon);
+            }
+        }
+        Polygon polygon = polygons.get(random.nextInt(polygons.size()));
+        List<Double> points = polygon.getPoints();
+        return new GenePolygon(points.size()/2,points,(Color) polygon.getFill(),polygon.getOpacity());
+    }
     static Random random = new Random();
+    public static IndividualSolution createIndividual(Color[][] target,int genomeSize, int maxX, int maxY){
+        //ArrayList<Circle> circles = Clustering.creationPoints(target,maxX,maxY,maxX*maxY);
+        ArrayList<Circle> circles;
+        if(random.nextBoolean())
+            circles = Clustering.pixelCircle(target,maxX,maxY);
+        else
+            circles = Clustering.creationPoints(target,maxX,maxY,(int) Math.round(maxX*maxY*0.9));
+        ArrayList<Polygon> polygons = new ArrayList<>();
+
+        Map<Circle,List<Circle>> mapCentroids = Clustering.kMeans(circles,genomeSize);
+        for(Iterator<Circle> it = mapCentroids.keySet().iterator();it.hasNext();){
+            Circle key = it.next();
+            Color color =(Color) key.getFill();
+            //System.out.println(mapCentroids.get(key).size());
+            if(mapCentroids.get(key).size()>=3) {
+                try {
+                    Polygon polygon = Clustering.creationPolygones(mapCentroids.get(key), color);
+                    polygons.add(polygon);
+                }catch (Exception e){
+
+                }
+            }
+        }
+        while (polygons.size()<genomeSize){
+            polygons.add(0,new GenePolygon(3));
+        }
+        IndividualSolution individualSolution = new IndividualSolution();
+        ArrayList<GenePolygon> genes = new ArrayList<>();
+        for (Polygon polygon:
+                polygons) {
+            List<Double> points = polygon.getPoints();
+            genes.add(new GenePolygon(points.size()/2,points,(Color) polygon.getFill(),polygon.getOpacity()));
+        }
+        individualSolution.setGenome(genes);
+        return individualSolution;
+    }
+
+    public static ArrayList<Circle> pixelCircle(Color[][] target,int maxX,int maxY){
+        ArrayList<Circle> circles = new ArrayList<>();
+        for (int i=0;i<maxX-1;i++){
+            for (int j=0;j<maxY-1;j++){
+                Circle c = new Circle(i,j,0);
+                c.setFill(target[i][j]);
+                circles.add(c);
+            }
+        }
+        return circles;
+    }
+
     public static ArrayList<Circle> creationPoints(Color[][] target, int maxX, int maxY,int nbCircle){
         ArrayList<Circle> circles = new ArrayList<>();
         for(int i = 0; i<nbCircle;i++){
             int x = random.nextInt(maxX);
             int y = random.nextInt(maxY);
             Color color = target[x][y];
-            Circle circle = new Circle(x,y,0);
+            Circle circle;
+            circle = new Circle(x, y, 0);
             circle.setFill(color);
             circles.add(circle);
         }
@@ -54,7 +121,7 @@ public class Clusturing {
         boolean condition = false;
         while(!condition) {
             condition = true;
-            System.out.println("Debut du while");
+            //System.out.println("Debut du while");
             for (Circle circle : circles) {
                 Circle centroid = nearestCentroid(mapRes.keySet(), circle);
                 mapRes.get(centroid).add(circle);
@@ -68,7 +135,7 @@ public class Clusturing {
                     centroid.setCenterX(newCentroid.getCenterX());
                     centroid.setCenterY(newCentroid.getCenterY());
                     centroid.setFill(newCentroid.getFill());
-                    System.out.println("\t i'm false");
+                    //System.out.println("\t i'm false");
                     condition = false;
                 }
             }
@@ -119,7 +186,7 @@ public class Clusturing {
                 Circle cluster = new Circle();
                 for (Circle points_aleatoire : map.keySet()) {
                     double distance = 1000000000;
-                    double myDist = Clusturing.distanceEuclidean(circle, points_aleatoire);
+                    double myDist = Clustering.distanceEuclidean(circle, points_aleatoire);
                     if (myDist < distance) {
                         distance = myDist;
                         cluster = points_aleatoire;
