@@ -83,21 +83,15 @@ public class GenePolygon extends ConvexPolygon{
 
 
     private GenePolygon updatePoints(Transform transform, GenePolygon gen){
-            int i;
+            int i=0;
             int numberOfpoints = gen.numberOfPoints;
-            if(transform instanceof  Rotate) {
+            if(transform instanceof  Rotate)
                 i = 2;
-                while (i < numberOfpoints) {
-                    calculPoint(transform,gen,i);
-                    i += 2;
-                }
-            }
-            if(transform instanceof  Translate || transform instanceof Scale) {
+            if(transform instanceof  Translate || transform instanceof Scale)
                 i = 0;
-                while (i < numberOfpoints ) {
-                    calculPoint(transform,gen,i);
-                    i += 2;
-                }
+            while(i<numberOfpoints ) {
+                calculPoint(transform,gen,i);
+                i += 2;
             }
         return gen;
     }
@@ -359,6 +353,11 @@ public class GenePolygon extends ConvexPolygon{
         }
         return genome;
     }
+
+    /**
+     * move a random point of the polygon
+     * @return
+     */
 
     public GenePolygon mutationTranslatePoint(){
         Random random = new Random();
