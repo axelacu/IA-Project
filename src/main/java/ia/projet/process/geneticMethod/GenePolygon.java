@@ -92,13 +92,13 @@ public class GenePolygon extends ConvexPolygon{
                     i += 2;
                 }
             }
-        if(transform instanceof  Translate || transform instanceof Scale) {
-            i = 0;
-            while (i < numberOfpoints ) {
-                calculPoint(transform,gen,i);
-                i += 2;
+            if(transform instanceof  Translate || transform instanceof Scale) {
+                i = 0;
+                while (i < numberOfpoints ) {
+                    calculPoint(transform,gen,i);
+                    i += 2;
+                }
             }
-        }
         return gen;
     }
 
@@ -366,13 +366,70 @@ public class GenePolygon extends ConvexPolygon{
         GenePolygon newGen = new GenePolygon(this);
         int size= newGen.getPoints().size();
 
+        //prise aléatoire d'un point
+
+        int indexRandom= random.nextInt(size);
+        if(indexRandom%2!=0){
+            indexRandom--;
+        }
+        double x1=newGen.getPoints().get(indexRandom);
+        double y1=newGen.getPoints().get(indexRandom+1);
+        Translate translate=new Translate();
+        switch (random.nextInt(3)){
+            case 0:
+                translate=new Translate(translationX(x1),0);
+                break;
+            case 1:
+                translate=new Translate(0,translationY(y1));
+                break;
+            case 2:
+                translate=new Translate(translationX(x1),translationY(y1));
+                break;
+        }
+
+        calculPoint(translate,newGen,indexRandom);
+
         List<Double> points = newGen.getPoints();
         List<Point> pointList = new ArrayList<>();
         for(int i = 0;i<size;i+=2){
             pointList.add(new Point((int)Math.round( points.get(i)),(int) Math.round(points.get(i+1))));
         }
 
-        Point point = pointList.get(random.nextInt(pointList.size()));
+
+        try{
+            pointList = GrahamScan.getConvexHull(pointList);
+            pointList.remove(pointList.size() -1);
+
+        }catch (Exception e){
+            return newGen;
+        }
+        newGen.getPoints().clear();
+
+        for(Point p : pointList){
+            newGen.addPoint(p.getX(),p.getY());
+        }
+        return newGen;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*Point point = pointList.get(random.nextInt(pointList.size()));
         int xT = (int)Math.round(GenePolygon.max_X-point.getX());
         int xTranslation;
         if(xT>1)
@@ -401,6 +458,7 @@ public class GenePolygon extends ConvexPolygon{
             newGen.addPoint(p.getX(),p.getY());
         }
         return newGen;
+        */
 
     }
 }
