@@ -1,5 +1,6 @@
 package ia.projet.process.clusteringMethod;
 
+import ia.projet.process.Context;
 import ia.projet.process.geneticMethod.IndividualSolution;
 import ia.projet.process.geneticMethod.Population;
 import ia.projet.process.hillClimberMethod.HillClimber;
@@ -19,13 +20,9 @@ public class Test extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         String pathImage = "monaLisa-200.jpg";
-        Color[][] target = ImageExtractor.getTarget(pathImage);
-        BufferedImage bi = ImageIO.read(new File(pathImage));
-        int maxX = bi.getWidth();
-        int maxY = bi.getHeight();
-        ConvexPolygon.max_X=  maxX;
-        ConvexPolygon.max_Y = maxY;
-        System.out.println(maxX + " " + maxY );
+        Context.setTarget(pathImage);
+        Color[][] target = Context.target;
+        System.out.println(Context.maxX + " " + Context.maxY);
         Population population = new Population();
         Population.target = target;
         Population.setMutationRate(0.07);
@@ -33,7 +30,7 @@ public class Test extends Application {
         population.setMAX_NUMBER_OF_GENES_BY_INDIVIDUALS(sizeGenome);
         for(int i = 0; i<30;i++){
             System.out.println("N° of individuals  : " + i + ", best : " + population.getBestIndividual().getFitness());
-            IndividualSolution individualSolution = Clustering.createIndividual(target,sizeGenome,maxX,maxY);
+            IndividualSolution individualSolution = Clustering.createIndividual(target,sizeGenome,Context.maxX,Context.maxY);
             population.add(individualSolution);
             if(i%5==0){
                 population.drawBestIndividual();
@@ -41,7 +38,6 @@ public class Test extends Application {
         }
         population.drawBestIndividual();
         /*
-
         ReproductionImage rep = new ReproductionImage();
         //algorithme genetic.
         double bestFit = 0;

@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class HillClimber extends Application {
+public class HillClimber {
     public  static IndividualSolution hillClimber(IndividualSolution individual, Color[][] target){
         Population population = new Population(1,1);
         //firts attemps with all polgonnes.
@@ -51,60 +51,6 @@ public class HillClimber extends Application {
             }
         }
         return individual;
-    }
-    public static void main(String[] args){
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-
-        String pathImage = "monaLisa-200.jpg";
-        Color[][] target = ImageExtractor.getTarget(pathImage);
-        Population.target = target;
-        Population population = new Population(1,50);
-        Population.setMutationRate(1);
-        //firts attemps with all polgonnes.
-        IndividualSolution individual = population.generateIndividual();
-
-        individual.setFitness(population.fitness2(target,individual));
-        population.setBestIndividual(individual);
-        Random random = new Random();
-        for(int i = 0; i < 100000000; i++){
-            IndividualSolution newIndividual  = new IndividualSolution();
-            /*
-            int r = random.nextInt(3);
-            switch (r){
-                case 0:
-                    newIndividual = Mutation.individualMutation(individual,1);
-                    break;
-                case 1:
-                    newIndividual = Mutation.individualMutation2(individual, 1);
-                    break;
-                case 2:
-                    newIndividual = Mutation.individualMutation3(individual, 1);
-                    break;
-            }*/
-            if(random.nextBoolean())
-                newIndividual = Mutation.individualMutation(individual, 1 +random.nextInt(2));
-            else
-                newIndividual = Mutation.individualMutation4(individual, 1 +random.nextInt(2));
-            newIndividual.setFitness(population.fitness2(target,newIndividual));
-            //System.out.println(newIndividual.getFitness() + "  " + individual.getFitness());
-            if(individual.getFitness()<newIndividual.getFitness()){
-                individual = new IndividualSolution(newIndividual);
-                population.setBestIndividual(newIndividual);
-                System.out.println("Best fit : "  + individual.getFitness());
-            }
-            if(i%500 == 0){
-                population.drawBestIndividual();
-            }
-        }
-        AtomicInteger count = new AtomicInteger();
-        individual.forEach(z -> count.getAndIncrement());
-        System.out.println(count);
-        population.drawBestIndividual();
-        Platform.exit();
     }
 }
 

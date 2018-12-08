@@ -1,5 +1,6 @@
 package ia.projet.process.geneticMethod;
 
+import ia.projet.process.Context;
 import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.scene.paint.Color;
 import junit.framework.TestCase;
@@ -15,9 +16,11 @@ public class PopulationTest extends TestCase {
 
         //TEST NON VALID
         String pathImage = "monaLisa-100.jpg";
-        Color[][] target = ImageExtractor.getTarget(pathImage);
+        Context.setTarget(pathImage);
+        Color[][] target =Context.target ;
         String pathImage2 = "bestMona.png";
-        Color[][] target2 = ImageExtractor.getTarget(pathImage2);
+
+        Color[][] target2 = Context.target;
         //System.err.println(Math.round(pop.fitness2(target,target2) * 100));
         //assertEquals(pop.fitness2(target,target2),(double) 1);
 
