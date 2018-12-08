@@ -344,8 +344,7 @@ public class GenePolygon extends ConvexPolygon{
 
     public GenePolygon mutationTranslatePoint(){
         Random random = new Random();
-        int xTranslation=random.nextInt(GenePolygon.max_X);
-        int yTranslation= random.nextInt(GenePolygon.max_Y);
+
         GenePolygon newGen = new GenePolygon(this);
         int size= newGen.getPoints().size();
 
@@ -356,6 +355,8 @@ public class GenePolygon extends ConvexPolygon{
         }
 
         Point point = pointList.get(random.nextInt(pointList.size()));
+        int xTranslation=random.nextInt((int)Math.round(GenePolygon.max_X-point.getX()));
+        int yTranslation= random.nextInt((int)Math.round(GenePolygon.max_Y-point.getY()));
         point.translate(xTranslation,yTranslation);
 
         try{
