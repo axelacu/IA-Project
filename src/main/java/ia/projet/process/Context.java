@@ -53,7 +53,7 @@ public abstract class Context {
         Context.target = target;
     }
 
-    public static void isExistantFile(){
+    public static void isExistingFile(){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Give fileName : ");
         String answer = scanner.nextLine();
@@ -63,5 +63,6 @@ public abstract class Context {
             System.exit(-1);
         }
         setTarget(answer);
+        scanner.close();
     }
 }

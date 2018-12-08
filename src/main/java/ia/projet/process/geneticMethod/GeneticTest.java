@@ -4,9 +4,6 @@ import ia.projet.process.Context;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class GeneticTest extends Application {
@@ -23,7 +20,10 @@ public class GeneticTest extends Application {
     }
 
     private void defineContext(){
-        Context.isExistantFile();
+        Scanner scanner = new Scanner(System.in);
+        Context.isExistingFile();
+        System.out.print("Which mutation rate : ");
+
 
     }
 }
