@@ -15,7 +15,7 @@ import java.util.*;
 public class Population implements Iterable<IndividualSolution> {
     private ArrayList<IndividualSolution> population;
     private int numberOfIndividuals = 0;
-    static double MUTATION_RATE =0.12;
+    static double MUTATION_RATE =0.07;
     public static double numberOfMutation = 0;
     public static Color[][] target;
     private double sumFitness = 0;
@@ -30,7 +30,11 @@ public class Population implements Iterable<IndividualSolution> {
      * returns the max polygon number of each individual
      */
     private int MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
-    public Population(){};
+    public Population(){
+        bestIndividual = generateIndividual();
+        population = new ArrayList<>();
+
+    };
 
     /**
      * Generate a population with a numberOfIndividuals and NUMBER_OF_GENES_BY_INDIVIDUALS.
@@ -115,7 +119,7 @@ public class Population implements Iterable<IndividualSolution> {
 
     //TODO : CHANGER à individu
     public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException{
-
+        //TODO : ENLEVER CE MAX !
         int maxX = ConvexPolygon.max_X;
         int maxY = ConvexPolygon.max_Y;
 
@@ -208,8 +212,8 @@ public class Population implements Iterable<IndividualSolution> {
     public void imageDrawer(WritableImage image){
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
         try {
-            ImageIO.write(renderedImage, "png", new File("monaLisa.png"));
-            System.out.println("\twrote image in " + "monaLisa.png");
+            ImageIO.write(renderedImage, "png", new File("clustGhill.png"));
+            System.out.println("\twrote image in " + "clustGhill.png");
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -341,5 +345,9 @@ public class Population implements Iterable<IndividualSolution> {
 
     public static void setMutationRate(double mutationRate){
         MUTATION_RATE =mutationRate;
+    }
+
+    public void setMAX_NUMBER_OF_GENES_BY_INDIVIDUALS(int MAX_NUMBER_OF_GENES_BY_INDIVIDUALS) {
+        this.MAX_NUMBER_OF_GENES_BY_INDIVIDUALS = MAX_NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
 }

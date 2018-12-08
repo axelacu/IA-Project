@@ -17,7 +17,7 @@ public class Main extends Application {
         //////////
         int initialPopulation = 100;
         int numberOfGeneByIndividual = 50;
-        Population.setMutationRate(0.09);
+        Population.setMutationRate(0.07);
         //Selection.setNumberOfIndividualByGeneration(100);
 
         System.out.println("Working Directory = " +
