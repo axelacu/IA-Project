@@ -1,8 +1,6 @@
 package ia.projet.process.geneticMethod;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -11,7 +9,7 @@ public class ReproductionImage extends Thread{
 
     public ArrayList<IndividualSolution> nextGeneration(Population population){
         ArrayList<IndividualSolution> nextGenerationPopulation = new ArrayList<>();
-        int sizeGenome = population.getMaxNumberOfGenesByIndividuals();
+        int sizeGenome = population.getNumberOfGenesByIndividuals();
         while(nextGenerationPopulation.size()<population.size()){
             IndividualSolution parent1 = getIndividualSelect(population);
             IndividualSolution parent2 = getIndividualSelect(population);
@@ -87,7 +85,7 @@ public class ReproductionImage extends Thread{
             }else{
                 parent2 = listPop.get(random.nextInt(listPop.size()));
             }
-            nextGen.addAll(crossover3(parent1,parent2,population.getMaxNumberOfGenesByIndividuals()));
+            nextGen.addAll(crossover3(parent1,parent2,population.getNumberOfGenesByIndividuals()));
         }
         //population.add(population.getBestIndividual());
 
@@ -261,7 +259,7 @@ public class ReproductionImage extends Thread{
                         couple = true;
                         int numberOfGene=Math.max(individual.getNumberOfGenes(),possibleParent.getNumberOfGenes());
                         IndividualSolution child = new IndividualSolution(random.nextInt(numberOfGene+1)+1);
-                        List<GenePolygon> genome = crossover(individual,possibleParent,population.getMaxNumberOfGenesByIndividuals());
+                        List<GenePolygon> genome = crossover(individual,possibleParent,population.getNumberOfGenesByIndividuals());
 
                         child.setGenome(genome);
                         population.add(child);

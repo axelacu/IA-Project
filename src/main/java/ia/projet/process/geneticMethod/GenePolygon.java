@@ -1,5 +1,4 @@
 package ia.projet.process.geneticMethod;
-
 import ia.projet.process.ConvexPolygonIncrementation.GrahamScan;
 import ia.projet.process.imageProcessing.ConvexPolygon;
 import javafx.geometry.Point2D;
@@ -8,25 +7,32 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
-
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+
+
 
 public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
     private int id;
     private static int  numberOfInstance=0;
     static int MAX_NUMBER_OF_POINTS = 3;
+
+
     /**
      * Generate à gene in that case the gene correspond to a polygon
      * @param numberOfPoints number of point that compound the polygon.
      */
+
+
+
     public GenePolygon(int numberOfPoints){
         super(numberOfPoints);
         this.numberOfPoints = numberOfPoints;
         this.id=numberOfInstance++;
     }
+
 
     public GenePolygon(int numberOfPoints, List<Double> points,Color c,double opacity){
         super();
@@ -37,10 +43,13 @@ public class GenePolygon extends ConvexPolygon{
         //System.err.println("FAUUTE !");
     }
 
+
     /**
      * Change the scale of the polygone
      * @return return a polygone base on this polygone but with different scale.
      */
+
+
     public GenePolygon mutationScale(){
         Random random = new Random();
         GenePolygon newGen = new GenePolygon(this);
@@ -64,12 +73,15 @@ public class GenePolygon extends ConvexPolygon{
         return newGen;
     }
 
+
     /**
      * Set up the point of this polygone and update them.
      * @param transform transformation who will chant the points
      * @param gen gen before tranformation
      * @return return new polygone who undergo the transformation
      */
+
+
     private GenePolygon updatePoints(Transform transform, GenePolygon gen){
             int i;
             int numberOfpoints = gen.numberOfPoints;
@@ -90,12 +102,15 @@ public class GenePolygon extends ConvexPolygon{
         return gen;
     }
 
+
     /**
      * set up the new x & y point after transformation
      * @param transform
      * @param gen
      * @param i index of the point
      */
+
+
     private void calculPoint(Transform transform,GenePolygon gen,int i){
         double t1 = gen.getPoints().get(i);
         double t2 = gen.getPoints().get(i + 1);
@@ -106,9 +121,11 @@ public class GenePolygon extends ConvexPolygon{
         gen.getPoints().set(i + 1, point2D.getY());
     }
 
+
     public int getGeneById(){
         return this.id;
     }
+
 
     public GenePolygon(GenePolygon genePolygon){
         super();
