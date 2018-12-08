@@ -216,6 +216,8 @@ public class GenePolygon extends ConvexPolygon{
        }
        return tx;
    }
+
+
    private double translationY(double y){
        Random random = new Random();
        double ty;

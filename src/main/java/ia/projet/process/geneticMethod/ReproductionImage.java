@@ -5,7 +5,18 @@ import java.util.List;
 import java.util.Random;
 
 public class ReproductionImage extends Thread{
+
+
+
+
     Random random=new Random();
+
+
+    /**
+     * reproduction with crossover(return  parent1 or parent2 gene randomly)
+     * @param population
+     * @return
+     */
 
     public ArrayList<IndividualSolution> nextGeneration(Population population){
         ArrayList<IndividualSolution> nextGenerationPopulation = new ArrayList<>();
@@ -15,18 +26,21 @@ public class ReproductionImage extends Thread{
             IndividualSolution parent2 = getIndividualSelect(population);
             IndividualSolution child = new IndividualSolution(sizeGenome,
                                          crossover(parent1,parent2,sizeGenome));
-
             nextGenerationPopulation.add(child);
         }
         //Take count of parent TODO : Verifier performance de l'ajout de parent.
         return nextGenerationPopulation;
     }
 
+
+
     /**
      * Receive à sorted population to chose select one individual from that list.
      * @param population a sorted population
      * @return
      */
+
+
     public IndividualSolution getIndividualSelect(Population population){
         double size = population.size();
         double biais = size * 0.6;
@@ -39,29 +53,10 @@ public class ReproductionImage extends Thread{
             }
             index++;
         }
-        //if priorityqeueu faire une peek;
         return population.getBestIndividual();
     }
 
-    public void reproduction(Population population){
-        ArrayList<IndividualSolution> childs = new ArrayList<>();
 
-        int numberReproduction=random.nextInt(population.getPopulation().size());
-
-        List<Integer> populationIndex=selectionIndividualToReproduce(population);
-        for(int i=0; i<numberReproduction;i++){
-            int indexParent1=random.nextInt(populationIndex.size());
-            int indexParent2=random.nextInt(populationIndex.size());
-
-            IndividualSolution parent1 = population.getPopulation().get(populationIndex.get(indexParent1));
-            IndividualSolution parent2 = population.getPopulation().get(populationIndex.get(indexParent2));
-            int numberOfGene=Math.max(parent1.getNumberOfGenes(),parent2.getNumberOfGenes());
-            IndividualSolution child=new IndividualSolution(random.nextInt(numberOfGene+1)+1);
-
-            child.setGenome(crossover(parent1,parent2,numberOfGene));
-            population.add(child);
-        }
-    }
 
     public void reproduction4(Population population){
         List<IndividualSolution> listPop = new ArrayList<>(population.getPopulation());
@@ -101,7 +96,7 @@ public class ReproductionImage extends Thread{
 
 
     /**
-     * reproduction between two solutions
+     * reproduction random between two solutions, The individual is necessarily mutated in this solution.
      * @param parent1   parent1 choose during the selection.
      * @param parent2   parent2 choose during the selection.
      * @return
@@ -117,11 +112,17 @@ public class ReproductionImage extends Thread{
                 childGenome.add(genePolygon);
             }
         }
-        //TODO : changer le nom et améliorer si possible
         childGenome = Mutation.mutationGenome(childGenome);
         return  childGenome;
     }
-    /** this crossover select randomly part of genom of the parent. **/
+
+
+    /**
+     * this crossover select randomly part of genom of the parent.
+     **/
+
+
+
      public List<GenePolygon> crossover2(IndividualSolution parent1, IndividualSolution parent2, int sizeGenome){
          List<GenePolygon> childGenome = new ArrayList<>();
          ArrayList<GenePolygon> list = new ArrayList<>();
@@ -200,39 +201,28 @@ public class ReproductionImage extends Thread{
      }
 
      /**
-     * this static method allow to sort our population according to their fitness
+     * returns a list containing individual indexes of the population. The index of the individual appears as many times as fitness is great
      * @param population
-     * @return list of integer according to their probabiliy
+     * @return list of integer according to their probability
      */
 
     public    List<Integer> selectionIndividualToReproduce(Population population){
-        //TODO : faire une liste trier PriorityQueue
         List<Integer> populationIndex=new ArrayList<>();
-        //IndividualSolution.sort(population.getPopulation());
-        //Une fois arriver ici, la liste est bien triée
-        //TODO : Ajouter un variable dans population qui contient la somme de de toute les fitness. Mettre a jour après selection et après repoduction.
-
-        double sommeFitness=0;
-
-        //ToDO Ameliorer 2*for ??
-        //TODO: Améliorer les problème de priorité en 0.9 et 0.99
-        int i=0;
+        int indexSolution=0;
         for(IndividualSolution individual:population.getPopulation()){
             double probability=individual.getFitness()/population.getSumFitness();
-            double departure=0.01; //à modifier en fonction des fitness
+            double departure=0.01;
             while (departure<1-probability){
-                populationIndex.add(i);
+                populationIndex.add(indexSolution);
                 departure=departure+0.01;
 
             }
-            i++;
+            indexSolution++;
         }
-
-
-
-
         return  populationIndex;
     }
+
+
     /**
      *
      * @param population
