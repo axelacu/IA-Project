@@ -8,10 +8,12 @@ public class Selection {
     static int numberOfIndividualByGeneration = 100;
 
     public static Population SUS(Population population, int N){
+        population.decreaseSort();
         double F=population.getSumFitness();
-        int P=(int)F/N;
-        int start=random.nextInt(P);
-        List<Integer> pointers=new ArrayList<>();
+        double P=F/N;
+        double start=Math.random()*P;
+        System.out.println(start);
+        List<Double> pointers=new ArrayList<>();
         for(int i=0;i<=N-1;i++){
             pointers.add(i,start+i*P);
         }
@@ -23,10 +25,10 @@ public class Selection {
         return newPopulation;
     }
 
-    public static List<IndividualSolution> RWS(Population population, List<Integer> points){
+    public static List<IndividualSolution> RWS(Population population, List<Double> points){
         List<IndividualSolution> keep=new ArrayList<>();
         int i=0;
-        for(Integer P:points){
+        for(Double P:points){
             i=0;
             while(sumFitnessInferiority(population,i,P)){
                 i++;
@@ -36,7 +38,7 @@ public class Selection {
         return keep;
     }
 
-    public static boolean sumFitnessInferiority(Population population,int i,int P){
+    public static boolean sumFitnessInferiority(Population population,int i,double P){
         double sumFitness=0;
         int index=0;
         for(IndividualSolution individualSolution:population){
@@ -46,10 +48,15 @@ public class Selection {
         }
         return (sumFitness)<P;
     }
+
+
+
     /**
      * This methode purge the population.
      * @param population
      */
+
+
 
     public static void reaper2(Population population,List<Integer> list) {
         ReproductionImage rep=new ReproductionImage();
@@ -106,14 +113,9 @@ public class Selection {
                 return individuals.get(i);
             }
         }
-
+        System.out.println("Dernier individu");
         return individuals.get(individuals.size()-1);
     }
-
-
-
-
-
 
     public static void setNumberOfIndividualByGeneration(int number){
         numberOfIndividualByGeneration =number;
