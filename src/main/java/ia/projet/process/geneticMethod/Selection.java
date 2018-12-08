@@ -106,15 +106,7 @@ public class Selection {
                 return individuals.get(i);
             }
         }
-//        if(previousProb<1){
-//            previousProb =0;
-//            for(IndividualSolution individualSolution : individuals){
-//                prob=  (individualSolution.getFitness())/sumFit;
-//                previousProb +=prob;
-//            }
-//            System.out.println("dans if : "  +previousProb + " " + val ) ;
-//        }
-        System.out.println("Dernier individu");
+
         return individuals.get(individuals.size()-1);
     }
 

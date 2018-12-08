@@ -4,10 +4,8 @@ import ia.projet.process.Context;
 import ia.projet.process.geneticMethod.IndividualSolution;
 import ia.projet.process.geneticMethod.Mutation;
 import ia.projet.process.geneticMethod.Population;
-import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.util.Random;
@@ -26,9 +24,10 @@ public class HillClimberTest extends Application {
         Population.target = Context.target;
         Population population = new Population(1,50);
         Population.setMutationRate(1);
-        //firts attemps with all polgonnes.
         IndividualSolution individual = population.generateIndividual();
 
+        population.setBestIndividual(HillClimber.hillClimber(individual,Population.target));
+        /*
         individual.setFitness(population.fitness2(Context.target,individual));
         population.setBestIndividual(individual);
         Random random = new Random();
@@ -51,7 +50,7 @@ public class HillClimberTest extends Application {
         }
         AtomicInteger count = new AtomicInteger();
         individual.forEach(z -> count.getAndIncrement());
-        System.out.println(count);
+        System.out.println(count);*/
         population.drawBestIndividual();
         Platform.exit();
     }

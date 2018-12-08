@@ -4,16 +4,10 @@ import ia.projet.process.Context;
 import ia.projet.process.geneticMethod.IndividualSolution;
 import ia.projet.process.geneticMethod.Population;
 import ia.projet.process.hillClimberMethod.HillClimber;
-import ia.projet.process.imageProcessing.ConvexPolygon;
-import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class Test extends Application {
     @Override

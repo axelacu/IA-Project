@@ -83,15 +83,21 @@ public class GenePolygon extends ConvexPolygon{
 
 
     private GenePolygon updatePoints(Transform transform, GenePolygon gen){
-            int i=0;
+            int i;
             int numberOfpoints = gen.numberOfPoints;
-            if(transform instanceof  Rotate)
+            if(transform instanceof  Rotate) {
                 i = 2;
-            if(transform instanceof  Translate || transform instanceof Scale)
+                while (i < numberOfpoints) {
+                    calculPoint(transform,gen,i);
+                    i += 2;
+                }
+            }
+            if(transform instanceof  Translate || transform instanceof Scale) {
                 i = 0;
-            while(i<numberOfpoints ) {
-                calculPoint(transform,gen,i);
-                i += 2;
+                while (i < numberOfpoints ) {
+                    calculPoint(transform,gen,i);
+                    i += 2;
+                }
             }
         return gen;
     }
@@ -197,13 +203,13 @@ public class GenePolygon extends ConvexPolygon{
        Random random = new Random();
        int tx;
        if(random.nextBoolean()) {
-                if(ConvexPolygon.max_X - x>0)
+                if(Math.round(ConvexPolygon.max_X - x)>=1)
                     tx = random.nextInt((int) (Math.round(ConvexPolygon.max_X - x)));
                 else
                     tx = 0;
        }
        else {
-           if (x > 0)
+           if (x >=1)
                tx = -random.nextInt((int) (x));
            else
                tx = 0;
@@ -216,14 +222,14 @@ public class GenePolygon extends ConvexPolygon{
        Random random = new Random();
        double ty;
        if(random.nextBoolean()) {
-           if(ConvexPolygon.max_Y - y>0)
+           if(Math.round(ConvexPolygon.max_Y - y)>=1)
                ty = random.nextInt((int) (Math.round(ConvexPolygon.max_Y - y)));
            else
                ty = 0;
 
        }
        else {
-           if (y > 0)
+           if (y >=1)
                ty = -random.nextInt((int) y);
            else
                ty = 0;
@@ -354,15 +360,14 @@ public class GenePolygon extends ConvexPolygon{
         return genome;
     }
 
-    /**
-     * move a random point of the polygon
-     * @return
-     */
-
     public GenePolygon mutationTranslatePoint(){
         Random random = new Random();
+
         GenePolygon newGen = new GenePolygon(this);
         int size= newGen.getPoints().size();
+
+        //prise aléatoire d'un point
+
         int indexRandom= random.nextInt(size);
         if(indexRandom%2!=0){
             indexRandom--;
@@ -381,12 +386,16 @@ public class GenePolygon extends ConvexPolygon{
                 translate=new Translate(translationX(x1),translationY(y1));
                 break;
         }
+
         calculPoint(translate,newGen,indexRandom);
+
         List<Double> points = newGen.getPoints();
         List<Point> pointList = new ArrayList<>();
         for(int i = 0;i<size;i+=2){
             pointList.add(new Point((int)Math.round( points.get(i)),(int) Math.round(points.get(i+1))));
         }
+
+
         try{
             pointList = GrahamScan.getConvexHull(pointList);
             pointList.remove(pointList.size() -1);
@@ -395,9 +404,43 @@ public class GenePolygon extends ConvexPolygon{
             return newGen;
         }
         newGen.getPoints().clear();
+
         for(Point p : pointList){
             newGen.addPoint(p.getX(),p.getY());
         }
         return newGen;
+
+
+        /*Point point = pointList.get(random.nextInt(pointList.size()));
+        int xT = (int)Math.round(GenePolygon.max_X-point.getX());
+        int xTranslation;
+        if(xT>1)
+            xTranslation=random.nextInt(xT);
+        else
+            xTranslation = 0;
+        int yT = (int)Math.round(GenePolygon.max_Y-point.getY());
+        int yTranslation;
+        if(yT>1){
+            yTranslation = random.nextInt(yT);
+        }else{
+            yTranslation = 0;
+        }
+        point.translate(xTranslation,yTranslation);
+
+        try{
+            pointList = GrahamScan.getConvexHull(pointList);
+            pointList.remove(pointList.size() -1);
+
+        }catch (Exception e){
+            return newGen;
+        }
+        newGen.getPoints().clear();
+
+        for(Point p : pointList){
+            newGen.addPoint(p.getX(),p.getY());
+        }
+        return newGen;
+        */
+
     }
 }

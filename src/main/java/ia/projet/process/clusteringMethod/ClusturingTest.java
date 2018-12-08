@@ -4,7 +4,6 @@ import ia.projet.process.Context;
 import ia.projet.process.geneticMethod.GenePolygon;
 import ia.projet.process.geneticMethod.IndividualSolution;
 import ia.projet.process.hillClimberMethod.HillClimber;
-import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
