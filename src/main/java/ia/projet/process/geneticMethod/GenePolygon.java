@@ -330,7 +330,6 @@ public class GenePolygon extends ConvexPolygon{
         }else {
             b = (fill.getGreen()) * ran.nextDouble();
         }
-
         newGen.setFill(Color.color(r, g, b));
         return newGen;
     }
