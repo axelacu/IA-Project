@@ -2,14 +2,10 @@ package ia.projet.process;
 
 import ia.projet.process.geneticMethod.*;
 import ia.projet.process.hillClimberMethod.HillClimber;
-import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Main extends Application {
     @Override

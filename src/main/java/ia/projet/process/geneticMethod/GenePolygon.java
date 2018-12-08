@@ -203,13 +203,13 @@ public class GenePolygon extends ConvexPolygon{
        Random random = new Random();
        int tx;
        if(random.nextBoolean()) {
-                if(ConvexPolygon.max_X - x>0)
+                if(Math.round(ConvexPolygon.max_X - x)>=1)
                     tx = random.nextInt((int) (Math.round(ConvexPolygon.max_X - x)));
                 else
                     tx = 0;
        }
        else {
-           if (x > 0)
+           if (x >=1)
                tx = -random.nextInt((int) (x));
            else
                tx = 0;
@@ -222,14 +222,14 @@ public class GenePolygon extends ConvexPolygon{
        Random random = new Random();
        double ty;
        if(random.nextBoolean()) {
-           if(ConvexPolygon.max_Y - y>0)
+           if(Math.round(ConvexPolygon.max_Y - y)>=1)
                ty = random.nextInt((int) (Math.round(ConvexPolygon.max_Y - y)));
            else
                ty = 0;
 
        }
        else {
-           if (y > 0)
+           if (y >=1)
                ty = -random.nextInt((int) y);
            else
                ty = 0;
@@ -409,24 +409,6 @@ public class GenePolygon extends ConvexPolygon{
             newGen.addPoint(p.getX(),p.getY());
         }
         return newGen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         /*Point point = pointList.get(random.nextInt(pointList.size()));

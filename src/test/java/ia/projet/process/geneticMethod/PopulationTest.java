@@ -1,7 +1,6 @@
 package ia.projet.process.geneticMethod;
 
 import ia.projet.process.Context;
-import ia.projet.process.imageProcessing.ImageExtractor;
 import javafx.scene.paint.Color;
 import junit.framework.TestCase;
 

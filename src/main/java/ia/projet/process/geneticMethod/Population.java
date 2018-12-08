@@ -1,11 +1,12 @@
 package ia.projet.process.geneticMethod;
 
-import ia.projet.process.imageProcessing.ConvexPolygon;
+import ia.projet.process.Context;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Group;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+
 import javax.imageio.ImageIO;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -18,20 +19,17 @@ public class Population implements Iterable<IndividualSolution> {
     /**
      * list of individual
      */
-
-
     private ArrayList<IndividualSolution> population;
     private int numberOfIndividuals = 0;
 
 
-    public static double MUTATION_RATE =0.07;
+    public static double MUTATION_RATE = 0.07;
     public static double numberOfMutation = 0;
     public static Color[][] target;
     private double sumFitness = 0;
-    private IndividualSolution bestIndividual ;
+    private IndividualSolution bestIndividual;
     public int maxIndividual;
-    private Random random=new Random();
-    //TODO: ajouter ces class
+    private Random random = new Random();
 
 
     /**
@@ -40,7 +38,7 @@ public class Population implements Iterable<IndividualSolution> {
 
     private int NUMBER_OF_GENES_BY_INDIVIDUALS;
 
-    public Population(){
+    public Population() {
         bestIndividual = generateIndividual();
         population = new ArrayList<>();
 
@@ -48,24 +46,26 @@ public class Population implements Iterable<IndividualSolution> {
 
     /**
      * Generate a population with a numberOfIndividuals and NUMBER_OF_GENES_BY_INDIVIDUALS.
+     *
      * @param numberOfIndividuals
      * @param NUMBER_OF_GENES_BY_INDIVIDUALS
      */
 
 
-    public Population(int numberOfIndividuals,int NUMBER_OF_GENES_BY_INDIVIDUALS) {
-        population=new ArrayList<>();
+    public Population(int numberOfIndividuals, int NUMBER_OF_GENES_BY_INDIVIDUALS) {
+        population = new ArrayList<>();
         this.NUMBER_OF_GENES_BY_INDIVIDUALS = NUMBER_OF_GENES_BY_INDIVIDUALS;
-        bestIndividual=new IndividualSolution(NUMBER_OF_GENES_BY_INDIVIDUALS);
-        this.numberOfIndividuals=numberOfIndividuals;
+        bestIndividual = new IndividualSolution(NUMBER_OF_GENES_BY_INDIVIDUALS);
+        this.numberOfIndividuals = numberOfIndividuals;
     }
 
     /**
      * generate a random individual
+     *
      * @return an individual
      */
 
-    public IndividualSolution generateIndividual(){
+    public IndividualSolution generateIndividual() {
         IndividualSolution individual = new IndividualSolution(NUMBER_OF_GENES_BY_INDIVIDUALS);
         individual.setGenome(GenePolygon.generateGenome(NUMBER_OF_GENES_BY_INDIVIDUALS));
         return individual;
@@ -75,13 +75,14 @@ public class Population implements Iterable<IndividualSolution> {
      * initializes the population with individuals
      */
     public void initialPopulation(int numberOfIndividuals) {
-        for(int i=0;i<numberOfIndividuals;i++){
+        for (int i = 0; i < numberOfIndividuals; i++) {
             add(generateIndividual());
         }
     }
 
     /**
      * to get the list of individual in this population
+     *
      * @return population
      */
 
@@ -92,25 +93,26 @@ public class Population implements Iterable<IndividualSolution> {
 
     /**
      * clear the population and add new population of argument
+     *
      * @param population
      */
 
     public void setPopulation(Population population) {
         this.population = new ArrayList<>();
-        for(IndividualSolution individual : population){
+        for (IndividualSolution individual : population) {
             add(individual);
         }
     }
 
     /**
      * to get the number of gene by individual in this population
+     *
      * @return
      */
 
     public int getNumberOfGenesByIndividuals() {
         return NUMBER_OF_GENES_BY_INDIVIDUALS;
     }
-
 
 
     @Override
@@ -123,6 +125,7 @@ public class Population implements Iterable<IndividualSolution> {
     /**
      * to evaluate the fitness of an image: summed up an error between
      * each pixel of the generated image and each pixel of the target image
+     *
      * @param target
      * @param individual
      * @return the gap between the target and the individual
@@ -130,27 +133,27 @@ public class Population implements Iterable<IndividualSolution> {
      */
 
 
-    public double fitness(Color[][] target, IndividualSolution individual) throws IllegalStateException{
+    public double fitness(Color[][] target, IndividualSolution individual) throws IllegalStateException {
         double result;
         Group imageIndividual = new Group();
         for (GenePolygon gene : individual.getGenome()) {
             imageIndividual.getChildren().add(gene);
         }
-        int maxX = ConvexPolygon.max_X;
-        int maxY = ConvexPolygon.max_Y;
-        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
+        int maxX = Context.maxX;
+        int maxY = Context.maxY;
 
-        // TODO : il faut reussir à faire que individual image fasse une capture de image et transformer ça en PixelReader
-        imageIndividual.snapshot(null,writeWritableImage);
+        WritableImage writeWritableImage = new WritableImage(maxX, maxY);
+
+        imageIndividual.snapshot(null, writeWritableImage);
         PixelReader individualImagePixelReader = writeWritableImage.getPixelReader();
-        double res=0;
-        for (int i=0;i<maxX;i++){
-            for (int j=0;j<maxY;j++){
+        double res = 0;
+        for (int i = 0; i < maxX; i++) {
+            for (int j = 0; j < maxY; j++) {
                 Color c = individualImagePixelReader.getColor(i, j);
                 //System.err.println(c);
-                res += Math.pow(c.getBlue()-target[i][j].getBlue(),2)
-                        +Math.pow(c.getRed()-target[i][j].getRed(),2)
-                        +Math.pow(c.getGreen()-target[i][j].getGreen(),2);
+                res += Math.pow(c.getBlue() - target[i][j].getBlue(), 2)
+                        + Math.pow(c.getRed() - target[i][j].getRed(), 2)
+                        + Math.pow(c.getGreen() - target[i][j].getGreen(), 2);
             }
         }
         result = Math.sqrt(res);
@@ -159,100 +162,97 @@ public class Population implements Iterable<IndividualSolution> {
 
 
     /**
-     *
      * @param target
      * @param individual
      * @return the average of pixel similarity rates
      * @throws IllegalStateException
      */
 
-    public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException{
-        int maxX = ConvexPolygon.max_X;
-        int maxY = ConvexPolygon.max_Y;
+    public double fitness2(Color[][] target, IndividualSolution individual) throws IllegalStateException {
+        int maxX = Context.maxX;
+        int maxY = Context.maxY;
 
         Group imageIndividual = new Group();
         for (GenePolygon gene : individual.getGenome()) {
             imageIndividual.getChildren().add(gene);
         }
-        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
+        WritableImage writeWritableImage = new WritableImage(maxX, maxY);
 
-        imageIndividual.snapshot(null,writeWritableImage);
+        imageIndividual.snapshot(null, writeWritableImage);
         PixelReader individualImagePixelReader = writeWritableImage.getPixelReader();
-        double rate  = 0;
-        for (int i=0;i<maxX;i++){
-            for (int j=0;j<maxY;j++){
+        double rate = 0;
+        for (int i = 0; i < maxX; i++) {
+            for (int j = 0; j < maxY; j++) {
                 Color ci = individualImagePixelReader.getColor(i, j);
                 Color ct = target[i][j];
-                double pixelRate = probabilityPixel(ct,ci);
-                if(pixelRate>1){
-                    System.out.println("Error On rate : " + pixelRate);
+                double pixelRate = probabilityPixel(ct, ci);
+                if (pixelRate > 1) {
+                    System.err.println("Error On rate : " + pixelRate);
                     System.exit(-1);
                 }
-                rate +=pixelRate;
+                rate += pixelRate;
             }
         }
-        return rate/(double)(maxX*maxY);
+        return rate / (double) (maxX * maxY);
     }
 
     /**
      * returns the percentage average of similarity between the rate of red, green and blue for a pixel
+     *
      * @param target
      * @param pixel
      * @return the mean
      */
-
-
-    public static double probabilityPixel(Color target, Color pixel){
-        double[] colorsTarget = new double[]{target.getRed(),target.getGreen(),target.getBlue()};
-        double[] colorsPixel = new double[]{pixel.getRed(),pixel.getGreen(),pixel.getBlue()};
+    public static double probabilityPixel(Color target, Color pixel) {
+        double[] colorsTarget = new double[]{target.getRed(), target.getGreen(), target.getBlue()};
+        double[] colorsPixel = new double[]{pixel.getRed(), pixel.getGreen(), pixel.getBlue()};
         double probability = 0;
-        for(int i = 0;i<colorsPixel.length;i++){
-            if(colorsTarget[i]>(1/2)){
-                probability += similarityLightColor(colorsTarget[i],colorsPixel[i]);
-            }else{
-                probability += similarityColorDark(colorsTarget[i],colorsPixel[i]);
+        for (int i = 0; i < colorsPixel.length; i++) {
+            if (colorsTarget[i] > (1 / 2)) {
+                probability += similarityLightColor(colorsTarget[i], colorsPixel[i]);
+            } else {
+                probability += similarityColorDark(colorsTarget[i], colorsPixel[i]);
             }
         }
-        return probability/3;
+        return probability / 3;
     }
 
     /**
      * give a percentage of similarity between a pixel of target and a light pixel image according to a color (either red, green or blue)
+     *
      * @param pixelTarget
      * @param pixelImage
      * @return the percentage
      */
-
-
-    public static double similarityLightColor(double pixelTarget, double pixelImage){
-        if(pixelTarget>=pixelImage){
-            return pixelImage/pixelTarget;
-        }
-        else if((pixelImage-pixelTarget)<pixelTarget){
-            return (pixelTarget -(pixelImage-pixelTarget))/pixelTarget;
-        }else{
+    public static double similarityLightColor(double pixelTarget, double pixelImage) {
+        if (pixelTarget >= pixelImage) {
+            return pixelImage / pixelTarget;
+        } else if ((pixelImage - pixelTarget) < pixelTarget) {
+            return (pixelTarget - (pixelImage - pixelTarget)) / pixelTarget;
+        } else {
             return 0;
         }
     }
 
     /**
      * give a percentage of similarity between a target and a dark image  according to a color (either red, green or blue)
+     *
      * @param pixelTarget
      * @param pixelImage
      * @return the percentage
      */
 
 
-    public static double similarityColorDark(double pixelTarget, double pixelImage){
+    public static double similarityColorDark(double pixelTarget, double pixelImage) {
         double probability;
         double constant = 1;
-        if((constant-pixelImage)<=(constant-pixelTarget)){
-            probability =  (constant-pixelImage)/(constant-pixelTarget);
-            return  probability;
-        } else if (pixelImage<pixelTarget){
-            probability=(constant - (pixelTarget+(pixelTarget-pixelImage)))/(constant-pixelTarget);
-        }else {
-            probability=0.0;
+        if ((constant - pixelImage) <= (constant - pixelTarget)) {
+            probability = (constant - pixelImage) / (constant - pixelTarget);
+            return probability;
+        } else if (pixelImage < pixelTarget) {
+            probability = (constant - (pixelTarget + (pixelTarget - pixelImage))) / (constant - pixelTarget);
+        } else {
+            probability = 0.0;
         }
         return probability;
     }
@@ -260,12 +260,12 @@ public class Population implements Iterable<IndividualSolution> {
 
     /**
      * give the best individual; who have the best fitness
+     *
      * @return
      */
     public IndividualSolution getBestIndividual() {
         return bestIndividual;
     }
-
 
 
     public void setBestIndividual(IndividualSolution bestIndividual) {
@@ -275,9 +275,10 @@ public class Population implements Iterable<IndividualSolution> {
 
     /**
      * Draw and image on your sourcepath.
+     *
      * @param image
      */
-    public void imageDrawer(WritableImage image){
+    public void imageDrawer(WritableImage image) {
         RenderedImage renderedImage = SwingFXUtils.fromFXImage(image, null);
         try {
             ImageIO.write(renderedImage, "png", new File("clustGhill.png"));
@@ -290,61 +291,56 @@ public class Population implements Iterable<IndividualSolution> {
     /**
      * draw the best individual.
      */
-    public void drawBestIndividual(){
-        if(getBestIndividual()==null){
+    public void drawBestIndividual() {
+        if (getBestIndividual() == null) {
             return;
         }
         Group imageIndividual = new Group();
-        for ( Object gene : getBestIndividual().getGenome()) {
+        for (Object gene : getBestIndividual().getGenome()) {
             imageIndividual.getChildren().add((GenePolygon) gene);
         }
-        int maxX = ConvexPolygon.max_X;
-        int maxY = ConvexPolygon.max_Y;
-        WritableImage writeWritableImage = new WritableImage(maxX,maxY);
-        imageIndividual.snapshot(null,writeWritableImage);
+        int maxX = Context.maxX;
+        int maxY = Context.maxY;
+        WritableImage writeWritableImage = new WritableImage(maxX, maxY);
+        imageIndividual.snapshot(null, writeWritableImage);
         imageDrawer(writeWritableImage);
     }
 
     /**
      * give the number of mutation, the mean, the standardDeviation, the worst individual and the best fitness of the population
+     *
      * @return
      */
-
-    public String statistics(){
-        double mean = sumFitness/population.size();
+    public String statistics() {
+        double mean = sumFitness / population.size();
         double standardDeviation;
         double bestFitness = -1;
         double worstFitness = 1;
         double deviation = 0;
-        double meanPoly =0;
-        for(int i=0;i<population.size();i++){
-            IndividualSolution individualSolution =population.get(i);
+        double meanPoly = 0;
+        for (int i = 0; i < population.size(); i++) {
+            IndividualSolution individualSolution = population.get(i);
             double fitness = individualSolution.getFitness();
             meanPoly += individualSolution.getNumberOfGenes();
-            if(fitness<worstFitness)
+            //System.out.println(individualSolution.getNumberOfGenes());
+            if (fitness < worstFitness)
                 worstFitness = fitness;
-            if(bestFitness<fitness)
+            if (bestFitness < fitness)
                 bestFitness = fitness;
-            deviation+=Math.pow(fitness - mean,2);
+            deviation += Math.pow(fitness - mean, 2);
         }
-        standardDeviation = Math.sqrt(deviation/population.size());
-        meanPoly = meanPoly/population.size();
-        return "N° mutation : " + numberOfMutation +", mean : " + Math.round(mean*100) + ", standardDeviation  : " + Math.round(standardDeviation*100) + ", worst :"
-                + Math.round(worstFitness*100) + ", best :" + Math.round(bestFitness*100) + ", meanPolygonByIn : " + meanPoly
-                + ", N° PolyBest : " + bestIndividual.getNumberOfGenes()   + ", Total : " + Math.round(sumFitness*100);
+        standardDeviation = Math.sqrt(deviation / population.size());
+        meanPoly = meanPoly / population.size();
+
+        return "N° mutation : " + numberOfMutation + ", mean : " + Math.round(mean * 100) + ", sigma : " + Math.round(standardDeviation * 100) + ", worst :"
+                + Math.round(worstFitness * 100) + ", best :" + Math.round(bestFitness * 100) + ", meanPolygonByIn : " + meanPoly
+                + ", N° PolyBest : " + bestIndividual.getNumberOfGenes() + ", Total : " + Math.round(sumFitness * 100);
     }
 
-
-    /**
-     * remove a specified individual
-     * @param individual
-     * @return true if this is not the best fitness. If this is the best individual, return false and we can't remove it.
-     */
-
-    public boolean removeIndividual(IndividualSolution individual){
-        if(individual.getFitness() == bestIndividual.getFitness())
+    public boolean removeIndividual(IndividualSolution individual) {
+        if (individual.getFitness() == bestIndividual.getFitness())
             return false;
-        if(population.remove(individual)) {
+        if (population.remove(individual)) {
             sumFitness -= individual.getFitness();
             numberOfIndividuals--;
             return true;
@@ -352,22 +348,26 @@ public class Population implements Iterable<IndividualSolution> {
         return false;
     }
 
-
-
+    public boolean removeIndividual(int i) {
+        IndividualSolution individual = population.get(i);
+        if (individual.getFitness() == bestIndividual.getFitness())
+            return false;
+        if (population.remove(individual)) {
+            sumFitness -= individual.getFitness();
+            numberOfIndividuals--;
+            return true;
+        }
+        return false;
+    }
 
     public double getSumFitness() {
         return sumFitness;
     }
 
-    /**
-     * calculate a fitness of this newIndividual, edit if this is the new best individual and add this individual.
-     * @param newIndividual
-     */
+    public void add(IndividualSolution newIndividual) {
+        newIndividual.setFitness(fitness2(target, newIndividual));
 
-    public void add(IndividualSolution newIndividual){
-        newIndividual.setFitness(fitness2(target,newIndividual));
-
-        if(newIndividual.getFitness()>bestIndividual.getFitness()) {
+        if (newIndividual.getFitness() > bestIndividual.getFitness()) {
             setBestIndividual(newIndividual);
         }
         population.add(newIndividual);
@@ -375,62 +375,54 @@ public class Population implements Iterable<IndividualSolution> {
         sumFitness += newIndividual.getFitness();
     }
 
-    /**
-     * merge populations
-     * @param population
-     */
-    public void addPopulation(ArrayList<IndividualSolution> population){
-       for(IndividualSolution individual : population){
-           add(individual);
-       }
+    public void addPopulation(ArrayList<IndividualSolution> population) {
+        for (IndividualSolution individual : population) {
+            add(individual);
+        }
     }
 
     /**
-     *ranks people in increasing order
+     * sort the population in a increase order.
      */
-
-    public void increaseSort(){
+    public void increaseSort() {
         IndividualSolution.sort2(population);
     }
 
     /**
-     *ranks people in decreasing order
+     * sort the population in a decrease order.
      */
-
-
-    public void decreaseSort(){
+    public void decreaseSort() {
         IndividualSolution.sort(population);
     }
 
-    public void setNewPopulation(ArrayList<IndividualSolution> population){
+    /**
+     * set this population with a new population.
+     *
+     * @param population
+     */
+    public void setNewPopulation(ArrayList<IndividualSolution> population) {
         removeAllPopulation();
         addPopulation(population);
 
     }
 
     /**
-     * clear the population
+     * remove all individual in the population.
      */
-
-    public void removeAllPopulation(){
+    public void removeAllPopulation() {
         population = new ArrayList<>();
         sumFitness = 0;
         numberOfIndividuals = 0;
     }
 
-    /**
-     * to add random individual in the population
-     * @param numberOfStranger
-     */
-
-    public void severalStranger(int numberOfStranger){
-        for(int i = 0; i<numberOfStranger;i++){
+    public void severalStranger(int numberOfStranger) {
+        for (int i = 0; i < numberOfStranger; i++) {
             IndividualSolution individual = generateIndividual();
             add(individual);
         }
     }
 
-    public IndividualSolution get(int index){
+    public IndividualSolution get(int index) {
         return population.get(index);
     }
 
@@ -439,12 +431,16 @@ public class Population implements Iterable<IndividualSolution> {
         return population.iterator();
     }
 
-    public int size(){
+    /**
+     * return the size of the population.
+     * @return
+     */
+    public int size() {
         return numberOfIndividuals;
     }
 
-    public static void setMutationRate(double mutationRate){
-        MUTATION_RATE=mutationRate;
+    public static void setMutationRate(double mutationRate) {
+        MUTATION_RATE = mutationRate;
     }
 
     public void setNUMBER_OF_GENES_BY_INDIVIDUALS(int NUMBER_OF_GENES_BY_INDIVIDUALS) {
