@@ -23,26 +23,21 @@ public class Mutation {
                     }else{
                         switch (random.nextInt(7)){
                             case 0:
-                                //System.out.println(0);
                                 it.set(newGen.mutationOpacity());
                                 break;
                             case 1:
-                                //System.out.println(1);
                                 it.set(newGen.mutationFill());
                                 break;
                             case 2:
-                                //System.out.println(2);
                                 it.set(newGen.mutationScale());
                                 break;
                             case 3:
-                                //System.out.println(3);
                                 it.set(newGen.mutationRotation());
                                 break;
                             case 4:
                                 it.set(newGen.mutationPoint());
                                 break;
                             case 5:
-                                //System.out.println(4);
                                 it.set(newGen.mutationTranslatePoint());
                                 break;
                             case 6:

@@ -164,16 +164,17 @@ public class ReproductionImage extends Thread{
                  GenePolygon gene = new GenePolygon(genomPArent1.get(i));
                  list.add(gene);
              }
-             /*
-             int lbound = random.nextInt(parent2.getNumberOfGenes() - intervalSize1);
-             list.addAll(new ArrayList<>(parent2.getGenome().subList(lbound,lbound + intervalSize1)));
-             // add part genom parent2
-             lbound = random.nextInt(parent1.getNumberOfGenes() - intervalSize2);
-             list.addAll(parent1.getGenome().subList(lbound,lbound + intervalSize2));*/
          }
          return list;
      }
 
+    /**
+     * merge two genomes of parents and  return two child
+     * @param parent1
+     * @param parent2
+     * @param sizeGenome
+     * @return
+     */
 
      //this return à list with two individual that are the result of two parent.
      public ArrayList<IndividualSolution> crossover3(IndividualSolution parent1, IndividualSolution parent2,int sizeGenome){
@@ -223,40 +224,5 @@ public class ReproductionImage extends Thread{
     }
 
 
-    /**
-     *
-     * @param population
-     */
-    public void reproduction2(Population population){
-        double bestScore = population.getBestIndividual().getFitness();
-        int size = population.size();
-        double sumFitness = population.getSumFitness();
-        //peut être fait sur forme d'iterator et permettre de remove pour gagner du temps dans la selection
-        for(int i = 0; i<size;i++){ //pour chaque individu
-            //Autre façon mettre random le nombre d'enfant et l'individu qui pourra être parent.
-            IndividualSolution individual = population.get(i);
-            double fitness = individual.getFitness();
 
-            double probability = 1 - (fitness / sumFitness);
-            if(probability> random.nextDouble()){
-                boolean couple = false; //s'accouple pas
-                //recherche partenaire
-                while(!couple){
-                    int index = random.nextInt(population.size() - 1);
-                    IndividualSolution possibleParent = population.get(index);
-                    probability =  1 - possibleParent.getFitness()/sumFitness;
-                    if(probability> random.nextDouble()){
-                        couple = true;
-                        int numberOfGene=Math.max(individual.getNumberOfGenes(),possibleParent.getNumberOfGenes());
-                        IndividualSolution child = new IndividualSolution(random.nextInt(numberOfGene+1)+1);
-                        List<GenePolygon> genome = crossover(individual,possibleParent,population.getNumberOfGenesByIndividuals());
-
-                        child.setGenome(genome);
-                        population.add(child);
-                    }
-                }
-            }
-            individual.anniversary();
-        }
-    }
 }
