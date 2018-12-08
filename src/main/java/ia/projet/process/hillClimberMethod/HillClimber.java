@@ -15,14 +15,14 @@ public class HillClimber {
      * @param target
      * @return
      */
-    public  static IndividualSolution hillClimber(IndividualSolution individual, Color[][] target){
+    public  static IndividualSolution hillClimber(IndividualSolution individual, Color[][] target,int numberIteration){
         Population population = new Population(1,1);
 
         individual.setFitness(population.fitness2(target,individual));
         population.setBestIndividual(individual);
         Random random = new Random();
 
-        for(int i = 0; i < 1000000; i++){
+        for(int i = 0; i < numberIteration; i++){
             IndividualSolution newIndividual  = new IndividualSolution();
 
             int r = random.nextInt(4);

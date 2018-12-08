@@ -20,6 +20,7 @@ public class Main extends Application {
                 System.getProperty("user.dir"));
         String pathImage = "monaLisa-100.jpg";
         Context.setTarget(pathImage);
+        Context.HillnumberIteration = 100000;
         Color[][] target = Context.target;
         Population.target = target;
         Population population = new Population(initialPopulation,numberOfGeneByIndividual);
@@ -36,7 +37,7 @@ public class Main extends Application {
             }
         }
         System.out.println("Hill Climbing Methode : ");
-        population.setBestIndividual(HillClimber.hillClimber(population.getBestIndividual(),target));
+        population.setBestIndividual(HillClimber.hillClimber(population.getBestIndividual(),target,Context.HillnumberIteration));
         System.out.println("  " + population);
         System.out.println("\t" + population.statistics() );
         long endTime = System.currentTimeMillis();

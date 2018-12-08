@@ -46,7 +46,7 @@ public class Test extends Application {
         }*/
         //hill climbing
         Population.setMutationRate(1);
-        IndividualSolution individualSolution = HillClimber.hillClimber(population.getBestIndividual(),target);
+        IndividualSolution individualSolution = HillClimber.hillClimber(population.getBestIndividual(),target,Context.HillnumberIteration);
         //drawing
         population.setBestIndividual(individualSolution);
         population.drawBestIndividual();
