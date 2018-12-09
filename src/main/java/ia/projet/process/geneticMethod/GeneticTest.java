@@ -38,8 +38,6 @@ public class GeneticTest extends Application {
         System.out.println("Total elapsed time in execution of method callMethod() is :"+ (endTime-startTime));
         population.drawBestIndividual();
         System.out.println("Execution finish ! ");
-        Platform.exit();
-
     }
     public static void main(String[] args){
         launch(args);
