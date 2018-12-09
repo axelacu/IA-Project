@@ -20,6 +20,7 @@ public abstract class Context {
     public static int populationSize = 100;
     public static Color[][] target;
     public static int HillnumberIteration = 10000;
+    public static int NumberOfGeneration = 2000;
     public static int SUS = 0;
     public static String out= "out.png";
     public static void setTarget(String pathImage){
