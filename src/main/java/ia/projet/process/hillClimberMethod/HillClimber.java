@@ -28,16 +28,16 @@ public class HillClimber {
             int r = random.nextInt(4);
             switch (r){
                 case 0:
-                    newIndividual = Mutation.individualMutation(individual,random.nextInt(2));
+                    newIndividual = Mutation.individualMutation(individual,1+random.nextInt(2));
                     break;
                 case 1:
-                    newIndividual = Mutation.individualMutation2(individual,random.nextInt(2));
+                    newIndividual = Mutation.individualMutation2(individual,1+ random.nextInt(2));
                     break;
                 case 2:
-                    newIndividual = Mutation.individualMutation3(individual,random.nextInt(2));
+                    newIndividual = Mutation.individualMutation3(individual,1+random.nextInt(2));
                     break;
                 case 3:
-                    newIndividual = Mutation.individualMutation4(individual,random.nextInt(1));
+                    newIndividual = Mutation.individualMutation4(individual,1+ random.nextInt(1));
                     break;
             }
 

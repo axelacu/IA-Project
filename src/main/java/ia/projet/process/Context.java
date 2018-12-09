@@ -71,4 +71,10 @@ public abstract class Context {
         }
         setTarget(answer);
     }
+
+    public static void settingOut(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("In which file do you want your test to appear?");
+        Context.out = scanner.nextLine();
+    }
 }
