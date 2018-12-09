@@ -35,10 +35,6 @@ public class Clustering {
         return new GenePolygon(points.size()/2,points,(Color) polygon.getFill(),polygon.getOpacity());
     }
 
-
-
-
-
     public static IndividualSolution createIndividual(Color[][] target,int genomeSize, int maxX, int maxY){
         //ArrayList<Circle> circles = Clustering.creationPoints(target,maxX,maxY,maxX*maxY);
         ArrayList<Circle> circles;

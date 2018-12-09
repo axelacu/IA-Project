@@ -204,9 +204,6 @@ public class Mutation {
         individualSolution.setGen(j,geni);
         return individualSolution;
     }
-
-
-
 }
 
 

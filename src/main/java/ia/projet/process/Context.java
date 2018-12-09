@@ -13,13 +13,14 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public abstract class Context {
-    public static double mutationRate;
+    public static double mutationRate = 0.07;
     public static int maxX ;
     public static int maxY;
-    public static int genomSize;
-    public static int populationSize;
+    public static int genomSize = 50;
+    public static int populationSize = 100;
     public static Color[][] target;
     public static int HillnumberIteration = 10000;
+    public static int SUS = 0;
     public static void setTarget(String pathImage){
         Color[][] target=null;
         int maxX=0;
@@ -63,6 +64,5 @@ public abstract class Context {
             System.exit(-1);
         }
         setTarget(answer);
-        scanner.close();
     }
 }

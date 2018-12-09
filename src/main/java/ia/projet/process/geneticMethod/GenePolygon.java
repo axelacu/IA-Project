@@ -12,7 +12,6 @@ import java.util.*;
 import java.util.List;
 
 
-
 public class GenePolygon extends ConvexPolygon{
     private int numberOfPoints;
     private int id;
@@ -212,7 +211,6 @@ public class GenePolygon extends ConvexPolygon{
        return tx;
    }
 
-
    private double translationY(double y){
        Random random = new Random();
        double ty;
@@ -221,7 +219,6 @@ public class GenePolygon extends ConvexPolygon{
                ty = random.nextInt((int) (Math.round(ConvexPolygon.max_Y - y)));
            else
                ty = 0;
-
        }
        else {
            if (y >=1)

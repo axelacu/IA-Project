@@ -15,7 +15,6 @@ import java.util.*;
 
 public class Population implements Iterable<IndividualSolution> {
 
-
     /**
      * list of individual
      */
