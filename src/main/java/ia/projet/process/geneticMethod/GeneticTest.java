@@ -48,6 +48,7 @@ public class GeneticTest extends Application {
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
         Context.isExistingFile();
+        Context.settingOut();
         System.out.print("Do you want to use default settings : " +
                         "\n   1. for non" +
                         "\n   2. for yes" + "\n Answer : ");

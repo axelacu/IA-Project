@@ -55,7 +55,7 @@ public class Population implements Iterable<IndividualSolution> {
         population = new ArrayList<>();
         this.NUMBER_OF_GENES_BY_INDIVIDUALS = NUMBER_OF_GENES_BY_INDIVIDUALS;
         bestIndividual = new IndividualSolution(NUMBER_OF_GENES_BY_INDIVIDUALS);
-        this.numberOfIndividuals = numberOfIndividuals;
+        //this.numberOfIndividuals = numberOfIndividuals;
     }
 
     /**
