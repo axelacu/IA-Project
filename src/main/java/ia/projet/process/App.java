@@ -97,16 +97,8 @@ public class App extends Application
                     new GeneticTest().start(primaryStage);
                     break;
                 case 2:
-                    // Hill Climber Iteration
-                    System.out.println("In which file do you want your test to appear?");
-                    String file = sc.nextLine();
-                    Context.out=file;
-                    System.out.println("How much iteration do you want");
-                    System.out.print("Enter number  : ");
-                    int number = Integer.parseInt(sc.nextLine());
-                    Context.HillnumberIteration=number;
                     new HillClimberTest().start(primaryStage);
-
+                    System.out.println("fin d'execution");
                     break;
                 case 3:
                     //
