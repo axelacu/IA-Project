@@ -53,7 +53,7 @@ public class GeneticTest extends Application {
                         "\n   2. for  Non" + "\n Answer : ");
         String line = scanner.nextLine();
         int answer = Integer.parseInt(line);
-        if(answer!=1){
+        if(answer == 1){
             fillContext();
         }
     }

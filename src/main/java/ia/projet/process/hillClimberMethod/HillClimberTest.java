@@ -2,10 +2,8 @@ package ia.projet.process.hillClimberMethod;
 
 import ia.projet.process.Context;
 import ia.projet.process.geneticMethod.IndividualSolution;
-import ia.projet.process.geneticMethod.Mutation;
 import ia.projet.process.geneticMethod.Population;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.util.Random;
@@ -33,8 +31,15 @@ public class HillClimberTest extends Application {
     private static void defineContext() {
         Context.isExistingFile();
         Context.settingOut();
-        fillContext();
-
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Do you want to use default settings : " +
+                "\n   1. for Yes" +
+                "\n   2. for  Non" + "\n Answer : ");
+        String line = scanner.nextLine();
+        int answer = Integer.parseInt(line);
+        if(answer == 1){
+            fillContext();
+        }
     }
 
     public static void fillContext(){
