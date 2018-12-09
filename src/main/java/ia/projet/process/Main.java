@@ -31,8 +31,9 @@ public class Main extends Application {
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             population.decreaseSort();
-            population.addPopulation(rep.nextGeneration(population));
-            population=Selection.SUS(population,initialPopulation);
+            population.setNewPopulation(rep.nextGeneration(population));
+            //population.addPopulation(rep.nextGeneration(population));
+            //population=Selection.SUS(population,initialPopulation);
             if(i%100 == 0){
                 population.drawBestIndividual();
             }
