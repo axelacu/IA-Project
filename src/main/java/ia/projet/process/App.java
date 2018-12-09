@@ -13,15 +13,13 @@ import java.util.Scanner;
 
 /**
  * Hello world!
- *
  */
-public class App extends Application
-{
+public class App extends Application {
 
-    public static void main( String[] args )
-    {
+    public static void main(String[] args) {
         launch(args);
     }
+
     //http://patorjk.com/software/taag/#p=display&h=0&v=1&f=Small&t=Please%20enter%20an%20Intiger
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -45,10 +43,8 @@ public class App extends Application
                 "\n");
 
 
-
-
         int answer = 0;
-        while(answer != 5){
+        while (answer != 5) {
             try {
                 System.out.println("\n" +
                         "\n" +
@@ -83,7 +79,7 @@ public class App extends Application
                         "\n");
                 System.out.print("Enter number  : ");
                 answer = Integer.parseInt(sc.nextLine());
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("\n" +
                         "\n" +
                         "  ___   _                                          _                                   ___          _                            \n" +
@@ -94,7 +90,7 @@ public class App extends Application
                         "\n");
             }
 
-            switch (answer){
+            switch (answer) {
                 case 1:
                     //Genetic
                     new GeneticTest().start(primaryStage);
@@ -116,7 +112,7 @@ public class App extends Application
     }
 
 
-    public void finalSolution(){
+    public void finalSolution() {
         Context.isExistingFile();
         Context.settingOut();
         Scanner scanner = new Scanner(System.in);
@@ -125,7 +121,7 @@ public class App extends Application
                 "\n   2. for  yes" + "\n Answer : ");
         String line = scanner.nextLine();
         int answer = Integer.parseInt(line);
-        if(answer == 1){
+        if (answer == 1) {
             defineContext();
         }
         Population population = new Population();
@@ -134,54 +130,54 @@ public class App extends Application
         int sizeGenome = Context.genomSize;
         population.setNUMBER_OF_GENES_BY_INDIVIDUALS(sizeGenome);
         System.out.println("----Begining Clusturing -----");
-        for(int i = 0; i<Context.populationSize;i++){
+        for (int i = 0; i < Context.populationSize; i++) {
             System.out.println("N° of individuals  : " + (i + 1) + ", Actual Best : " + population.getBestIndividual().getFitness());
-            IndividualSolution individualSolution = Clustering.createIndividual(Context.target,Context.genomSize,Context.maxX,Context.maxY);
+            IndividualSolution individualSolution = Clustering.createIndividual(Context.target, Context.genomSize, Context.maxX, Context.maxY);
             population.add(individualSolution);
         }
         System.out.println("----Begining Genetic algorithm. -----");
         ReproductionImage rep = new ReproductionImage();
-        for(int i = 0; i<Context.NumberOfGeneration; i++ ){
+        for (int i = 0; i < Context.NumberOfGeneration; i++) {
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
-            if(Context.SUS == 0) {
+            if (Context.SUS == 0) {
                 population.decreaseSort();
                 population.setNewPopulation(rep.nextGeneration(population));
-            }else{
+            } else {
                 population.addPopulation(rep.nextGeneration(population));
-                population= Selection.SUS(population,Context.populationSize);
+                population = Selection.SUS(population, Context.populationSize);
             }
-            if(i%150 == 0){
+            if (i % 150 == 0) {
                 population.drawBestIndividual();
             }
         }
         population.drawBestIndividual();
         Population.setMutationRate(1);
         System.out.println("----Begining Hill Climbing. -----");
-        IndividualSolution individualSolution = HillClimber.hillClimber(population.getBestIndividual(),Context.target,Context.HillnumberIteration);
+        IndividualSolution individualSolution = HillClimber.hillClimber(population.getBestIndividual(), Context.target, Context.HillnumberIteration);
         //drawing
         population.setBestIndividual(individualSolution);
         population.drawBestIndividual();
 
     }
 
-    private void defineContext(){
+    private void defineContext() {
 
         Scanner scanner = new Scanner(System.in);
         boolean condition = true;
         String line;
-        do{
+        do {
             try {
                 System.out.print("Genome size (exemple, 50): ");
                 line = scanner.nextLine();
                 Context.genomSize = Integer.parseInt(line);
                 condition = false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("You made a mistake please ty again");
             }
-        }while(condition);
+        } while (condition);
         condition = true;
-        do{
+        do {
             try {
                 System.out.print("Wich rate Mutation (exemple; 0.07): ");
                 line = scanner.nextLine();
@@ -196,19 +192,19 @@ public class App extends Application
                 line = scanner.nextLine();
                 Context.NumberOfGeneration = Integer.parseInt(line);
                 condition = false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("You made a mistake please ty again");
             }
-        }while(condition);
+        } while (condition);
         condition = true;
         do {
             try {
                 System.out.print("Enter number of iteration for Hill Climb   : ");
                 Context.HillnumberIteration = Integer.parseInt(scanner.nextLine());
                 condition = false;
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.err.println("You made a mistake please ty again");
             }
-        }while (condition);
+        } while (condition);
     }
 }
