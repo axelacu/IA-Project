@@ -18,7 +18,7 @@ public class GeneticTest extends Application {
         population.initialPopulation(Context.populationSize);
         ReproductionImage rep = new ReproductionImage();
         long startTime = System.currentTimeMillis();
-        for(int i = 0; i<90000; i++ ){
+        for(int i = 0; i<Context.NumberOfGeneration; i++ ){
             System.out.println("\nGeneration : " + (i) + " " + population);
             System.out.println("\t" + population.statistics());
             if(Context.SUS == 0) {
@@ -71,6 +71,9 @@ public class GeneticTest extends Application {
                     System.out.print("Do you want to use SUS method  (1 . YES, 2. NON): ");
                     line = scanner.nextLine();
                     Context.SUS = Integer.parseInt(line);
+                    System.out.print("How many generation : 2000 ");
+                    line = scanner.nextLine();
+                    Context.NumberOfGeneration = Integer.parseInt(line);
                     condition = false;
                 }catch (Exception e){
                     System.err.println("You made a mistake please ty again");
