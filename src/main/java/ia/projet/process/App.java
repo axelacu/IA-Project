@@ -1,5 +1,6 @@
 package ia.projet.process;
 
+import ia.projet.process.clusteringMethod.KTest;
 import ia.projet.process.geneticMethod.GeneticTest;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -98,15 +99,12 @@ public class App extends Application
                     //
                     break;
                 case 3:
-                    //
+                    new KTest().start(primaryStage);
                     break;
                 case 4:
                     //
                     break;
-
             }
-
-
         }
         Platform.exit();
     }
