@@ -2,6 +2,8 @@ package ia.projet.process;
 
 import ia.projet.process.clusteringMethod.KTest;
 import ia.projet.process.geneticMethod.GeneticTest;
+import ia.projet.process.hillClimberMethod.HillClimber;
+import ia.projet.process.hillClimberMethod.HillClimberTest;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
@@ -96,7 +98,16 @@ public class App extends Application
                     new GeneticTest().start(primaryStage);
                     break;
                 case 2:
-                    //
+                    // Hill Climber Iteration
+                    System.out.println("In which file do you want your test to appear?");
+                    String file = sc.nextLine();
+                    Context.out=file;
+                    System.out.println("How much iteration do you want");
+                    System.out.print("Enter number  : ");
+                    int number = Integer.parseInt(sc.nextLine());
+                    Context.HillnumberIteration=number;
+                    new HillClimberTest().start(primaryStage);
+
                     break;
                 case 3:
                     new KTest().start(primaryStage);
