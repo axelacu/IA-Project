@@ -47,7 +47,7 @@ public class HillClimber {
                 population.setBestIndividual(newIndividual);
                 System.out.println("New best fitness : "  + individual.getFitness());
             }
-            if(i%300 == 0){
+            if(i%1000 == 0){
                 population.drawBestIndividual();
             }
         }

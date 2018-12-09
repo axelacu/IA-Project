@@ -19,7 +19,7 @@ public abstract class Context {
     public static int genomSize = 50;
     public static int populationSize = 100;
     public static Color[][] target;
-    public static int HillnumberIteration = 10000;
+    public static int HillnumberIteration = 1000000;
     public static int NumberOfGeneration = 2000;
     public static int ClustNumberOfTries = 20;
     public static int SUS = 0;

@@ -116,12 +116,7 @@ public class Mutation {
             int indexRan = random.nextInt(individualSolution.getNumberOfGenes());
             GenePolygon gen = individualSolution.get(indexRan);
             if(random.nextBoolean()){
-                if(random.nextBoolean()) {
-                    individualSolution.removeGene(indexRan);
-                    individualSolution.getGenome().add(gen.mutation());
-                }else{
-                    individualSolution.setGen(indexRan, gen.mutation());
-                }
+                individualSolution.setGen(indexRan, gen.mutation());
             }
             else{
                 if(random.nextBoolean()){

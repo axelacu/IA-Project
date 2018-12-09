@@ -50,7 +50,7 @@ public class KTest extends Application {
 
         String line = scanner.nextLine();
         int answer = Integer.parseInt(line);
-        if(answer!=1){
+        if(answer==1){
             fillContext();
         }
     }
