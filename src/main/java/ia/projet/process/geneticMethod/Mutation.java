@@ -110,13 +110,14 @@ public class Mutation {
 
     public static IndividualSolution individualMutation(IndividualSolution individual, int numberOfMutation){
         IndividualSolution individualSolution = new IndividualSolution(individual);
-        if(individual.getFitness()>0.61)
-            numberOfMutation++;
+
         for(int j= 0;j<numberOfMutation;j++){
             int indexRan = random.nextInt(individualSolution.getNumberOfGenes());
             GenePolygon gen = individualSolution.get(indexRan);
             if(random.nextBoolean()){
-                individualSolution.setGen(indexRan, gen.mutation());
+                individualSolution.removeGene(indexRan);
+                individualSolution.addGene(gen.mutation());
+                //individualSolution.setGen(indexRan, gen.mutation());
             }
             else{
                 if(random.nextBoolean()){
@@ -131,8 +132,6 @@ public class Mutation {
 
     public static IndividualSolution individualMutation2(IndividualSolution individual, int numberOfMutation){
         IndividualSolution individualSolution = new IndividualSolution(individual);
-        if(individual.getFitness()>0.61)
-            numberOfMutation++;
         for(int j= 0;j<numberOfMutation;j++){
             int indexRan = random.nextInt(individualSolution.getNumberOfGenes());
             GenePolygon gen = individualSolution.get(indexRan);
@@ -143,7 +142,7 @@ public class Mutation {
                 if(random.nextBoolean()){
                     individualSolution.setGen(indexRan,gen.mutationScale());
                 }else{
-                    individualSolution.setGen(indexRan,gen.mutation());
+                    individualSolution.setGen(indexRan,gen.mutationOpacity());
                 }
             }
         }
@@ -152,8 +151,6 @@ public class Mutation {
 
     public static IndividualSolution individualMutation3(IndividualSolution individual, int numberOfMutation){
         IndividualSolution individualSolution = new IndividualSolution(individual);
-        if(individual.getFitness()>0.61)
-            numberOfMutation++;
         for(int j= 0;j<numberOfMutation;j++){
             int indexRan = random.nextInt(individualSolution.getNumberOfGenes());
             GenePolygon gen = individualSolution.get(indexRan);
@@ -162,9 +159,9 @@ public class Mutation {
             }
             else{
                 if(random.nextBoolean()){
-                    individualSolution.setGen(indexRan,gen.mutationOpacity());
+                    individualSolution.setGen(indexRan,gen.mutationTranslatePoint());
                 }else{
-                    individualSolution.setGen(indexRan,gen.mutation());
+                    individualSolution.setGen(indexRan,gen.mutationPoint());
                 }
             }
         }
@@ -175,28 +172,6 @@ public class Mutation {
         for(int j= 0;j<numberOfMutation;j++){
             individualSolution.setGenome(Mutation.mutationGenome(individual.getGenome()));
         }
-        return individualSolution;
-    }
-
-    public static void permutateGene(IndividualSolution individualSolution){
-        Random random = new Random();
-        int i = random.nextInt(individualSolution.getNumberOfGenes());
-        int j = random.nextInt(individualSolution.getNumberOfGenes());
-        GenePolygon geni = individualSolution.get(i);
-        GenePolygon genj = individualSolution.get(j);
-        individualSolution.setGen(i,genj);
-        individualSolution.setGen(j,geni);
-
-    }
-    public static IndividualSolution permutateGene2(IndividualSolution individualSolution1){
-        IndividualSolution individualSolution = new IndividualSolution(individualSolution1);
-        Random random = new Random();
-        int i = random.nextInt(individualSolution.getNumberOfGenes());
-        int j = random.nextInt(individualSolution.getNumberOfGenes());
-        GenePolygon geni = individualSolution.get(i);
-        GenePolygon genj = individualSolution.get(j);
-        individualSolution.setGen(i,genj);
-        individualSolution.setGen(j,geni);
         return individualSolution;
     }
 }

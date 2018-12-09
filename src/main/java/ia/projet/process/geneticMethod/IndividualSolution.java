@@ -117,6 +117,7 @@ public class IndividualSolution implements Iterable<GenePolygon>,Comparable<Indi
      */
 
     public void removeGene(int i){
+        this.numberOfGenes--;
         genome.remove(i);
     }
 

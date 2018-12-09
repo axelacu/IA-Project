@@ -37,7 +37,7 @@ public class HillClimber {
                     newIndividual = Mutation.individualMutation3(individual,1+random.nextInt(2));
                     break;
                 case 3:
-                    newIndividual = Mutation.individualMutation4(individual,1+ random.nextInt(1));
+                    newIndividual = Mutation.individualMutation4(individual,1);
                     break;
             }
 
