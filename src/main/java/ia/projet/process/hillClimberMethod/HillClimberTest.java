@@ -9,6 +9,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import java.util.Random;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class HillClimberTest extends Application {
@@ -18,9 +19,7 @@ public class HillClimberTest extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        String pathImage = "monaLisa-200.jpg";
-        Context.setTarget(pathImage);
+        defineContext();
 
         Population.target = Context.target;
         Population population = new Population(1,50);
@@ -28,5 +27,19 @@ public class HillClimberTest extends Application {
         IndividualSolution individual = population.generateIndividual();
         population.setBestIndividual(HillClimber.hillClimber(individual,Population.target,Context.HillnumberIteration));
         population.drawBestIndividual();
+
+    }
+
+
+    private void defineContext() {
+        Scanner sc = new Scanner(System.in);
+        Context.isExistingFile();
+        System.out.println("In which file do you want your test to appear?");
+        String file = sc.nextLine();
+        Context.out = file;
+        System.out.println("How much iteration do you want");
+        System.out.print("Enter number  : ");
+        int number = Integer.parseInt(sc.nextLine());
+        Context.HillnumberIteration = number;
     }
 }
