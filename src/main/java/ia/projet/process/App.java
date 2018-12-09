@@ -119,7 +119,15 @@ public class App extends Application
     public void finalSolution(){
         Context.isExistingFile();
         Context.settingOut();
-        defineContext();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Do you want to use default settings : " +
+                "\n   1. for non" +
+                "\n   2. for  yes" + "\n Answer : ");
+        String line = scanner.nextLine();
+        int answer = Integer.parseInt(line);
+        if(answer == 1){
+            defineContext();
+        }
         Population population = new Population();
         Population.target = Context.target;
         Population.setMutationRate(Context.mutationRate);

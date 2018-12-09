@@ -33,8 +33,8 @@ public class HillClimberTest extends Application {
         Context.settingOut();
         Scanner scanner = new Scanner(System.in);
         System.out.print("Do you want to use default settings : " +
-                "\n   1. for Yes" +
-                "\n   2. for  Non" + "\n Answer : ");
+                "\n   1. for non" +
+                "\n   2. for yes" + "\n Answer : ");
         String line = scanner.nextLine();
         int answer = Integer.parseInt(line);
         if(answer == 1){
