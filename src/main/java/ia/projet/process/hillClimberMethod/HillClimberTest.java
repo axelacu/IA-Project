@@ -26,7 +26,7 @@ public class HillClimberTest extends Application {
         Population population = new Population(1,50);
         Population.setMutationRate(1);
         IndividualSolution individual = population.generateIndividual();
-        population.setBestIndividual(HillClimber.hillClimber(individual,Population.target,100000));
+        population.setBestIndividual(HillClimber.hillClimber(individual,Population.target,Context.HillnumberIteration));
         population.drawBestIndividual();
         Platform.exit();
     }
