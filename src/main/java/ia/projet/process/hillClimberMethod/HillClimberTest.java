@@ -27,19 +27,31 @@ public class HillClimberTest extends Application {
         IndividualSolution individual = population.generateIndividual();
         population.setBestIndividual(HillClimber.hillClimber(individual,Population.target,Context.HillnumberIteration));
         population.drawBestIndividual();
-
     }
 
 
-    private void defineContext() {
-        Scanner sc = new Scanner(System.in);
+    private static void defineContext() {
         Context.isExistingFile();
-        System.out.println("In which file do you want your test to appear?");
-        String file = sc.nextLine();
-        Context.out = file;
+        Context.settingOut();
+        fillContext();
+
+    }
+
+    public static void fillContext(){
+        Scanner sc = new Scanner(System.in);
         System.out.println("How much iteration do you want");
-        System.out.print("Enter number  : ");
-        int number = Integer.parseInt(sc.nextLine());
-        Context.HillnumberIteration = number;
+        boolean condition = true;
+        do {
+            try {
+                System.out.print("Enter number  : ");
+                Context.HillnumberIteration = Integer.parseInt(sc.nextLine());
+                System.out.print("Genome size (exemple, 50): ");
+                Context.genomSize = Integer.parseInt(sc.nextLine());
+                condition = false;
+            }catch (Exception e){
+                System.err.println("You made a mistake please ty again");
+            }
+        }while (condition);
+
     }
 }

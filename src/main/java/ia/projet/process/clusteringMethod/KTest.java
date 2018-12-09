@@ -39,33 +39,38 @@ public class KTest extends Application {
         launch(arg);
     }
 
-    private void defineContext(){
+    public void defineContext(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Working Directory = " +
                 System.getProperty("user.dir"));
         Context.isExistingFile();
         System.out.print("Do you want to use default settings : " +
-                "\n   1. Yes" +
-                "\n   2. Non" + "\n Answer : ");
+                "\n   1. for Yes" +
+                "\n   2. for Non" + "\n Answer : ");
 
         String line = scanner.nextLine();
         int answer = Integer.parseInt(line);
         if(answer!=1){
-            boolean condition = true;
-            do{
-                try {
-
-                    System.out.print("Genome size (exemple, 50): ");
-                    line = scanner.nextLine();
-                    Context.genomSize = Integer.parseInt(line);
-                    System.out.print("How many tries : (advice : less that 100)  ");
-                    line = scanner.nextLine();
-                    Context.ClustNumberOfTries = Integer.parseInt(line);
-                    condition = false;
-                }catch (Exception e){
-                    System.err.println("You made a mistake please ty again");
-                }
-            }while(condition);
+            fillContext();
         }
+    }
+
+    public static void fillContext(){
+        boolean condition = true;
+        Scanner scanner = new Scanner(System.in);
+        String line;
+        do{
+            try {
+                System.out.print("Genome size (exemple, 50): ");
+                line = scanner.nextLine();
+                Context.genomSize = Integer.parseInt(line);
+                System.out.print("How many tries to find best clust: (advice : less that 100)  ");
+                line = scanner.nextLine();
+                Context.ClustNumberOfTries = Integer.parseInt(line);
+                condition = false;
+            }catch (Exception e){
+                System.err.println("You made a mistake please ty again");
+            }
+        }while(condition);
     }
 }

@@ -49,34 +49,40 @@ public class GeneticTest extends Application {
                 System.getProperty("user.dir"));
         Context.isExistingFile();
         System.out.print("Do you want to use default settings : " +
-                        "\n   1. Yes" +
-                        "\n   2. Non" + "\n Answer : ");
+                        "\n   1. for Yes" +
+                        "\n   2. for  Non" + "\n Answer : ");
         String line = scanner.nextLine();
         int answer = Integer.parseInt(line);
         if(answer!=1){
-            boolean condition = true;
-            do{
-                try {
-                    System.out.print("Wich rate (exemple; 0.07): ");
-                    line = scanner.nextLine();
-                    Context.mutationRate = Double.parseDouble(line);
-                    System.out.print("Genome size (exemple, 50): ");
-                    line = scanner.nextLine();
-                    Context.genomSize = Integer.parseInt(line);
-                    System.out.print("Population size (exemple, 100): ");
-                    line = scanner.nextLine();
-                    Context.populationSize = Integer.parseInt(line);
-                    System.out.print("Do you want to use SUS method  (1 . YES, 2. NON): ");
-                    line = scanner.nextLine();
-                    Context.SUS = Integer.parseInt(line);
-                    System.out.print("How many generation : 2000 ");
-                    line = scanner.nextLine();
-                    Context.NumberOfGeneration = Integer.parseInt(line);
-                    condition = false;
-                }catch (Exception e){
-                    System.err.println("You made a mistake please ty again");
-                }
-            }while(condition);
+            fillContext();
         }
+    }
+
+    public static void fillContext(){
+        Scanner scanner = new Scanner(System.in);
+        boolean condition = true;
+        String line;
+        do{
+            try {
+                System.out.print("Wich rate (exemple; 0.07): ");
+                line = scanner.nextLine();
+                Context.mutationRate = Double.parseDouble(line);
+                System.out.print("Genome size (exemple, 50): ");
+                line = scanner.nextLine();
+                Context.genomSize = Integer.parseInt(line);
+                System.out.print("Population size (exemple, 100): ");
+                line = scanner.nextLine();
+                Context.populationSize = Integer.parseInt(line);
+                System.out.print("Do you want to use SUS method  (1 . YES, 0. NON): ");
+                line = scanner.nextLine();
+                Context.SUS = Integer.parseInt(line);
+                System.out.print("How many generation (exemple 2000) : ");
+                line = scanner.nextLine();
+                Context.NumberOfGeneration = Integer.parseInt(line);
+                condition = false;
+            }catch (Exception e){
+                System.err.println("You made a mistake please ty again");
+            }
+        }while(condition);
     }
 }
